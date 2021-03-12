@@ -1,0 +1,141 @@
+.components {
+  .NavList {
+    width: 100%;
+    display: block;
+    white-space: nowrap;
+    font-size: 0;
+    position: relative;
+    overflow: hidden;
+    a {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 30px;
+      margin-right: 30px;
+      &.active {
+        color: #e2041b;
+      }
+    }
+    span {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      height: 2px;
+      background: #e2041b;
+      transition: all 0.1s linear;
+      -webkit-transition: all 0.1s linear;
+    }
+  }
+  .CutList {
+    > li {
+      width: 100%;
+      display: none;
+      position: relative;
+      overflow: hidden;
+      &.active {
+        display: block;
+      }
+      > div {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        > ul {
+          width: 100%;
+          position: relative;
+          overflow: hidden;
+          font-size: 0;
+          > li {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            width: calc((100% - 6%) / 6);
+            min-width: 200px;
+            margin-right: 1%;
+            margin-top: 15px;
+            &.active {
+              margin-left: 0;
+            }
+            > a.Img {
+              width: 100%;
+              display: block;
+              position: relative;
+              overflow: hidden;
+              border-radius: 10px;
+              background: #ccc;
+              padding-bottom: 56.25%;
+              img {
+                z-index: 1;
+              }
+              div {
+                width: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.6);
+                z-index: 2;
+                color: #fff;
+                display: none;
+                .Play {
+                  font-size: 20px;
+                  width: 40px;
+                  line-height: 40px;
+                  border-radius: 100%;
+                  background: rgba(255, 255, 255, 0.2);
+                  text-align: center;
+                  transition: all 0.1s linear;
+                  -webkit-transition: all 0.1s linear;
+                  &:hover {
+                    background: rgba(255, 255, 255, 0.5);
+                  }
+                }
+                .Delete {
+                  font-size: 16px;
+                  display: block;
+                  position: absolute;
+                  right: 10px;
+                  top: 10px;
+                  &:hover {
+                    color: #e2041b;
+                  }
+                }
+              }
+              &:hover {
+                > div {
+                  display: block;
+                }
+              }
+            }
+            > a.Name {
+              width: 100%;
+              display: block;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              font-size: 12px;
+              line-height: 20px;
+              margin-top: 5px;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+      .NoData {
+        width: 100%;
+        display: block;
+        text-align: center;
+        line-height: 20px;
+        white-space: nowrap;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 30px;
+        a {
+          font-size: 16px;
+          color: #e2041b;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

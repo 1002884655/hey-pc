@@ -1,0 +1,252 @@
+.components.MainVideoListItem {
+  position: relative;
+  overflow: visible;
+  &:hover {
+    > .ItemContent {
+      > .Title {
+        > a {
+          display: inline-block;
+        }
+      }
+    }
+  }
+  > .Img {
+    width: 100%;
+    padding-bottom: 56.25%;
+    background: #333;
+    position: relative;
+    overflow: hidden;
+    &:hover {
+      > .WatchLater {
+        display: inline-block;
+      }
+      > .Capacity {
+        display: none;
+      }
+    }
+    > .WatchLater {
+      position: absolute;
+      z-index: 3;
+      font-size: 30px;
+      width: 36px;
+      line-height: 36px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      user-select: none;
+      &.active {
+        color: #16a8f8;
+        font-size: 20px;
+      }
+      &:hover {
+        + span {
+          width: 100px;
+          &.active {
+            width: 60px;
+          }
+        }
+      }
+    }
+    > .WatchLaterTips {
+      display: inline-block;
+      position: absolute;
+      z-index: 3;
+      background: rgba(0, 0, 0, 0.6);
+      line-height: 36px;
+      font-size: 12px;
+      right: 46px;
+      top: 9px;
+      text-align: right;
+      font-weight: bold;
+      transition: all 0.1s linear;
+      -webkit-transition: all 0.1s linear;
+      width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      user-select: none;
+      &.active {
+        color: #16a8f8;
+      }
+    }
+    > .Capacity {
+      display: inline-block;
+      position: absolute;
+      z-index: 3;
+      right: 10px;
+      bottom: 10px;
+      font-size: 12px;
+      line-height: 22px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 0 5px;
+      > em {
+        font-weight: bold;
+      }
+    }
+    > .PayIcon {
+      width: 15px;
+      display: block;
+      position: absolute;
+      left: 5px;
+      top: 0;
+      z-index: 4;
+    }
+  }
+  > .ItemContent {
+    position: relative;
+    overflow: visible;
+    height: 63px;
+    &.Default {
+      height: 83px;
+    }
+    > .Title {
+      align-items: flex-start;
+      position: relative;
+      overflow: visible;
+      margin-top: 8px;
+      margin-bottom: 3px;
+      > div.flex-item {
+        margin-right: 3px;
+        > a {
+          font-size: 16px;
+          line-height: 20px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          word-break: break-all;
+          max-height: 40px;
+          font-weight: bold;
+        }
+      }
+      > span {
+        width: 10px;
+        height: 20px;
+      }
+      > a {
+        display: none;
+        position: absolute;
+        right: 0;
+        font-size: 16px;
+        line-height: 20px;
+        right: 0;
+        top: 0;
+        width: 10px;
+        text-align: center;
+        color: #999;
+        &:hover {
+          color: #fff;
+          + div.More {
+            display: block;
+          }
+        }
+      }
+      > .More {
+        width: 180px;
+        position: absolute;
+        background: #222;
+        right: -172px;
+        top: 26px;
+        overflow: visible;
+        padding: 5px 0;
+        display: none;
+        z-index: 3;
+        &:hover {
+          display: block;
+        }
+        &.Left {
+          right: -10px;
+          &::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-width: 8px;
+            border-color: transparent transparent #222 transparent;
+            border-style: solid solid dashed solid;
+            display: block;
+            position: absolute;
+            left: auto;
+            right: 5px;
+            top: -15px;
+          }
+        }
+        &::after {
+          content: "";
+          width: 0;
+          height: 0;
+          border-width: 8px;
+          border-color: transparent transparent #222 transparent;
+          border-style: solid solid dashed solid;
+          display: block;
+          position: absolute;
+          left: 0;
+          top: -15px;
+        }
+        > a {
+          align-items: center;
+          text-align: left;
+          border-top: 1px solid #333;
+          user-select: none;
+          &:first-child {
+            border-top: none;
+          }
+          &:hover {
+            background: #e2041b;
+          }
+          > span {
+            line-height: 40px;
+            font-size: 14px;
+          }
+          > i {
+            font-size: 20px;
+            margin-left: 10px;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+    > .Line {
+      align-items: center;
+      z-index: 1;
+      > .flex-item {
+        &:first-child {
+          margin-right: 5px;
+          &:only-child {
+            margin-right: 0;
+          }
+        }
+        > a {
+          display: inline-block;
+          max-width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 13px;
+          color: #999;
+          line-height: 20px;
+          &:hover {
+            color: #fff;
+          }
+        }
+        > span {
+          display: inline-block;
+          max-width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 13px;
+          color: #999;
+          line-height: 20px;
+        }
+      }
+      > img {
+        height: 20px;
+        margin-right: 5px;
+      }
+      > span {
+        font-size: 12px;
+        color: #fff;
+      }
+    }
+  }
+}

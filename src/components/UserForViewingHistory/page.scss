@@ -1,0 +1,103 @@
+.components.UserForViewingHistory {
+  .PlayRecently,
+  .Earlier,
+  .Recommend {
+    margin-top: 40px;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    > * {
+      margin-left: 10px;
+    }
+    span {
+      font-size: 16px;
+      line-height: 30px;
+      color: #000;
+      &:first-child {
+        font-weight: bold;
+        margin-left: 0;
+      }
+    }
+  }
+  .PlayRecentlyList,
+  .EarlierList,
+  .RecommendList {
+    font-size: 0;
+    > li {
+      display: inline-block;
+      vertical-align: middle;
+      width: calc((100% - 80px) / 5);
+      position: relative;
+      overflow: hidden;
+      margin-top: 20px;
+      margin-left: 20px;
+      &:nth-child(5n + 1) {
+        margin-left: 0;
+      }
+      > a.Img {
+        width: 100%;
+        display: block;
+        position: relative;
+        overflow: hidden;
+        background: #eee;
+        padding-bottom: 56.25%;
+        border-radius: 5px;
+        &:hover {
+          cursor: default;
+        }
+        img {
+          z-index: 1;
+          &.Gif {
+            z-index: 2;
+          }
+        }
+      }
+      .Title {
+        width: 100%;
+        display: block;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 20px;
+        height: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #000;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  .LoadMore {
+    padding: 20px 0;
+    text-align: center;
+    > * {
+      display: inline-block;
+      font-size: 14px;
+      line-height: 30px;
+      color: #ccc;
+    }
+    a {
+      padding: 0 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      &:hover {
+        background: #e2041b;
+        color: #fff;
+        border-color: #e2041b;
+      }
+    }
+  }
+  .NoData {
+    text-align: center;
+    padding: 20px 0;
+    span {
+      display: inline-block;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 30px;
+      color: #999;
+    }
+  }
+}

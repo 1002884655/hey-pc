@@ -1,0 +1,82 @@
+.components.IndexChannel {
+  > .flex-h {
+    align-items: center;
+    > .Title {
+      font-size: 28px;
+      line-height: 40px;
+      color: #fff;
+    }
+    > nav {
+      font-size: 0;
+      white-space: nowrap;
+      > a {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 12px;
+        line-height: 20px;
+        padding: 0 10px;
+        color: #999;
+        background: #222;
+        border-radius: 3px;
+        margin-left: 15px;
+        margin-top: 5px;
+        &:hover,
+        &.active {
+          background: #e2041b;
+          color: #fff;
+        }
+      }
+    }
+    > a {
+      font-size: 12px;
+      line-height: 20px;
+      padding: 0 10px;
+      color: #999;
+      background: #222;
+      border-radius: 3px;
+      margin-left: 15px;
+      margin-top: 5px;
+      &:hover,
+      &.active {
+        background: #e2041b;
+        color: #fff;
+      }
+    }
+  }
+  > ul {
+    font-size: 0;
+    text-align: center;
+    > li {
+      display: inline-block;
+      vertical-align: middle;
+      width: calc((100% - 140px) / 8);
+      position: relative;
+      overflow: hidden;
+      margin-top: 20px;
+      margin-left: 20px;
+      text-align: center;
+      &:nth-child(1) {
+        margin-left: 0;
+      }
+      > a.Img {
+        width: 100%;
+        display: block;
+        padding-bottom: 100%;
+        position: relative;
+        overflow: hidden;
+        background: #333;
+        border-radius: 100%;
+      }
+      > a.Title {
+        font-size: 16px;
+        line-height: 20px;
+        color: #fff;
+        display: inline-block;
+        margin-top: 10px;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

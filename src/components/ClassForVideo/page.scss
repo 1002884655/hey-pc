@@ -1,0 +1,59 @@
+.components.ClassForVideo {
+  > .Top {
+    position: relative;
+    overflow: visible;
+    margin-top: 20px;
+    align-items: center;
+    z-index: 10;
+    > span {
+      font-size: 28px;
+      font-weight: bold;
+      line-height: 40px;
+    }
+    > a {
+      font-size: 0;
+      position: relative;
+      overflow: visible;
+      white-space: nowrap;
+      user-select: none;
+      &:hover {
+        >ul {
+          display: block;
+        }
+      }
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 14px;
+        color: #999;
+        line-height: 40px;
+      }
+      > i {
+        font-size: 20px;
+        margin-right: 10px;
+      }
+      > ul {
+        width: 150px;
+        position: absolute;
+        top: 40px;
+        background: #333;
+        right: 0;
+        display: none;
+        > li {
+          font-size: 14px;
+          line-height: 40px;
+          border-top: 1px solid #222;
+          text-indent: 20px;
+          color: #999;
+          &:hover {
+            color: #fff;
+            background: #222;
+          }
+        }
+      }
+    }
+  }
+  .ClassVideoList {
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,462 @@
+<template>
+  <div class="components User" v-show="show">
+    <div class="Layer"></div>
+    <div class="centerLabel">
+      <div class="Type flex-h">
+        <span>Heyporn</span>
+        <div class="flex-item">
+          <span>{{LoginStatusTitle}}</span>
+        </div>
+        <a class="iconfont iconguanbi1" @click="CloseThis"></a>
+      </div>
+      <div class="Form">
+
+        <!-- 登录 -->
+        <div class="Login" v-show="type - 0 === 1">
+          <span class="FormItemName">Email/phone</span>
+          <div class="FormInput flex-h">
+            <div class="flex-item">
+              <div>
+                <input type="text" placeholder="Enter Email/Phone" v-model="LogData.Login.Account">
+              </div>
+            </div>
+            <span class="AlertText" :class="{'active': LogData.Login.AccountError}">{{LogData.Login.AccountErrorText}}</span>
+          </div>
+          <span class="FormItemName">Password</span>
+          <div class="FormInput flex-h">
+            <div class="flex-item">
+              <div>
+                <input type="password" placeholder="Enter Password" v-model="LogData.Login.Password">
+              </div>
+            </div>
+            <span class="AlertText" :class="{'active': LogData.Login.PasswordError}">{{LogData.Login.PasswordErrorText}}</span>
+          </div>
+          <span class="Line">
+            <a @click="$emit('StepTo', 3)">Forget your password？</a>
+          </span>
+          <span class="Btn">
+            <a @click="ToNext">Login</a>
+          </span>
+          <span class="Line center">
+            <a style="font-size: 16px;" @click="$emit('StepTo', 2)">Create account</a>
+          </span>
+          <div class="CutLine">
+            <span>or</span>
+          </div>
+          <div class="OtherLogin">
+            <a class="iconfont icontian_facebook Colours"></a>
+            <a class="iconfont icontuite Colours"></a>
+            <a class="iconfont iconqrcode"></a>
+          </div>
+          <span class="Line center" style="font-size: 12px;">we’ll nevel post without your permission</span>
+        </div>
+
+        <!-- 注册 -->
+        <div class="Reg" v-show="type - 0 === 2">
+          <span class="Line" style="margin-top: 35px;">we’ll send code to confirm that this email/phone belongs to you</span>
+          <span class="FormItemName">Email/phone</span>
+          <div class="FormInput flex-h">
+            <div class="flex-item">
+              <div>
+                <input type="text" placeholder="Your email/phone" v-model="LogData.Register.Email">
+              </div>
+            </div>
+            <span class="AlertText" :class="{'active': LogData.Register.Error}">{{LogData.Register.ErrorText}}</span>
+          </div>
+          <span class="Line" style="font-size: 12px;"><a @click="$emit('StepTo', 1)">To Login</a></span>
+          <span class="Btn" style="margin-top: 40px;">
+            <a @click="ToNext">Next</a>
+          </span>
+        </div>
+
+        <!-- 忘记密码 -->
+        <div class="Forget" v-show="type - 0 === 3">
+          <span class="Line" style="margin-top: 55px;">we’ll send code to confirm that this email/phone belongs to you</span>
+          <span class="FormItemName">Email/phone</span>
+          <div class="FormInput flex-h">
+            <div class="flex-item">
+              <div>
+                <input type="text" placeholder="Your email/phone" v-model="LogData.Forget.Email">
+              </div>
+            </div>
+            <span class="AlertText" :class="{'active': LogData.Forget.Error}">{{LogData.Forget.ErrorText}}</span>
+          </div>
+          <span class="Btn" style="margin-top: 60px;">
+            <a @click="ToNext">Next</a>
+          </span>
+        </div>
+
+        <!-- 验证码 -->
+        <div class="Code" v-show="type - 0 === 4">
+          <span class="Line" style="margin-top: 32px;">Let us know this Phone/Email belongs to you.</span>
+          <span class="Line">We’ve sent SMS/email to +86 180 8888 2323(China).</span>
+          <div class="FormInput flex-h">
+            <div class="flex-item">
+              <div>
+                <input type="text" placeholder="Enter the code" v-model="LogData.Code.Num">
+              </div>
+            </div>
+            <span class="AlertText" :class="{'active': LogData.Code.Error}">{{LogData.Code.ErrorText}}</span>
+            <a v-show="!LogData.Code.CanSendCode">{{ToolClass.DoubleNum(LogData.Code.Seconds)}}S</a>
+          </div>
+          <span v-show="LogData.Code.CanSendCode" class="Line" style="margin-top: 40px;">Din’t get the SMS/mail？ <a style="color: #e2041b;" @click="ResendCode">Resend</a></span>
+          <span class="Btn" style="margin-top: 30px;margin-bottom: 20px;">
+            <a @click="ToNext">Next</a>
+          </span>
+        </div>
+
+        <!-- 设置密码 -->
+        <div class="Password" v-show="type - 0 === 5">
+          <span class="Line center" style="margin-top: 92px;">Please set your password</span>
+          <div class="FormInput flex-h" style="margin-top: 40px;">
+            <div class="flex-item">
+              <div>
+                <input type="password" placeholder="Enter Your Password" v-model="LogData.Password.Value">
+              </div>
+            </div>
+            <span class="AlertText" :class="{'active': LogData.Password.Error}">{{LogData.Password.ErrorText}}</span>
+            <a class="iconfont iconyanjing"></a>
+          </div>
+          <span class="Btn" style="margin-top: 60px;margin-bottom: 20px;">
+            <a @click="ToNext">Next</a>
+          </span>
+        </div>
+
+        <!-- 完成 -->
+        <div class="Complete" v-show="type - 0 === 6">
+          <span class="Line center Big" style="margin-top: 117px;">Complete!</span>
+          <span class="Line center Highlight" style="margin-top: 60px;">You can view all video here</span>
+          <span class="Btn" style="margin-bottom: 20px;">
+            <a @click="ToNext">Go Now</a>
+          </span>
+        </div>
+      </div>
+
+      <div class="Bottom" v-show="type - 0 === 1 || type - 0 === 2 || type - 0 === 3">
+        <a>privacy</a>
+        <a>item</a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+import { Notification } from 'element-ui'
+import { createNamespacedHelpers } from 'vuex'
+Vue.prototype.$notify = Notification
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+
+export default {
+  name: 'User',
+  props: ['data', 'show', 'type'], // 登录状态type：1-登录 2-注册 3-忘记密码 4-验证码 5-设置密码 6-完成
+  data () {
+    return {
+      Unlock: true, // 按钮锁定状态
+      ResetData: null, // 初始数据
+      LogData: {
+        Login: { // 登录
+          Account: '', // 账号
+          Password: '', // 密码
+          AccountError: false, // 账号报错
+          AccountErrorText: '', // 账号报错提示信息
+          PasswordError: false, // 密码报错
+          PasswordErrorText: '' // 密码报错提示信息
+        },
+        Register: { // 注册
+          Email: '', // 注册邮箱
+          ErrorText: '', // 报错提示信息
+          Error: false // 注册邮箱校验状态
+        },
+        Forget: { // 忘记密码
+          Email: '', // 注册邮箱
+          ErrorText: '', // 报错提示信息
+          Error: false // 注册邮箱校验状态
+        },
+        Code: { // 验证码
+          ErrorText: '', // 报错提示信息
+          Error: false, // 验证码校验状态
+          Num: '', // 验证码
+          Timer: null, // 验证码定时器
+          Seconds: 60, // 验证码倒计时
+          CanSendCode: true // 是否能发送验证码
+        },
+        Password: { // 设置密码
+          Value: '',
+          ErrorText: '',
+          Error: false
+        }
+      },
+      FormData: { // 提交数据
+        Type: '', // 类型
+        Account: '', // 账号
+        Password: '', // 密码
+        Code: '' // 验证码
+      }
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo
+    }),
+    LoginStatusTitle () { // 根据状态值返回当前状态
+      let status = this.type - 0
+      return status === 1 ? 'Login' : status === 2 ? 'Register' : status === 3 ? 'Forget' : status === 4 ? 'Code' : status === 5 ? 'Password' : status === 6 ? 'Complete' : 'Error'
+    }
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    ...mapUserActions([
+      'CheckAccountStatus',
+      'CheckRegCode',
+      'Register',
+      'SendCode',
+      'Login',
+      'GetUserInfoByToken',
+      'ForgotPassword',
+      'ResetPassword',
+      'ResetCheckCode'
+    ]),
+    CloseThis () {
+      window.clearInterval(this.LogData.Code.Timer) // 清除验证码倒计时定时器
+      this.LogData.Code.Timer = null
+      this.LogData.Code.CanSendCode = true // 重置发送验证码状态
+      this.LogData.Code.Seconds = 60 // 重置发送验证码状态
+      this.$emit('close')
+    },
+    Init () { // 初始化
+    },
+    ToNext () { // 下一步
+      if (this.type - 0 === 1) { // 登录下一步
+        this.LoginStep()
+      } else if (this.type - 0 === 2) { // 注册下一步
+        this.RegisterStep()
+      } else if (this.type - 0 === 3) { // 忘记密码下一步
+        this.ForgetStep()
+      } else if (this.type - 0 === 4) { // 验证码下一步
+        this.CodeStep()
+      } else if (this.type - 0 === 5) { // 设置密码下一步
+        this.SetPasswordStep()
+      } else if (this.type - 0 === 6) { // 完成下一步
+        this.$emit('StepTo', 1) // 进入登录
+      }
+    },
+    LoginStep () { // 登录
+      if (this.Unlock) {
+        if (this.ToolClass.CheckEmail(this.LogData.Login.Account)) {
+          this.LogData.Login.AccountError = false
+          if (this.LogData.Login.Password !== '') {
+            this.LogData.Login.PasswordError = false
+            this.Unlock = false // 按钮锁定
+            this.Login({ // 登录请求
+              info: this.LogData.Login.Account,
+              password: this.LogData.Login.Password
+            }).then((res) => {
+              this.Unlock = true // 按钮解锁
+              if (res.data.code - 0 === 0) {
+                this.$localStorage.set('heypornid', res.data.data.token)
+                this.GetUserInfoByToken({ params: { token: res.data.data.token } }).then(() => {
+                  this.$emit('LoginEnd')
+                  this.$emit('close')
+                })
+              } else if (res.data.code - 0 === 1015) {
+                this.LogData.Login.PasswordErrorText = 'account/password is incorrect'
+                this.LogData.Login.PasswordError = true
+              } else if (res.data.code - 0 === 1016) {
+                this.LogData.Login.AccountErrorText = 'account/password is incorrect'
+                this.LogData.Login.AccountError = true
+              } else if (res.data.code - 0 === 1019) { // 未设置密码
+                this.$emit('StepTo', 5) // 进入设置密码步骤
+              }
+            })
+          } else { // 密码格式错误
+            this.LogData.Login.PasswordErrorText = 'Formal Error!'
+            this.LogData.Login.PasswordError = true
+          }
+        } else { // 账号格式错误
+          this.LogData.Login.AccountErrorText = 'Formal Error!'
+          this.LogData.Login.AccountError = true
+        }
+      }
+    },
+    RegisterStep () { // 注册
+      if (this.Unlock) {
+        if (this.ToolClass.CheckEmail(this.LogData.Register.Email)) { // 邮箱验证通过
+          this.Unlock = false // 按钮锁定
+          this.LogData.Register.Error = false
+          this.CheckAccountStatus({ info: this.LogData.Register.Email }).then((res) => { // 校验邮箱是否能注册
+            this.Unlock = true // 按钮解锁
+            if (res.data.code - 0 === 1021) { // 邮箱可注册，后台会直接发送验证码至填写邮箱
+              this.FormData.Account = this.LogData.Register.Email
+              this.FormData.Type = 'Register'
+              this.$emit('StepTo', 4) // 进入输入验证码步骤
+              this.LogData.Code.CanSendCode = false // 锁定发送验证码状态
+              this.SetCodeInterval()
+            } else if (res.data.code - 0 === 1013) { // 邮箱已注册
+              this.LogData.Register.ErrorText = 'Account registered!'
+              this.LogData.Register.Error = true
+            } else if (res.data.code - 0 === 1027) { // 验证码发送失败
+              this.LogData.Register.ErrorText = 'Failed to send verification code!'
+              this.LogData.Register.Error = true
+            } else if (res.data.code - 0 === 1003) { // 手机号码已注册
+              this.LogData.Register.ErrorText = 'Mobile phone number registered!'
+              this.LogData.Register.Error = true
+            } else {
+              this.$notify.error({
+                title: 'error',
+                message: res.data.msg
+              })
+            }
+          })
+        } else { // 邮箱格式错误
+          this.LogData.Register.ErrorText = 'Formal Error!'
+          this.LogData.Register.Error = true
+        }
+      }
+    },
+    ForgetStep () { // 忘记密码
+      if (this.Unlock) {
+        if (this.ToolClass.CheckEmail(this.LogData.Forget.Email)) {
+          this.FormData.Account = this.LogData.Forget.Email
+          this.FormData.Type = 'Forget'
+          this.Unlock = false // 按钮锁定
+          this.ForgotPassword({ info: this.FormData.Account }).then((res) => {
+            this.Unlock = true // 按钮解锁
+            if (res.data.code - 0 === 1026) {
+              this.$emit('StepTo', 4) // 进入验证码步骤
+            } else {
+              this.$notify.error({
+                title: 'error',
+                message: res.data.msg
+              })
+            }
+          })
+        } else {
+          this.LogData.Forget.ErrorText = 'Formal Error!'
+          this.LogData.Forget.Error = true
+        }
+      }
+    },
+    CodeStep () { // 验证码
+      if (this.Unlock) {
+        if (this.LogData.Code.Num !== '') { // 验证码不为空才可触发
+          this.Unlock = false // 按钮锁定
+          this.LogData.Code.Error = false
+          this.FormData.Code = this.LogData.Code.Num
+          if (this.FormData.Type === 'Register') { // 注册通道校验验证码
+            this.CheckRegCode({ // 校验验证码
+              info: this.FormData.Account,
+              checkCode: this.FormData.Code
+            }).then((res) => {
+              this.Unlock = true // 按钮解锁
+              this.SetCodeInterval()
+              if (res.data.code - 0 === 1025) { // 验证码通过
+                this.$emit('StepTo', 5) // 进入设置密码步骤
+              } else if (res.data.code - 0 === 1020 || res.data.code - 0 === 1024) { // 验证码错误or失效
+                this.LogData.Code.ErrorText = 'Invalid or incorrect!'
+                this.LogData.Code.Error = true
+              } else {
+                this.$notify.error({
+                  title: 'error',
+                  message: res.data.msg
+                })
+              }
+            })
+          } else if (this.FormData.Type === 'Forget') { // 忘记密码通道校验验证码
+            this.ResetCheckCode({ // 校验验证码
+              info: this.FormData.Account,
+              checkCode: this.FormData.Code
+            }).then((res) => {
+              this.Unlock = true // 按钮解锁
+              this.SetCodeInterval()
+              if (res.data.code - 0 === 1025) { // 验证码通过
+                this.$emit('StepTo', 5) // 进入设置密码步骤
+              } else if (res.data.code - 0 === 1020 || res.data.code - 0 === 1024) { // 验证码错误or失效
+                this.LogData.Code.ErrorText = 'Invalid or incorrect!'
+                this.LogData.Code.Error = true
+              } else {
+                this.$notify.error({
+                  title: 'error',
+                  message: res.data.msg
+                })
+              }
+            })
+          }
+        } else {
+          this.LogData.Code.ErrorText = 'Formal Error!'
+          this.LogData.Code.Error = true
+        }
+      }
+    },
+    SetPasswordStep () { // 设置密码
+      if (this.Unlock) {
+        if (this.LogData.Password.Value !== '') { // 密码不为空才可触发
+          this.Unlock = false // 按钮锁定
+          this.LogData.Password.Error = false
+          this.FormData.Password = this.LogData.Password.Value
+          this.ResetPassword({
+            info: this.FormData.Account,
+            password: this.FormData.Password
+          }).then((res) => {
+            this.Unlock = true // 按钮解锁
+            if (res.data.code - 0 === 1029) { // 重置密码成功
+              this.$emit('StepTo', 6) // 进入完成步骤
+            } else {
+              this.$notify.error({
+                title: 'error',
+                message: res.data.msg
+              })
+            }
+          })
+        } else {
+          this.LogData.Password.ErrorText = 'Formal Error!'
+          this.LogData.Password.Error = true
+        }
+      }
+    },
+    SetCodeInterval () { // 验证码倒计时定时器
+      window.clearInterval(this.LogData.Code.Timer) // 清除验证码倒计时定时器
+      this.LogData.Code.Seconds = 60 // 重置发送验证码状态
+      this.LogData.Code.Timer = window.setInterval(() => { // 开启验证码倒计时定时器
+        if (this.LogData.Code.Seconds - 0 <= 1) {
+          window.clearInterval(this.LogData.Code.Timer) // 清除验证码倒计时定时器
+          this.LogData.Code.Timer = null
+          this.LogData.Code.CanSendCode = true // 重置发送验证码状态
+          this.LogData.Code.Seconds = 60 // 重置发送验证码状态
+        } else {
+          this.LogData.Code.Seconds -= 1
+        }
+      }, 1000)
+    },
+    ResendCode () { // 发送验证码
+      if (this.LogData.Code.CanSendCode) { // 发送验证码未锁定状态下才可触发
+        this.LogData.Code.CanSendCode = false
+        this.SendCode({ info: this.FormData.Account }).then((res) => {
+          if (res.data.code - 0 === 1021) {
+            this.SetCodeInterval()
+          } else {
+            this.LogData.Code.CanSendCode = true
+            this.$notify.error({
+              title: 'error',
+              message: res.data.msg
+            })
+          }
+        })
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

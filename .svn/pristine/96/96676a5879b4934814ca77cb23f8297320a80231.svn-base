@@ -1,0 +1,180 @@
+#app {
+  background: #000;
+  color: #fff;
+  .PlayerContainer {
+    padding: 0 5%;
+    margin: 98px auto 0;
+    overflow: visible;
+    &.active {
+      padding: 0 5%;
+      margin: 98px auto 0;
+    }
+    &.IsFullWindow {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      z-index: 10000000;
+      margin: 0;
+      padding: 0;
+    }
+    > .flex-item {
+      margin-right: 0;
+      overflow: visible;
+      margin-right: 20px;
+      &.IsFullWindow {
+        margin-right: 0;
+      }
+      > div {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+        &.PlayerBorder {
+          padding-bottom: 56.25%;
+          background: #1a1a1a;
+          &.IsFullWindow {
+            height: 100%;
+            padding-bottom: 0;
+          }
+          > div {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow: visible;
+            .ActiveBorder {
+              width: 100%;
+              position: relative;
+              overflow: hidden;
+              &.IsFullWindow {
+                height: 100%;
+              }
+              &.active {
+                width: 450px;
+                padding-bottom: 0;
+                height: 253px;
+                position: fixed;
+                bottom: 0;
+                right: 8px;
+                z-index: 10000;
+                .VideoLayer:hover {
+                  cursor: move;
+                }
+              }
+              > div {
+                width: 100%;
+                position: relative;
+                overflow: hidden;
+                padding-bottom: 56.25%;
+                &.IsFullWindow {
+                  height: 100%;
+                  padding-bottom: 0;
+                }
+                > div {
+                  width: 100%;
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  bottom: 0;
+                  overflow: hidden;
+                }
+              }
+            }
+          }
+          // &.active {
+          //   width: 450px;
+          //   padding-bottom: 0;
+          //   height: 253px;
+          //   position: fixed;
+          //   bottom: 30px;
+          //   right: 30px;
+          //   z-index: 10000;
+          // }
+        }
+        &:last-child {
+          white-space: nowrap;
+          font-size: 0;
+          * {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 5px;
+            font-size: 12px;
+            line-height: 38px;
+            color: #888;
+            &:first-child {
+              margin-left: 15px;
+            }
+          }
+          i {
+            width: 14px;
+            height: 14px;
+            border-radius: 100%;
+            background: #888;
+            position: relative;
+            &::after {
+              content: "";
+              display: block;
+              position: absolute;
+              width: 0;
+              height: 0;
+              border-color: transparent transparent transparent #333;
+              border-style: dashed dashed dashed solid;
+              border-width: 5px;
+              left: 5px;
+              top: 2px;
+            }
+          }
+          span {
+            margin-right: 15px;
+          }
+          a:hover {
+            color: #fff;
+          }
+        }
+      }
+    }
+    .PlayerRecommendList {
+      width: 24%;
+    }
+  }
+  .Container {
+    padding: 0 5%;
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+    .PlayerMediaInfo {
+      margin: 30px auto 0;
+    }
+    .MoreMediaInfo {
+      margin: 20px auto 0;
+      .Left {
+        margin-right: 20px;
+        .ActorList {
+          position: relative;
+          overflow: hidden;
+        }
+        .TipList {
+          margin: 20px auto 0;
+        }
+        .PlayerComment {
+          margin: 20px auto 0;
+        }
+      }
+      .Right {
+        width: 24%;
+        position: relative;
+        > div {
+          width: 100%;
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}

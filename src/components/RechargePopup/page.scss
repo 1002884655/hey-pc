@@ -1,0 +1,143 @@
+.components.RechargePopup {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  > div {
+    width: 600px;
+    padding: 20px;
+    background: #222;
+    border-radius: 6px;
+    > .Title {
+      align-items: center;
+      > span {
+        font-size: 16px;
+        color: #666;
+        line-height: 30px;
+        &:first-child {
+          font-size: 18px;
+          font-weight: bold;
+          color: #fff;
+          margin-right: 10px;
+        }
+        &.Amount {
+          color: #e2041b;
+        }
+      }
+      > img {
+        height: 20px;
+        margin: 0 5px;
+      }
+      > a {
+        user-select: none;
+        color: #666;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+    > .Content {
+      border-top: 1px solid #333;
+      margin-top: 10px;
+      > .Title {
+        display: block;
+        font-size: 18px;
+        color: #666;
+        line-height: 40px;
+        padding: 20px 0;
+      }
+      > .List {
+        font-size: 0;
+        position: relative;
+        overflow: hidden;
+        > li {
+          display: inline-block;
+          vertical-align: middle;
+          width: calc((100% - 30px) / 3);
+          box-sizing: border-box;
+          margin-left: 15px;
+          margin-bottom: 15px;
+          border: 1px solid #333;
+          border-radius: 8px;
+          padding: 10px 0;
+          &:nth-child(3n + 1) {
+            margin-left: 0;
+          }
+          &:hover {
+            cursor: pointer;
+          }
+          &.active {
+            border-color: #fff;
+          }
+          > div {
+            font-size: 0;
+            white-space: nowrap;
+            text-align: center;
+            > * {
+              display: inline-block;
+              vertical-align: middle;
+            }
+            > img {
+              height: 20px;
+              margin-right: 10px;
+            }
+            > span {
+              font-size: 16px;
+              color: #fff;
+              line-height: 20px;
+              font-weight: bold;
+            }
+          }
+          > span {
+            display: block;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            line-height: 20px;
+            margin-top: 10px;
+          }
+        }
+      }
+
+      > .Bottom {
+        text-align: center;
+        font-size: 0;
+        position: relative;
+        overflow: hidden;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        > a {
+          display: inline-block;
+          font-size: 16px;
+          color: #fff;
+          line-height: 40px;
+          width: 300px;
+          text-align: center;
+          border-radius: 4px;
+          background: #ccc;
+          user-select: none;
+          &.active {
+            background: #e2041b;
+          }
+        }
+        > span {
+          font-size: 14px;
+          color: #666;
+          line-height: 20px;
+          display: block;
+          text-align: center;
+          margin-top: 15px;
+          > a {
+            user-select: none;
+            font-size: 14px;
+            color: #e2041b;
+            line-height: 20px;
+          }
+        }
+      }
+    }
+  }
+}

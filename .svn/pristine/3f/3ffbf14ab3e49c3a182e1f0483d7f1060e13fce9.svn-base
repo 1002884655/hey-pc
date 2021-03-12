@@ -1,0 +1,47 @@
+#app {
+  background: rgba(0, 0, 0, 1);
+  .PageContainer {
+    width: 100%;
+    position: relative;
+    overflow: visible;
+    padding-top: 68px;
+    padding-bottom: 30px;
+    .TopBg {
+      width: calc(100% - 8px);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      > div {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        padding-bottom: 13.5%;
+        background: #eee;
+      }
+    }
+    .PageContent {
+      width: 70%;
+      min-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      overflow: visible;
+      align-items: flex-start;
+      .PageLeft {
+        width: 284px;
+        position: relative;
+        overflow: visible;
+        margin-right: 20px;
+      }
+      .PageCenter {
+        position: relative;
+        overflow: visible;
+      }
+      .PageRight {
+        width: 284px;
+        position: relative;
+        overflow: visible;
+        margin-left: 20px;
+      }
+    }
+  }
+}

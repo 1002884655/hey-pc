@@ -1,0 +1,13 @@
+module.exports = {
+  index: 'HeyPorn', // 主页
+  'media': 'HeyPorn-Media', // 播放页
+  'iframe': 'HeyPorn-Iframe', // 播放页嵌入页
+  'class': 'HeyPorn-Video', // 视频分类主页
+  'community': 'HeyPorn-Community', // 社区
+  'search': 'HeyPorn-Search', // 搜索
+  'user': 'HeyPorn-UserCenter', // 个人中心
+  'error': 'HeyPorn-Error', // 404
+  'test': 'Test' // 测试页面
+  // 'error': '404', // 个人社交主页
+  // 'eBusiness': 'HeyPorn-eBusiness' // 电商主页
+}

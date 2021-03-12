@@ -1,0 +1,11 @@
+.components.MainPage {
+  width: 100%;
+  min-height: 100%;
+  position: relative;
+  overflow: visible;
+  .SlotContent {
+    width: 100%;
+    position: relative;
+    overflow: visible;
+  }
+}

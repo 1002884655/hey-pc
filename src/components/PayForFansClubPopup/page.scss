@@ -1,0 +1,109 @@
+.components.PayForFansClubPopup {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000000;
+  background: rgba(0, 0, 0, 0.8);
+  > div {
+    width: 650px;
+    padding: 20px;
+    background: #222;
+    border-radius: 4px;
+    > .Close {
+      font-size: 0;
+      white-space: nowrap;
+      text-align: right;
+      > a {
+        font-size: 20px;
+        user-select: none;
+        color: #333;
+        line-height: 30px;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+    > .Title {
+      font-size: 0;
+      white-space: nowrap;
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #333;
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 22px;
+        font-weight: bold;
+        line-height: 30px;
+      }
+      > span {
+        color: #fff;
+      }
+      > a {
+        color: #e2041b;
+      }
+    }
+    > .Desc {
+      display: block;
+      font-size: 16px;
+      line-height: 20px;
+      margin-top: 20px;
+      padding-bottom: 10px;
+    }
+    > div.Tips {
+      font-size: 0;
+      white-space: nowrap;
+      margin-top: 10px;
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      > i {
+        font-size: 20px;
+        color: #e2041b;
+        margin-right: 10px;
+      }
+      > span {
+        font-size: 14px;
+        color: #999;
+        line-height: 24px;
+      }
+    }
+    > span.Price {
+      display: block;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+      line-height: 40px;
+      border-top: 1px solid #333;
+      padding-top: 10px;
+      margin-top: 20px;
+    }
+    > a {
+      display: block;
+      margin: 10px auto 0;
+      width: 400px;
+      line-height: 42px;
+      font-size: 16px;
+      border-radius: 4px;
+      background: #ccc;
+      user-select: none;
+      color: #fff;
+      text-align: center;
+      &.active {
+        background: #e2041b;
+      }
+    }
+    > span.Tips {
+      display: block;
+      text-align: center;
+      font-size: 14px;
+      color: #999;
+      line-height: 20px;
+      margin-top: 20px;
+    }
+  }
+}

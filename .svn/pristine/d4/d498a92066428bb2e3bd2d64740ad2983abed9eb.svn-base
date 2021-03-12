@@ -1,0 +1,302 @@
+<template>
+  <div class="components ImageCapture centerLabel" ref="ImageCapture">
+    <!-- <div class="ViewImg">
+      <img :src="src" class="centerLabel contain" alt="">
+    </div> -->
+    <div class="ImageCaptureBox">
+      <div class="CaptureTop"></div>
+      <div class="CaptureRight"></div>
+      <div class="CaptureBottom"></div>
+      <div class="CaptureLeft"></div>
+      <div class="CaptureMoveArea">
+        <a v-for="item in 5" :key="item" class="MoveAreaItem"></a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'ImageCapture',
+  props: ['src', 'width', 'height', 'keep', 'size'],
+  data () {
+    return {
+      Canvas: null,
+      Context: null,
+      SubCanvas: null,
+      SubContext: null,
+      ExportData: [],
+      OriginalBase: null,
+      Img: null,
+      SubImg: null,
+      Area: {
+        Left: 0,
+        Top: 0,
+        Right: 0,
+        Bottom: 0
+      },
+      RotateCounts: 90
+    }
+  },
+  computed: {
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Rotate () {
+      if (document.getElementById('ImageCaptureCanvas')) {
+        let CanvasWidth = this.$refs.ImageCapture.getBoundingClientRect().width
+        let CanvasHeight = this.$refs.ImageCapture.getBoundingClientRect().height
+        this.Context.clearRect(0, 0, CanvasWidth, CanvasHeight) // 清除画布
+        this.Context.translate(CanvasWidth / 2, CanvasHeight / 2)
+        this.Context.rotate(this.RotateCounts * Math.PI / 180)
+        this.Context.translate(-CanvasWidth / 2, -CanvasHeight / 2)
+        let ImgWidth = this.Img.getBoundingClientRect().width
+        let ImgHeight = this.Img.getBoundingClientRect().height
+        let ImgScale = ImgWidth / ImgHeight
+        let ImgX = 0
+        let ImgY = 0
+
+        if (ImgScale > CanvasWidth / CanvasHeight) { // 图片较薄
+          ImgY = CanvasWidth / ImgScale
+          this.Context.drawImage(this.Img, 0, (CanvasHeight - ImgY) / 2, CanvasWidth, ImgY)
+        } else { // 图片较厚
+          ImgX = CanvasHeight * ImgScale
+          this.Context.drawImage(this.Img, (CanvasWidth - ImgX) / 2, 0, ImgX, CanvasHeight)
+        }
+      }
+    },
+    SelectImgArea () { // 选择选区进行截取图片操作
+      this.ExportData = []
+      let CutImg = this.Context.getImageData(this.Area.Left, this.Area.Top, this.Area.Right - this.Area.Left, this.Area.Bottom - this.Area.Top)
+      let PrevCanvas = document.getElementById('ImageCaptureSubCanvas')
+      if (PrevCanvas !== null) { // 删除上一个截图canvas
+        PrevCanvas.parentNode.removeChild(PrevCanvas)
+      }
+      this.SubCanvas = document.createElement('canvas')
+      this.SubCanvas.id = 'ImageCaptureSubCanvas'
+      this.SubCanvas.width = this.Area.Right - this.Area.Left
+      this.SubCanvas.height = this.Area.Bottom - this.Area.Top
+      this.SubCanvas.style.position = 'absolute'
+      this.SubCanvas.style.left = '-1000000px'
+      this.SubCanvas.style.opacity = '0'
+      this.$refs.ImageCapture.appendChild(this.SubCanvas)
+
+      this.SubContext = this.SubCanvas.getContext('2d')
+      this.SubContext.putImageData(CutImg, 0, 0, 0, 0, this.Area.Right - this.Area.Left, this.Area.Bottom - this.Area.Top)
+      this.OriginalBase = this.SubCanvas.toDataURL('image/jpeg', 1) // 生成原始截图
+
+      let PrevImage = document.getElementById('ImageCaptureSubImage')
+      if (PrevImage !== null) {
+        PrevImage.parentNode.removeChild(PrevImage)
+      }
+
+      let Img = new Image() // 创建图片对象
+      Img.crossOrigin = ''
+      Img.id = 'ImageCaptureSubImage'
+      Img.src = this.OriginalBase
+      Img.style.opacity = '0'
+      this.$refs.ImageCapture.appendChild(Img)
+      Img.onload = () => {
+        this.SubContext.clearRect(0, 0, this.Area.Right - this.Area.Left, this.Area.Bottom - this.Area.Top) // 清除画布
+        this.SubCanvas.width = this.size[0] - 0
+        this.SubCanvas.height = this.size[1] - 0
+        this.SubContext.drawImage(Img, 0, 0, this.size[0] - 0, this.size[1] - 0)
+        this.$emit('Change', this.SubCanvas.toDataURL('image/jpeg', 1))
+      }
+    },
+    CanvasInit () { // 画布初始化
+      let PrevCanvas = document.getElementById('ImageCaptureCanvas')
+      if (PrevCanvas !== null) {
+        PrevCanvas.parentNode.removeChild(PrevCanvas)
+      }
+      let ImgWidth = this.Img.getBoundingClientRect().width
+      let ImgHeight = this.Img.getBoundingClientRect().height
+      let ImgScale = ImgWidth / ImgHeight
+      // this.Img.style.display = 'none'
+
+      // 创建canvas画布
+      let CanvasWidth = this.$refs.ImageCapture.getBoundingClientRect().width
+      let CanvasHeight = this.$refs.ImageCapture.getBoundingClientRect().height
+      this.Canvas = document.createElement('canvas')
+      this.Canvas.id = 'ImageCaptureCanvas'
+      this.Canvas.width = CanvasWidth
+      this.Canvas.height = CanvasHeight
+      this.Canvas.style.position = 'absolute'
+      this.Canvas.style.zIndex = '2'
+      this.$refs.ImageCapture.appendChild(this.Canvas)
+
+      // 导入canvas图片
+      this.Context = this.Canvas.getContext('2d')
+
+      let ImgX = 0
+      let ImgY = 0
+
+      if (ImgScale > CanvasWidth / CanvasHeight) { // 图片较薄
+        ImgY = CanvasWidth / ImgScale
+        this.Context.drawImage(this.Img, 0, (CanvasHeight - ImgY) / 2, CanvasWidth, ImgY)
+      } else { // 图片较厚
+        ImgX = CanvasHeight * ImgScale
+        this.Context.drawImage(this.Img, (CanvasWidth - ImgX) / 2, 0, ImgX, CanvasHeight)
+      }
+
+      this.DrawCapture()
+    },
+    ImageInit (callback) { // 图片初始化
+      let PrevImage = document.getElementById('ImageCaptureImage')
+      if (PrevImage !== null) {
+        PrevImage.parentNode.removeChild(PrevImage)
+      }
+      this.Img = new Image() // 创建图片对象
+      this.Img.crossOrigin = ''
+      this.Img.id = 'ImageCaptureImage'
+      this.Img.src = this.src
+      this.Img.style.width = '100%'
+      this.Img.style.opacity = '0'
+      this.Img.style.position = 'absolute'
+      this.Img.style.zIndex = '1'
+      this.$refs.ImageCapture.appendChild(this.Img)
+      this.Img.onload = () => { // 图片加载结束后获取图片尺寸比例等操作
+        callback()
+      }
+    },
+    Init () { // 初始化
+      this.ImageInit(() => {
+        this.CanvasInit()
+      })
+    },
+    DrawCapture () {
+      // let CaptureTop = document.getElementsByClassName('CaptureTop')[0]
+      // let CaptureRight = document.getElementsByClassName('CaptureRight')[0]
+      // let CaptureBottom = document.getElementsByClassName('CaptureBottom')[0]
+      // let CaptureLeft = document.getElementsByClassName('CaptureLeft')[0]
+      let CaptureMoveArea = document.getElementsByClassName('CaptureMoveArea')[0]
+      let CaptureWidth = this.$refs.ImageCapture.getBoundingClientRect().width
+      let CaptureHeight = this.$refs.ImageCapture.getBoundingClientRect().height
+      let MoveWidth = this.width - 0 || 500
+      let MoveHeight = this.height - 0 || 300
+      let Scale = MoveHeight / MoveWidth
+      let DistanceX = 0
+      let DistanceY = 0
+      let aTop = 0
+      let aRight = 0
+      let aBottom = 0
+      let aLeft = 0
+      this.Area.Top = (CaptureHeight - MoveHeight) / 2 // 上部距离（左上角为参考系原点）
+      this.Area.Right = (CaptureWidth - MoveWidth) / 2 + MoveWidth // 右边距离（左上角为参考系原点）
+      this.Area.Bottom = (CaptureHeight - MoveHeight) / 2 + MoveHeight // 底边距离（左上角为参考系原点）
+      this.Area.Left = (CaptureWidth - MoveWidth) / 2 // 左边距离（左上角为参考系原点）
+
+      // 更新遮罩层位置
+      this.UpdatePosition(this.Area.Top, this.Area.Right, this.Area.Bottom, this.Area.Left, CaptureWidth, CaptureHeight)
+      let CaptureMoveAreaWidth = CaptureMoveArea.getBoundingClientRect().width
+      let CaptureMoveAreaHeight = CaptureMoveArea.getBoundingClientRect().height
+
+      // 整体移动
+      this.MouseCapture(document.getElementsByClassName('MoveAreaItem')[4], (StartX, StartY, MoveX, MoveY) => {
+        DistanceX = MoveX - StartX
+        DistanceY = MoveY - StartY
+        aTop = Math.min(Math.max(this.Area.Top + DistanceY, 0), CaptureHeight - CaptureMoveAreaHeight) // 上部距离（左上角为参考系原点）
+        aLeft = Math.min(Math.max(this.Area.Left + DistanceX, 0), CaptureWidth - CaptureMoveAreaWidth) // 左边距离（左上角为参考系原点）
+        aRight = Math.min(Math.max(CaptureMoveAreaWidth + this.Area.Left + DistanceX, CaptureMoveAreaWidth), CaptureWidth) // 右边距离（左上角为参考系原点）
+        aBottom = Math.min(Math.max(CaptureMoveAreaHeight + this.Area.Top + DistanceY, CaptureMoveAreaHeight), CaptureHeight) // 底边距离（左上角为参考系原点）
+        this.UpdatePosition(aTop, aRight, aBottom, aLeft, CaptureWidth, CaptureHeight)
+      }, (StartX, StartY, MoveX, MoveY) => {
+        this.Area.Top = aTop // 上部距离（左上角为参考系原点）
+        this.Area.Left = aLeft // 左边距离（左上角为参考系原点）
+        this.Area.Right = aRight // 右边距离（左上角为参考系原点）
+        this.Area.Bottom = aBottom // 底边距离（左上角为参考系原点）
+      })
+
+      // 左上角拖拽
+      this.MouseCapture(document.getElementsByClassName('MoveAreaItem')[0], (StartX, StartY, MoveX, MoveY) => {
+        DistanceX = MoveX - StartX
+        DistanceY = MoveY - StartY
+        if (this.keep) { // 保持宽高比例
+          aLeft = Math.min(Math.max(this.Area.Left + DistanceX, this.Area.Right - Math.min(this.Area.Bottom / Scale, this.Area.Right)), this.Area.Right - 48) // 左边距离（左上角为参考系原点）
+          aTop = Math.max(this.Area.Bottom - CaptureMoveArea.getBoundingClientRect().width * Scale, this.Area.Bottom - Math.min(this.Area.Bottom / Scale, this.Area.Right))
+        } else {
+          aLeft = Math.min(Math.max(this.Area.Left + DistanceX, 0), CaptureWidth - CaptureMoveAreaWidth) // 左边距离（左上角为参考系原点）
+          aTop = Math.min(Math.max(this.Area.Top + DistanceY, 0), CaptureHeight - CaptureMoveAreaHeight) // 上部距离（左上角为参考系原点）
+        }
+        this.UpdatePosition(aTop, this.Area.Right, this.Area.Bottom, aLeft, CaptureWidth, CaptureHeight)
+      }, (StartX, StartY, MoveX, MoveY) => {
+        this.Area.Top = aTop // 上部距离（左上角为参考系原点）
+        this.Area.Left = aLeft // 左边距离（左上角为参考系原点）
+        CaptureMoveAreaWidth = CaptureMoveArea.getBoundingClientRect().width
+        CaptureMoveAreaHeight = CaptureMoveArea.getBoundingClientRect().height
+      })
+    },
+    UpdatePosition (top, right, bottom, left, width, height) { // 更新遮罩层位置
+      let CaptureTop = document.getElementsByClassName('CaptureTop')[0]
+      let CaptureRight = document.getElementsByClassName('CaptureRight')[0]
+      let CaptureBottom = document.getElementsByClassName('CaptureBottom')[0]
+      let CaptureLeft = document.getElementsByClassName('CaptureLeft')[0]
+      let CaptureMoveArea = document.getElementsByClassName('CaptureMoveArea')[0]
+
+      // 上部位置
+      CaptureTop.style.bottom = `${height - top}px`
+
+      // 右部位置
+      CaptureRight.style.top = `${top}px`
+      CaptureRight.style.left = `${right}px`
+      CaptureRight.style.bottom = `${height - bottom}px`
+
+      // 底部位置
+      CaptureBottom.style.top = `${bottom}px`
+
+      // 左部位置
+      CaptureLeft.style.top = `${top}px`
+      CaptureLeft.style.right = `${width - left}px`
+      CaptureLeft.style.bottom = `${height - bottom}px`
+
+      // 截取区域位置
+      CaptureMoveArea.style.top = `${top}px`
+      CaptureMoveArea.style.right = `${width - right}px`
+      CaptureMoveArea.style.bottom = `${height - bottom}px`
+      CaptureMoveArea.style.left = `${left}px`
+    },
+    MouseCapture (target, callback, returnposition) {
+      let StartX = 0
+      let StartY = 0
+      let MoveX = 0
+      let MoveY = 0
+      let CaptureParent = document.getElementsByClassName('ImageCapture')[0]
+      target.onmousedown = (e) => {
+        e = e || event
+        StartX = e.screenX
+        StartY = e.screenY
+        MoveX = null
+        MoveY = null
+        CaptureParent.onmousemove = (e) => {
+          e = e || event
+          MoveX = e.screenX
+          MoveY = e.screenY
+          callback(StartX, StartY, MoveX, MoveY)
+        }
+        CaptureParent.onmouseup = () => {
+          CaptureParent.onmousemove = null
+          returnposition(StartX, StartY, MoveX, MoveY)
+        }
+        // CaptureParent.onmouseout = () => {
+        //   CaptureParent.onmousemove = null
+        //   returnposition(StartX, StartY, MoveX, MoveY)
+        // }
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

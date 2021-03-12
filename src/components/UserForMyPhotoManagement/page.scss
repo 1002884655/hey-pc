@@ -1,0 +1,204 @@
+.components.UserForMyPhotoManagement {
+  height: 100%;
+  .SubContainer {
+    > .PhotoAlbumList {
+      font-size: 0;
+      padding: 20px 20px 20px 0;
+      > li {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 0 20px 20px;
+        width: calc((100% - 100px) / 5);
+        max-width: 300px;
+        position: relative;
+        overflow: hidden;
+        > a {
+          width: 100%;
+          display: block;
+          padding-bottom: 100%;
+          position: relative;
+          overflow: hidden;
+          background: #333;
+          > .Layer {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index: 2;
+            height: 70px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+            > div {
+              padding: 0 10px;
+              position: relative;
+              overflow: hidden;
+              > span {
+                font-size: 16px;
+                line-height: 20px;
+                white-space: nowrap;
+                color: #fff;
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding-top: 10px;
+                &:first-child {
+                  font-weight: bold;
+                  &:hover {
+                    text-decoration: underline;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    > .AblumDetail {
+      > .Header {
+        padding: 10px 20px;
+        align-items: center;
+        > span {
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 20px;
+        }
+        > a {
+          font-size: 16px;
+          color: #999;
+          line-height: 20px;
+          margin-left: 20px;
+          user-select: none;
+          &:hover {
+            color: #fff;
+          }
+          &.active {
+            color: #e2041b;
+          }
+          &:first-child {
+            margin-left: 0;
+            margin-right: 10px;
+          }
+        }
+      }
+      > .List {
+        padding: 0 20px 0 0;
+        font-size: 0;
+        > li {
+          display: inline-block;
+          width: calc((100% - 100px) / 5);
+          margin: 20px 0 0 20px;
+          position: relative;
+          overflow: hidden;
+          max-width: 300px;
+          > a {
+            width: 100%;
+            display: block;
+            padding-bottom: 100%;
+            background: #333;
+            position: relative;
+            overflow: hidden;
+            &:hover {
+              > .Layer {
+                opacity: 1;
+              }
+            }
+            &.IsBatch {
+              &:hover {
+                > .Layer {
+                  opacity: 0;
+                }
+              }
+              > .BatchLayer {
+                display: block;
+              }
+            }
+            > .BatchLayer {
+              width: 100%;
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              top: 0;
+              z-index: 4;
+              background: rgba(0, 0, 0, 0.7);
+              display: none;
+              > a {
+                display: inline-block;
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                font-size: 20px;
+                color: #999;
+                &.active {
+                  color: #e2041b;
+                }
+              }
+            }
+            > .ImgLayer {
+              width: 100%;
+              position: absolute;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              z-index: 2;
+            }
+            > .Layer {
+              width: 100%;
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              z-index: 3;
+              background: rgba(0, 0, 0, 0.7);
+              height: 50px;
+              opacity: 0;
+              > div {
+                position: relative;
+                overflow: hidden;
+                > a {
+                  font-size: 20px;
+                  &:hover {
+                    color: #e2041b;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      > .Pagination {
+        text-align: center;
+        padding: 10px 0;
+      }
+    }
+  }
+  .MoveItemPopupContainer {
+    height: 300px;
+    .List {
+      > a {
+        border-bottom: 1px solid #333;
+        align-items: center;
+        &:hover {
+          background: #333;
+        }
+        &.active {
+          > i,
+          > span {
+            color: #e2041b;
+          }
+        }
+        > i {
+          margin-left: 10px;
+          font-size: 20px;
+          color: #999;
+        }
+        > span {
+          font-size: 14px;
+          color: #999;
+          line-height: 40px;
+          margin-left: 10px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,87 @@
+.components.NewSearchFilter {
+  position: fixed;
+  left: -220px;
+  width: 220px;
+  background: #333;
+  z-index: 100;
+  top: 68px;
+  bottom: 0;
+  overflow: visible;
+  transition: all linear .15s;
+  -webkit-transition: all linear .15s;
+  &.active {
+    left: 0;
+  }
+  > .TriggerIcon {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    right: -19px;
+    z-index: 1;
+    width: 20px;
+    overflow: hidden;
+    > i {
+      font-size: 80px;
+      color: #333;
+    }
+    > span {
+      font-size: 13px;
+      margin-left: -2px;
+    }
+  }
+  .NavLevel3List {
+    position: relative;
+    z-index: 3;
+    > li {
+      > span {
+        font-size: 14px;
+        color: #fff;
+        line-height: 24px;
+        display: block;
+        line-height: 40px;
+        border-bottom: 1px solid #222;
+        text-indent: 60px;
+        user-select: none;
+        position: relative;
+        z-index: 2;
+        &:hover {
+          cursor: pointer;
+        }
+        > i {
+          font-size: 20px;
+          line-height: 40px;
+          display: inline-block;
+          position: absolute;
+          left: -30px;
+          top: 0;
+          z-index: 1;
+        }
+      }
+      > div {
+        font-size: 0;
+        position: relative;
+        overflow: hidden;
+        height: 0;
+        &.active {
+          height: auto;
+        }
+        > a {
+          display: block;
+          font-size: 14px;
+          line-height: 40px;
+          border-bottom: 1px solid #222;
+          text-indent: 60px;
+          color: #999;
+          user-select: none;
+          &.active,
+          &:hover {
+            background: #222;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}

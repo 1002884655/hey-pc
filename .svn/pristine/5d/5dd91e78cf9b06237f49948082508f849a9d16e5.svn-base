@@ -1,0 +1,133 @@
+<template>
+  <div class="components">
+
+    <!-- 栏目标题 -->
+    <div class="Title flex-h">
+      <div class="flex-item">
+        <span>{{data[0].recommendName}}</span>
+        <i class="iconfont iconjiantouright"></i>
+      </div>
+    </div>
+
+    <!-- 栏目列表 -->
+    <div class="List">
+      <a class="Left iconfont iconjiantouleft" :class="`ColumnLeft-${index}`"></a>
+      <a class="Right iconfont iconjiantouright" :class="`ColumnRight-${index}`"></a>
+      <div class="Swiper">
+        <swiper :options="options" ref="ColumnSwiper">
+          <swiper-slide v-for="(item, index) in data" :key="index">
+            <div>
+              <a>
+                <!-- 封面 -->
+                <img :src="item.frontPath" class="centerLabel cover" alt="">
+              </a>
+              <div class="flex-h">
+                <div class="flex-item">
+                  <div>
+                    <span>{{item.title}}</span>
+                    <span>{{item.description || 'No introduction'}}</span>
+                  </div>
+                </div>
+                <div>
+                  <span>{{item.score.toFixed(1)}}</span>
+                  <span>{{item.playNum}} view</span>
+                </div>
+                <div>
+                  <a :href="`./media.html?pid=${item.videoId}`"><i class="iconfont iconbofang"></i><span>Play</span></a>
+                  <a @click="CollectVideoById(item.videoId)"><i class="iconfont iconjia"></i><span>Collection</span></a>
+                </div>
+              </div>
+            </div>
+          </swiper-slide>
+        </swiper>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+import { Notification } from 'element-ui'
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { createNamespacedHelpers } from 'vuex'
+Vue.prototype.$notify = Notification
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+
+export default {
+  name: 'HomeColumnA',
+  props: ['data', 'index'],
+  data () {
+    return {
+      UnLock: true,
+      options: {
+        slidesPerView: 5,
+        slidesPerGroup: 5,
+        spaceBetween: 5,
+        navigation: {
+          nextEl: `.ColumnRight-${this.index}`,
+          prevEl: `.ColumnLeft-${this.index}`
+        }
+      }
+    }
+  },
+  components: {
+    swiper,
+    swiperSlide
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo
+    }),
+    ColumnSwiper () {
+      return this.$refs.ColumnSwiper.swiper
+    }
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    ...mapUserActions(['AddCollect']),
+    CollectVideoById (id) { // 收藏视频
+      if (this.UserInfo !== null) { // 用户已登录
+        if (id !== null) {
+          if (this.UnLock) {
+            this.UnLock = false
+            this.AddCollect({
+              accountId: this.UserInfo.id,
+              collectType: 1,
+              workId: id
+            }).then(() => {
+              this.UnLock = true
+              this.$notify.success({
+                title: 'success',
+                message: 'Collection of success!'
+              })
+            }).catch(() => {
+              this.UnLock = true
+            })
+          }
+        } else {
+          this.$notify.error({
+            title: 'error',
+            message: 'Video message error!'
+          })
+        }
+      } else { // 用户未登录
+        this.$emit('NeedLogin')
+      }
+    },
+    Init () { // 初始化
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

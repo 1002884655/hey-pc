@@ -1,0 +1,105 @@
+.components.UserForMySubscription {
+  padding-top: 20px;
+  align-items: flex-start;
+  > .Left {
+    width: 290px;
+    margin-right: 20px;
+    > nav {
+      > a {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        &:hover {
+          background: #1a1a1a;
+        }
+        &.active {
+          background: #e2041b;
+          &:hover {
+            background: #e2041b;
+          }
+        }
+        > span {
+          line-height: 42px;
+          font-size: 14px;
+          color: #fff;
+          margin-left: 10px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          &:last-child {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+  > .flex-item {
+    > ul {
+      > li {
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid #333;
+        > .Icon {
+          width: 48px;
+          margin-right: 10px;
+          > a {
+            width: 100%;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 100%;
+            background: #333;
+            border-radius: 100%;
+          }
+        }
+        > .flex-item {
+          > div {
+            font-size: 0;
+            white-space: nowrap;
+            > * {
+              display: inline-block;
+              vertical-align: middle;
+              font-size: 16px;
+              line-height: 20px;
+              margin-right: 10px;
+            }
+            > a {
+              font-weight: bold;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+          > span {
+            width: 100%;
+            display: block;
+            font-size: 14px;
+            color: #999;
+            line-height: 30px;
+            height: 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+        > a {
+          width: 136px;
+          display: block;
+          text-align: center;
+          color: #fff;
+          font-size: 14px;
+          line-height: 40px;
+          border-radius: 5px;
+          background: #ccc;
+          &.active {
+            background: #e2041b;
+          }
+        }
+      }
+    }
+    > .Pagination {
+      text-align: center;
+      padding: 20px 0;
+    }
+  }
+}

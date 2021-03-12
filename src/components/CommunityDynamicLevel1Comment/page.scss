@@ -1,0 +1,217 @@
+.components.CommunityDynamicLevel1Comment {
+  position: relative;
+  overflow: visible;
+  > .Level1CommentList {
+    position: relative;
+    overflow: visible;
+    padding: 0 74px;
+    z-index: 1;
+    > li {
+      position: relative;
+      overflow: visible;
+      align-items: flex-start;
+      padding: 10px 0;
+      a.Delete {
+        display: none !important;
+      }
+      &:hover {
+        a.Delete {
+          display: inline-block !important;
+        }
+      }
+      &:last-child {
+        > .flex-item {
+          border-bottom: none;
+        }
+      }
+      > .Icon {
+        width: 40px;
+        height: 40px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 100%;
+        background: #333;
+        margin-right: 10px;
+      }
+      > .flex-item {
+        position: relative;
+        overflow: visible;
+        border-bottom: 1px solid #333;
+        padding-bottom: 20px;
+        > .Name {
+          font-size: 0;
+          > a {
+            display: inline-block;
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: bold;
+          }
+          > span {
+            display: inline-block;
+            font-size: 12px;
+            line-height: 20px;
+            color: #999;
+            margin-left: 10px;
+          }
+        }
+        > .Content {
+          margin-top: 5px;
+          > span {
+            display: block;
+            font-size: 12px;
+            color: #999;
+            line-height: 20px;
+            position: relative;
+            overflow: hidden;
+            word-break: break-all;
+          }
+        }
+        > .Tab {
+          font-size: 0;
+          white-space: nowrap;
+          margin-top: 5px;
+          > a {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 12px;
+            color: #999;
+            line-height: 20px;
+            margin-left: 10px;
+            user-select: none;
+            &:hover {
+              color: #fff;
+            }
+            &:first-child {
+              // font-size: 20px;
+              margin-left: 0;
+            }
+            &.Delete {
+              font-size: 16px;
+            }
+          }
+        }
+        > .Level2Input {
+          border-bottom: 1px solid #333;
+          padding: 10px 0;
+          position: relative;
+          overflow: visible;
+          > textarea {
+            width: calc(100% - 20px);
+            display: block;
+            font-size: 14px;
+            line-height: 20px;
+            color: #fff;
+            background: #000;
+            padding: 10px;
+          }
+          > div {
+            align-items: center;
+            margin-top: 10px;
+            position: relative;
+            overflow: visible;
+            > a {
+              user-select: none;
+              &.TopicEmoji {
+                font-size: 20px;
+                color: #999;
+                position: relative;
+                overflow: visible;
+                &:hover {
+                  color: #fff;
+                  > div {
+                    display: block;
+                  }
+                }
+                > div {
+                  display: none;
+                  width: 327px;
+                  height: 429px;
+                  position: absolute;
+                  left: 5px;
+                  top: 15px;
+                  z-index: 10;
+                }
+              }
+              &:last-child {
+                font-size: 12px;
+                line-height: 25px;
+                width: 75px;
+                text-align: center;
+                background: #e2041b;
+                border-radius: 2px;
+              }
+            }
+          }
+        }
+        > .TriggerLevel2CommentList {
+          font-size: 0;
+          margin-top: 5px;
+          > a {
+            display: inline-block;
+            font-size: 0;
+            white-space: nowrap;
+            user-select: none;
+            &:hover {
+              > * {
+                color: #e2041b;
+              }
+            }
+            > * {
+              display: inline-block;
+              vertical-align: middle;
+              font-size: 12px;
+              color: #999;
+              line-height: 20px;
+              font-weight: bold;
+            }
+            > i {
+              font-weight: normal;
+              margin-right: 5px;
+            }
+          }
+        }
+        > .Level2CommentList {
+          position: relative;
+          overflow: visible;
+          z-index: 1;
+        }
+      }
+    }
+  }
+  > .NextPage {
+    text-align: center;
+    padding-bottom: 20px;
+    > a {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 0;
+      white-space: nowrap;
+      user-select: none;
+      &:hover {
+        > * {
+          color: #e2041b;
+        }
+      }
+      > * {
+        font-size: 12px;
+        color: #999;
+        font-weight: bold;
+        line-height: 20px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      > i {
+        font-weight: normal;
+        margin-right: 5px;
+      }
+    }
+    > span {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 12px;
+      color: #999;
+      font-weight: bold;
+      line-height: 20px;
+    }
+  }
+}

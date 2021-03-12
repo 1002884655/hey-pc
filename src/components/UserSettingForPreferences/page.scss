@@ -1,0 +1,79 @@
+.components.UserSettingForPreferences {
+  > ul {
+    > li {
+      margin-top: 20px;
+      margin-bottom: 50px;
+      > div {
+        border-bottom: 1px solid #eee;
+        align-items: center;
+        span {
+          font-size: 12px;
+          font-weight: bold;
+          line-height: 30px;
+        }
+      }
+      > ul {
+        > li {
+          align-items: center;
+          margin-top: 20px;
+          > span {
+            font-size: 12px;
+            line-height: 30px;
+          }
+          > div {
+            > a {
+              width: 30px;
+              height: 30px;
+              display: block;
+              position: relative;
+              overflow: hidden;
+              img {
+                height: 30px;
+                display: block;
+              }
+            }
+            &:nth-child(2) {
+              > a {
+                &.active,
+                &:hover {
+                  img {
+                    margin-left: 0;
+                  }
+                }
+                img {
+                  margin-left: -30px;
+                }
+              }
+            }
+            &:nth-child(3) {
+              > a {
+                &.active,
+                &:hover {
+                  img {
+                    margin-left: -60px;
+                  }
+                }
+                img {
+                  margin-left: -90px;
+                }
+              }
+            }
+            &:nth-child(4) {
+              > a {
+                &.active,
+                &:hover {
+                  img {
+                    margin-left: -120px;
+                  }
+                }
+                img {
+                  margin-left: -150px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

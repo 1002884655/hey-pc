@@ -1,0 +1,45 @@
+<template>
+  <div class="components CommunityContent">
+    <nav class="NavList">
+      <a v-for="(item, index) in NavList" :key="index" :class="{'active': NavActiveIndex === index}">{{item.value}}</a>
+    </nav>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'CommunityContent',
+  props: ['data'],
+  data () {
+    return {
+      NavActiveIndex: 0, // nav选中索引值
+      NavList: [
+        { value: 'Dynamic', id: '1' },
+        { value: 'Video', id: '2' },
+        { value: 'Picture', id: '3' }
+      ]
+    }
+  },
+  computed: {
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Init () { // 初始化
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

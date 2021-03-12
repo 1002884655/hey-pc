@@ -1,0 +1,95 @@
+.components.Popup {
+  width: 100%;
+  position: fixed;
+  z-index: 100000;
+  background: rgba(0, 0, 0, 0.7);
+  left: 0;
+  top: 0;
+  bottom: 0;
+  > .MainPopupBox {
+    width: 450px;
+    padding: 20px;
+    background: #222;
+    overflow: hidden;
+    > .Title {
+      > a {
+        color: #999;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+    > .Bottom {
+      > a {
+        color: #fff;
+        &:hover {
+          background: #e2041b;
+          color: #fff;
+        }
+        &:first-child {
+          border: none;
+        }
+      }
+    }
+    > .Title {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      align-items: center;
+      > span {
+        font-size: 16px;
+        color: #999;
+        line-height: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: bold;
+      }
+      > a {
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 16px;
+        color: #999;
+        z-index: 2;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+    > .Content {
+      padding: 20px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    > .Bottom {
+      text-align: right;
+      font-size: 0;
+      white-space: nowrap;
+      > a {
+        font-size: 14px;
+        line-height: 30px;
+        text-align: center;
+        color: #999;
+        width: 70px;
+        display: inline-block;
+        vertical-align: middle;
+        background: #333;
+        border-radius: 3px;
+        margin-left: 20px;
+        font-weight: bold;
+        user-select: none;
+        &:hover {
+          background: #999;
+          color: #fff;
+        }
+        &:last-child {
+          border: none;
+          &:hover {
+            background: #e2041b;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}

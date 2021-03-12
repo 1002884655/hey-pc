@@ -1,0 +1,61 @@
+<template>
+  <div class="components CommunityRight">
+    <span class="Title">Top active Fans</span>
+    <ul class="FansList">
+      <li class="flex-h" v-for="(item, index) in 8" :key="index">
+        <div class="Icon">
+          <a>
+            <img src="" class="centerLabel cover" alt="">
+          </a>
+        </div>
+        <a class="Name">UserName</a>
+        <i v-if="(index + 1) % 2" class="iconfont iconnan"></i>
+        <i v-else class="iconfont iconnv"></i>
+        <div class="flex-item"></div>
+        <a v-if="(index + 1) % 2">Subscribers</a>
+        <a v-else class="Grey">Unsubscribers</a>
+      </li>
+    </ul>
+    <div class="Refresh">
+      <a>Switch</a>
+    </div>
+  </div>
+</template>
+
+<script>
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState } = createNamespacedHelpers('user')
+
+export default {
+  name: 'CommunityRight',
+  props: ['data'],
+  data () {
+    return {
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo, // 用户信息
+      TopActiveFansList: x => x.TopActiveFansList // 活跃粉丝列表
+    })
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Init () { // 初始化
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

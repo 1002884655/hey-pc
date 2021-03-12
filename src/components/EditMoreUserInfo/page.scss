@@ -1,0 +1,132 @@
+.components.EditMoreUserInfo {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  > div {
+    width: 800px;
+    padding: 30px;
+    background: #fff;
+    border-radius: 4px;
+    > div {
+      &.flex-h {
+        align-items: center;
+        > span {
+          font-size: 24px;
+          font-weight: bold;
+          color: #000;
+          line-height: 30px;
+        }
+        > a {
+          font-size: 22px;
+          color: #000;
+          user-select: none;
+          &:hover {
+            color: #e2041b;
+          }
+        }
+      }
+      &.Bottom {
+        text-align: center;
+        font-size: 0;
+        white-space: nowrap;
+        position: relative;
+        margin-top: 30px;
+        padding: 10px 0;
+        > a {
+          user-select: none;
+          display: inline-block;
+          &:first-child {
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            line-height: 40px;
+            width: 300px;
+            border-radius: 4px;
+            background: #e2041b;
+          }
+          &.Jump {
+            font-size: 14px;
+            color: #999;
+            position: absolute;
+            line-height: 20px;
+            left: 50%;
+            margin-left: 200px;
+            top: 50%;
+            transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+    > ul {
+      margin-top: 30px;
+      position: relative;
+      overflow: visible;
+      > li {
+        margin-left: 60px;
+        position: relative;
+        overflow: visible;
+        &:first-child {
+          margin-left: 0;
+        }
+        > div {
+          position: relative;
+          overflow: visible;
+          margin-top: 20px;
+          &:first-child {
+            margin-top: 0;
+          }
+          > span {
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+            display: block;
+            line-height: 20px;
+          }
+          > div {
+            position: relative;
+            overflow: visible;
+            margin-top: 10px;
+            > input {
+              width: 100%;
+              display: block;
+              font-size: 14px;
+              color: #000;
+              padding: 10px 0;
+              line-height: 20px;
+              text-indent: 10px;
+              border: 1px solid #222;
+              border-radius: 4px;
+              box-sizing: border-box;
+            }
+            > textarea {
+              width: 100%;
+              display: block;
+              font-size: 14px;
+              color: #000;
+              padding: 10px;
+              line-height: 20px;
+              margin-top: 14px;
+              border: 1px solid #222;
+              border-radius: 4px;
+              box-sizing: border-box;
+            }
+            > div {
+              margin-left: 10px;
+              &:first-child {
+                margin-left: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+.components.MainPage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .TestLine {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 100px;
+    z-index: 100000;
+    height: 1px;
+    background: red;
+    display: none;
+  }
+  .MainContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+  }
+}

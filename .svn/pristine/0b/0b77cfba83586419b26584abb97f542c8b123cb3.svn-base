@@ -1,0 +1,47 @@
+<template>
+  <div id="app" class="WhitePage">
+    <a @click="Test">button</a>
+  </div>
+</template>
+
+<script>
+import TestPlayer from '../../components/TestPlayer'
+
+export default {
+  components: {
+    TestPlayer
+  },
+  data () {
+    return {
+    }
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+    })
+  },
+  computed: {
+  },
+  methods: {
+    Test () {
+      this.launchFullscreen(document.getElementById('app'))
+    },
+    launchFullscreen (element) {
+      if (element.requestFullscreen) {
+        element.requestFullscreen()
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen()
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen()
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen()
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

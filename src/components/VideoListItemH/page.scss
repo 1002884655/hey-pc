@@ -1,0 +1,177 @@
+.components.VideoListItemH {
+  > .Img {
+    width: 145px;
+    position: relative;
+    overflow: hidden;
+    > a {
+      width: 100%;
+      display: block;
+      padding-bottom: 56.25%;
+      background: #333;
+      // border-radius: 5px;
+      position: relative;
+      overflow: hidden;
+      &:hover {
+        cursor: default;
+        .Layer {
+          display: block;
+        }
+        img.Gif {
+          display: block;
+        }
+        .WatchLater {
+          display: inline-block;
+        }
+        > div {
+          display: block;
+        }
+        > .Capacity {
+          display: none;
+        }
+      }
+      img {
+        z-index: 1;
+        &.Gif {
+          z-index: 2;
+          display: none;
+        }
+      }
+      > span {
+        display: inline-block;
+        z-index: 3;
+        position: absolute;
+        font-size: 10px;
+        background: rgba(0, 0, 0, 0.6);
+        &.Length {
+          right: 5px;
+          bottom: 5px;
+          line-height: 20px;
+          padding: 0 5px;
+        }
+        &.WatchLaterTips {
+          line-height: 30px;
+          width: 0;
+          text-align: center;
+          color: #fff;
+          right: 35px;
+          top: 5px;
+          font-size: 10px;
+          overflow: hidden;
+          transition: all 0.1s linear;
+          -webkit-transition: all 0.1s linear;
+          white-space: nowrap;
+          font-weight: bold;
+          &.active {
+            color: #16a8f8;
+          }
+        }
+      }
+      > div {
+        width: 30px;
+        height: 30px;
+        background: rgba(0, 0, 0, 0.6);
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        z-index: 3;
+        display: none;
+      }
+      > .WatchLater {
+        z-index: 4;
+        font-size: 30px;
+        text-align: center;
+        line-height: 30px;
+        top: 5px !important;
+        right: 5px !important;
+        width: 30px;
+        &.active {
+          color: #16a8f8;
+          font-size: 20px;
+        }
+        &:hover {
+          + span.WatchLaterTips {
+            width: 95px;
+            &.active {
+              width: 60px;
+            }
+          }
+        }
+      }
+    }
+  }
+  > .flex-item {
+    margin-left: 10px;
+    > div {
+      &.Price {
+        font-size: 0;
+        white-space: nowrap;
+        > * {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        > img {
+          height: 16px;
+          margin-right: 5px;
+        }
+        > span {
+          font-size: 13px;
+          color: #fff;
+          line-height: 20px;
+        }
+      }
+      > a.Title {
+        width: 100%;
+        font-size: 13px;
+        line-height: 16px;
+        font-weight: bold;
+        max-height: 32px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        word-break: break-all;
+        // &:hover {
+        //   text-decoration: underline;
+        // }
+      }
+    }
+    > a.UpName {
+      font-size: 12px;
+      color: #999;
+      line-height: 16px;
+      white-space: nowrap;
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      &:hover {
+        color: #fff;
+        // text-decoration: underline;
+      }
+    }
+    > div.Bottom {
+      align-items: center;
+      * {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 12px;
+        color: #888;
+        line-height: 18px;
+        margin-right: 10px;
+      }
+      a {
+        font-size: 14px;
+        &:hover {
+          color: #e2041b;
+        }
+      }
+      > span.flex-item {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-right: 0;
+      }
+    }
+  }
+}

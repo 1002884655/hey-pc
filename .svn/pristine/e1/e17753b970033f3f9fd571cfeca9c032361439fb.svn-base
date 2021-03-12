@@ -1,0 +1,463 @@
+<template>
+  <div class="components SettingForInformation" v-if="UserInformation !== null">
+
+    <div class="Top flex-h">
+      <div class="Icon">
+        <a class="Img" @click="$emit('EditUserIcon')">
+          <img :src="UserInfo.picPath3" class="centerLabel cover" alt="">
+        </a>
+        <a @click="$emit('EditUserIcon')">Edit</a>
+      </div>
+      <ul>
+        <li>Nickname:</li>
+        <li>Usertypes:</li>
+      </ul>
+      <div class="flex-item">
+        <div>
+          <div>
+            <div v-show="!ShowEditNickName">
+              <span>{{UserInformation.NickName}}</span>
+              <a class="iconfont iconbianji" @click="ShowEditNickName = true"></a>
+            </div>
+            <div v-show="ShowEditNickName">
+              <input type="text" placeholder="" v-model="UserInformation.NickName">
+              <a @click="EditNickName">Sure</a>
+            </div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="Form">
+      <ul>
+        <li class="flex-h">
+          <span>Name:</span>
+          <div class="flex-item">
+            <div>
+              <input type="text" placeholder="" v-model="UserInformation.Name">
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>Gender:</span>
+          <div class="flex-item">
+            <div>
+              <el-select class="OnlySelect" v-model="UserInformation.Gender" placeholder="unselected" no-data-text="no data">
+                <el-option v-for="item in GenderList" :key="item.id" :label="item.value" :value="item.id">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>Birthday:</span>
+          <div class="flex-item">
+            <div>
+              <el-select class="SelectListItem" v-model="Birthday.Year" @change="BirthdayChange" placeholder="year" no-data-text="no data">
+                <el-option v-for="item in YearList" :key="item" :label="item" :value="item">
+                </el-option>
+              </el-select>
+              <el-select class="SelectListItem" v-model="Birthday.Month" placeholder="month" no-data-text="no data">
+                <el-option v-for="item in MonthList" :key="item" :label="item" :value="item">
+                </el-option>
+              </el-select>
+              <el-select class="SelectListItem" v-model="Birthday.Day" placeholder="day" no-data-text="no data">
+                <el-option v-for="item in DayList" :key="item" :label="item" :value="item">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>Region:</span>
+          <div class="flex-item">
+            <div>
+              <el-select class="SelectListItem" v-model="UserInformation.Country" @change="AreaChange(1)" placeholder="country" no-data-text="no data">
+                <el-option v-for="item in AreaList.FirstClass" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+              <el-select class="SelectListItem" v-model="UserInformation.Province" @change="AreaChange(2)" placeholder="province" no-data-text="no data">
+                <el-option v-for="item in AreaList.SecondClass" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+              <el-select class="SelectListItem" v-model="UserInformation.City" placeholder="city" no-data-text="no data">
+                <el-option v-for="item in AreaList.ThirdClass" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>Emotion:</span>
+          <div class="flex-item">
+            <div>
+              <el-select class="OnlySelect" v-model="UserInformation.Emotion" placeholder="unselected" no-data-text="no data">
+                <el-option v-for="item in EmotionList" :key="item.id" :label="item.value" :value="item.id">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="Form">
+      <ul>
+        <li class="flex-h">
+          <span>Home page:</span>
+          <div class="flex-item">
+            <div>
+              <input type="text" v-model="UserInformation.HomePage" placeholder="yourhomepage.xxx">
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>Facebook:</span>
+          <div class="flex-item">
+            <div>
+              <input type="text" v-model="UserInformation.Facebook" placeholder="yourfacebook.xxx">
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>Twitter:</span>
+          <div class="flex-item">
+            <div>
+              <input type="text" v-model="UserInformation.Twitter" placeholder="yourtwitter.xxx">
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>Love:</span>
+          <div class="flex-item">
+            <div>
+              <el-select class="OnlySelect" v-model="UserInformation.Love" placeholder="Keep secret" no-data-text="no data">
+                <el-option v-for="item in LoveList" :key="item.id" :label="item.name" :value="item.id">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>Interests:</span>
+          <div class="flex-item">
+            <div>
+              <el-select class="LabelSelect" placeholder="input and press enter" allow-create filterable multiple default-first-option :popper-append-to-body="false" v-model="UserInformation.Interests" no-data-text="no data"></el-select>
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>Synopsis:</span>
+          <div class="flex-item">
+            <div>
+              <textarea cols="30" rows="5" v-model="UserInformation.Synopsis" placeholder="give a brief overview of yourself"></textarea>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="Form">
+      <ul>
+        <li class="flex-h">
+          <span>Professional:</span>
+          <div class="flex-item">
+            <div>
+              <input type="text" placeholder="your profession" v-model="UserInformation.Professional">
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>Company:</span>
+          <div class="flex-item">
+            <div>
+              <input type="text" placeholder="your company" v-model="UserInformation.Company">
+            </div>
+          </div>
+        </li>
+        <li class="flex-h">
+          <span>School:</span>
+          <div class="flex-item">
+            <div>
+              <input type="text" placeholder="your school" v-model="UserInformation.School">
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="Submit">
+      <a @click="SubmitData">Confirm</a>
+    </div>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+import '../../assets/css/UserCenter.scss'
+import { Select, Option, Notification } from 'element-ui'
+import { createNamespacedHelpers } from 'vuex'
+Vue.prototype.$notify = Notification
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+export default {
+  name: 'SettingForInformation',
+  props: ['data'],
+  data () {
+    return {
+      EmotionList: [ // 情感状态字典
+        { value: 'Single', id: '1' },
+        { value: 'Non single', id: '2' },
+        { value: 'Married', id: '3' },
+        { value: 'Keep secret', id: '4' }
+      ],
+      Birthday: { // 生日
+        Year: '',
+        Month: '',
+        Day: ''
+      },
+      DataUnLock: true, // 数据请求锁定
+      YearList: [], // 年列表
+      CountryList: [], // 国家字典
+      ProvinceList: [], // 省份字典
+      CityList: [], // 城市字典
+      GenderList: [{ value: 'Man', id: '1' }, { value: 'Woman', id: '2' }], // 性别字典
+      ShowEditNickName: false, // 编辑昵称显隐状态
+      UserInformation: null // 用户可编辑信息
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo,
+      AreaList: x => x.AreaList,
+      LoveList: x => x.LoveList
+    }),
+    MonthList () { // 月列表
+      if (this.Birthday.Year === '' || this.Birthday.Year === 'Keep secret') {
+        return []
+      } else {
+        let Arr = []
+        for (let n = 0; n < 12; n++) {
+          Arr.push(n + 1 > 9 ? `${n + 1}` : `0${n + 1}`)
+        }
+        return Arr
+      }
+    },
+    DayList () { // 日列表
+      if (this.Birthday.Month === '') {
+        return []
+      } else {
+        let DayArrForA = []
+        let DayArrForB = []
+        let DayArrForC = []
+        for (let n = 0; n < 31; n++) {
+          DayArrForA.push(n + 1 > 9 ? `${n + 1}` : `0${n + 1}`)
+          if (n < 30) {
+            DayArrForB.push(n + 1 > 9 ? `${n + 1}` : `0${n + 1}`)
+            if (n < 28) {
+              DayArrForC.push(n + 1 > 9 ? `${n + 1}` : `0${n + 1}`)
+            }
+          }
+        }
+        if (this.ToolClass.IsLeapYear(this.Birthday.Year)) {
+          DayArrForC.push(29)
+        }
+        if (this.Birthday.Month - 0 === (1 || 3 || 5 || 7 || 8 || 10 || 12)) {
+          return DayArrForA
+        } else if (this.Birthday.Month - 0 === 2) {
+          return DayArrForC
+        } else {
+          return DayArrForB
+        }
+      }
+    }
+  },
+  components: {
+    'el-select': Select,
+    'el-option': Option
+  },
+  created () {
+    this.UserInfoTransform(this.UserInfo)
+    this.Init()
+  },
+  mounted () {
+    this.$nextTick(() => {
+    })
+  },
+  methods: {
+    ...mapUserActions(['GetAreaList', 'GetUserLoveType', 'UpdateUserInfo', 'GetUserInfoByToken']),
+    Init () { // 初始化
+      this.Birthday = {
+        Year: new Date(this.UserInformation.Birthday).getFullYear(),
+        Month: new Date(this.UserInformation.Birthday).getMonth() + 1 > 9 ? new Date(this.UserInformation.Birthday).getMonth() + 1 : `0${new Date(this.UserInformation.Birthday).getMonth() + 1}`,
+        Day: new Date(this.UserInformation.Birthday).getDate() > 9 ? new Date(this.UserInformation.Birthday).getDate() : `0${new Date(this.UserInformation.Birthday).getDate()}`
+      }
+      this.GetAreaList({ type: 1 }) // 获取一级地区列表
+      this.GetUserLoveType() // 获取用户喜好类型
+      this.YearList = [] // 年列表清空
+      this.YearList.push('Keep secret')
+      if (this.UserInformation.Country !== '') {
+        this.GetAreaList({ type: 2, code: this.UserInformation.Country }).then(() => {
+          this.GetAreaList({ type: 3, code: this.UserInformation.Province })
+        })
+      }
+      let CurrentYear = new Date().getFullYear()
+      for (let n = 0; n < 100; n++) { // 赋值年列表（跨度100年）
+        this.YearList.push(CurrentYear - n)
+      }
+    },
+    BirthdayChange () { // 生日变动
+      if (this.Birthday.Year === '' || this.Birthday.Year === 'Keep secret') {
+        this.Birthday.Month = ''
+        this.Birthday.Day = ''
+      }
+    },
+    FormCheck () { // 表单校验
+      if (this.Birthday.Year !== '' && this.Birthday.Year !== 'Keep secret') { // 生日选项不为空时
+        if (this.Birthday.Month === '' || this.Birthday.Day === '') {
+          this.$notify.error({
+            title: 'error',
+            message: 'Incomplete birthday information!'
+          })
+          return false
+        }
+      }
+      if (this.UserInformation.Country !== '' && this.UserInformation.Country !== 'Keep secret') { // 地区选择不为空时
+        if (this.UserInformation.Province === '' || this.UserInformation.City === '') {
+          this.$notify.error({
+            title: 'error',
+            message: 'Incomplete region information!'
+          })
+          return false
+        }
+      }
+      if (this.UserInformation.HomePage !== '' && !this.ToolClass.CheckUrl(this.UserInformation.HomePage)) { // HomePage校验
+        this.$notify.error({
+          title: 'error',
+          message: 'Incomplete HomePage information!'
+        })
+        return false
+      }
+      if (this.UserInformation.Facebook !== '' && !this.ToolClass.CheckUrl(this.UserInformation.Facebook)) { // Facebook校验
+        this.$notify.error({
+          title: 'error',
+          message: 'Incomplete Facebook information!'
+        })
+        return false
+      }
+      if (this.UserInformation.Twitter !== '' && !this.ToolClass.CheckUrl(this.UserInformation.Twitter)) { // Twitter校验
+        this.$notify.error({
+          title: 'error',
+          message: 'Incomplete Twitter information!'
+        })
+        return false
+      }
+      return true
+    },
+    FormFormatConversion () { // form格式转换
+      if (this.Birthday.Year !== '' && this.Birthday.Year !== 'Keep secret') { // 生日选项不为空时
+        this.UserInformation.Birthday = new Date(this.Birthday.Year, this.Birthday.Month - 1, this.Birthday.Day - 0).getTime()
+      }
+    },
+    SubmitData () { // 提交数据
+      if (!this.FormCheck()) {
+        return false
+      }
+      this.FormFormatConversion()
+      if (this.DataUnLock) {
+        this.DataUnLock = false
+        let aData = {
+          id: this.UserInfo.id,
+          picPath: this.UserInformation.UserIcon,
+          name: this.UserInformation.NickName,
+          userType: this.UserInformation.UserTypes,
+          realName: this.UserInformation.Name,
+          sex: this.UserInformation.Gender - 0 || 0,
+          birthday: this.UserInformation.Birthday,
+          country: this.UserInformation.Country === 'Keep secret' ? '' : this.UserInformation.Country,
+          state: this.UserInformation.Province,
+          city: this.UserInformation.City,
+          emotion: this.UserInformation.Emotion - 0 || 4,
+          domain: this.UserInformation.HomePage,
+          facebook: this.UserInformation.Facebook,
+          twitter: this.UserInformation.Twitter,
+          love: this.UserInformation.Love,
+          interest: this.UserInformation.Interests.join(','),
+          description: this.UserInformation.Synopsis,
+          profession: this.UserInformation.Professional,
+          company: this.UserInformation.Company,
+          school: this.UserInformation.School
+        }
+        this.UpdateUserInfo({ ...aData }).then((res) => {
+          this.GetUserInfoByToken({ params: { token: this.$localStorage.get('heypornid') } })
+          this.$notify.success({
+            title: 'Save',
+            message: 'Successful preservation!'
+          })
+          this.DataUnLock = true
+        }).catch(() => {
+          this.DataUnLock = true
+        })
+      }
+    },
+    AreaChange (type) { // 选择地区
+      if (type - 0 === 1) { // 选择一级地区
+        this.UserInformation.Province = ''
+        this.UserInformation.City = ''
+        this.GetAreaList({ type: 2, code: this.UserInformation.Country })
+      } else if (type - 0 === 2) { // 选择二级地区
+        this.UserInformation.City = ''
+        this.GetAreaList({ type: 3, code: this.UserInformation.Province })
+      }
+    },
+    EditNickName () { // 修改昵称
+      if (this.DataUnLock) {
+        this.DataUnLock = false
+        this.UpdateUserInfo({ id: this.UserInfo.id, name: this.UserInformation.NickName }).then((res) => {
+          this.GetUserInfoByToken({ params: { token: this.$localStorage.get('heypornid') } })
+          this.$notify.success({
+            title: 'Save',
+            message: 'Successful preservation!'
+          })
+          this.DataUnLock = true
+          this.ShowEditNickName = false
+        }).catch(() => {
+          this.DataUnLock = true
+        })
+      }
+    },
+    UserInfoTransform (target) { // 用户信息初始化
+      this.UserInformation = {
+        UserIcon: target.picPath || '', // 头像
+        NickName: target.name || '', // 昵称
+        UserTypes: target.userType || '', // 用户类型
+        Name: target.realName || '', // 用户名
+        Gender: `${target.sex}` || '', // 性别
+        Birthday: target.birthday || '', // 生日
+        Country: target.country || '', // 国家
+        Province: target.state || '', // 省份
+        City: target.city || '', // 城市
+        Emotion: `${target.emotion}`, // 情感状态
+        HomePage: target.domain || '', // 主页地址
+        Facebook: target.facebook || '', // Facebook地址
+        Twitter: target.twitter || '', // 推特地址
+        Love: target.love || '', // 个人爱好
+        Interests: target.interest !== null ? target.interest.split(',') || [] : [], // 兴趣
+        Synopsis: target.description || '', // 介绍
+        Professional: target.profession || '', // 职业
+        Company: target.company || '', // 公司
+        School: target.school || '' // 学校
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+.el-input__inner {
+  height: 34px !important;
+  line-height: 34px !important;
+}
+@import 'page.scss';
+</style>

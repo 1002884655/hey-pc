@@ -1,0 +1,238 @@
+<template>
+  <div id="app">
+
+    <!-- 页面主题框架 -->
+    <MainPage ref="MainPage" :ActiveIndex="null" :MenuActiveIndex="[null, null]" @GetUserInfoChange="GetUserInfoChange" :SearchJump="false" @MainSearch="MainSearch">
+      <!-- 一级分类nav -->
+      <div class="ClassNavLevel1">
+        <nav>
+          <a v-for="(item, index) in NavLevel1List" :key="index" :class="{'active': NavLevel1ActiveIndex === index}">{{item.value}}</a>
+        </nav>
+      </div>
+
+      <div class="Container">
+
+        <!-- 搜索过滤器 -->
+        <SearchFilter v-if="ShowFilter" :UnLock="DataUnLock" @Change="FilterChange" :FilterOptions="FilterOptions"></SearchFilter>
+
+        <!-- 搜索内容 -->
+        <div class="SearchContainer flex-h">
+          <div class="flex-item">
+
+            <!-- 搜索视频列表 -->
+            <ul>
+              <li v-for="(item, index) in SearchVideoList" :key="index" :class="{'none': (index + 1) % 4 === 1}">
+                <a class="Img" :href="`./media.html?pid=${item.id}`">
+                  <img :src="item.frontPath" class="centerLabel cover" alt="">
+                  <div class="Layer">
+                    <a class="iconfont iconbofang centerLabel"></a>
+                  </div>
+                </a>
+                <a class="Name">{{item.title}}</a>
+                <div class="flex-h">
+                  <span class="flex-item">{{item.playNum}} views</span>
+                  <span class="red">{{item.score}}</span>
+                </div>
+                <div class="flex-h">
+                  <span class="flex-item"><a class="white">{{item.upName}}</a></span>
+                  <span>{{item.upTime}}</span>
+                </div>
+              </li>
+            </ul>
+            <div class="PageStatus">
+              <a v-if="HasNextPage && DataUnLock" @click="GetPageList">
+                <i class="iconfont iconjiantoudown"></i>
+                <span>Show More</span>
+              </a>
+              <span v-if="HasNextPage && !DataUnLock">Searching...</span>
+              <span v-if="!HasNextPage && DataUnLock">{{SearchVideoList.length ? 'Load All' : 'No Data'}}</span>
+            </div>
+          </div>
+
+          <!-- 搜索用户&排行 -->
+          <div class="Right">
+
+            <!-- 用户 -->
+            <div class="Title flex-h">
+              <span class="flex-item">Related users</span>
+            </div>
+            <ul class="UserList">
+              <li class="flex-h" v-for="(item, index) in 6" :key="index">
+                <div class="Icon">
+                  <a>
+                    <img src="" class="centerLabel cover" alt="">
+                  </a>
+                </div>
+                <div class="flex-item">
+                  <div>
+                    <a>User Name</a>
+                    <span>This is a description of the uploader</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <!-- 搜索排行 -->
+            <div class="Title flex-h">
+              <span class="flex-item">Pop Search</span>
+              <a>more</a>
+            </div>
+            <ul class="PopSearch">
+              <li class="flex-h" v-for="(item, index) in VideoRankingList" :key="index">
+                <span>{{index + 1}}</span>
+                <div class="flex-item">
+                  <a @click="$refs.MainPage.SearchKeyChange(item.name); MainSearch(item.name)">{{item.name}}</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </MainPage>
+  </div>
+</template>
+
+<script>
+import MainPage from '../../components/MainPage'
+import SearchFilter from '../../components/SearchFilter'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState } = createNamespacedHelpers('user')
+const { mapState: mapSearchState, mapActions: mapSearchActions, mapMutations: mapSearchMutations } = createNamespacedHelpers('search')
+
+export default {
+  components: {
+    MainPage,
+    SearchFilter
+  },
+  data () {
+    return {
+      FilterOptions: { // 默认筛选参数
+        type: this.ToolClass.GetUrlParams('type') || null,
+        tag: this.ToolClass.GetUrlParams('tag') || null
+      },
+      NavLevel1ActiveIndex: 1, // 一级分类nav索引
+      NavLevel1List: [ // 一级分类nav
+        { value: 'Recommend', id: '' },
+        { value: 'Video', id: '' },
+        { value: 'Picture', id: '' },
+        { value: 'Stars', id: '' }
+        // { value: 'Weibo', id: '' },
+        // { value: 'Users', id: '' },
+        // { value: 'Goods', id: '' },
+        // { value: 'Subscribe', id: '' },
+        // { value: 'Live', id: '' }
+      ],
+      NavLevel2ActiveIndex: 0, // 二级分类nav索引
+      NavLevel2List: [], // 二级分类nav
+      SearchFilterList: [], // 三级分类过滤器数据
+      ShowMoreFilter: true, // 显隐三级分类
+      ShowFilter: false, // 显隐过滤器
+      SearchParams: { // 搜索过滤数据
+        endTime: null,
+        keyword: '',
+        startTime: null,
+        types: ''
+      },
+      PageData: { // 请求数据分页
+        pageNum: 1,
+        pageSize: 20,
+        orderBy: null
+      },
+      HasNextPage: true, // 是否有下一页
+      DataUnLock: true, // 数据请求锁定
+      TypeIdList: [] // 三级分类id选择记录
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo // 用户信息
+    }),
+    ...mapSearchState({
+      SearchVideoList: x => x.SearchVideoList, // 搜索视频列表
+      VideoRankingList: x => x.VideoRankingList // 视频搜索排名列表
+    })
+  },
+  created () {
+    this.GetVideoRankingList({ // 获取视频搜索排名
+      params: { pageNum: 1, pageSize: 5 }
+    })
+  },
+  methods: {
+    ...mapSearchActions([
+      'GetSearchVideoList',
+      'GetVideoRankingList'
+    ]),
+    ...mapSearchMutations([
+      'EmptySearchVideoList'
+    ]),
+    ResetVideoList () { // 重置列表
+      this.HasNextPage = true
+      this.EmptySearchVideoList()
+      this.PageData.pageNum = 1
+      this.GetPageList()
+    },
+    FilterChange (e) { // 过滤器更新
+      this.PageData.orderBy = e.OrderBy || 1
+      this.SearchParams = { ...e.SearchParams, userId: this.UserInfo !== null ? this.UserInfo.id : null, keyword: this.SearchParams.keyword }
+      if (this.DataUnLock) {
+        this.DataUnLock = false
+        this.ResetVideoList()
+      }
+    },
+    MainSearch (e) { // 页面搜索
+      window.location.href = `./search.html?search=${e}`
+      // window.history.replaceState({}, '', `?search=${e}`) // 同步url搜索参数
+      // this.GetUserInfoChange(e)
+      // if (this.DataUnLock) {
+      //   this.DataUnLock = false
+      //   this.ResetVideoList()
+      // }
+    },
+    GetUserInfoChange (e) { // 登陆初始化完毕回调
+      this.SearchParams.keyword = e
+      let KeyWord = decodeURI(this.ToolClass.GetUrlParams('search'))
+      if (KeyWord === 'false') {
+        KeyWord = ''
+      }
+      if (this.DataUnLock) {
+        // this.DataUnLock = false
+        this.ShowFilter = true
+        this.SearchParams.keyword = KeyWord
+        // this.ResetVideoList()
+      }
+    },
+    GetPageList () { // 获取搜索视频
+      if (this.HasNextPage) {
+        let LabelId = decodeURI(this.ToolClass.GetUrlParams('tag'))
+        let LabelTarget = {}
+        if (LabelId !== 'false') {
+          LabelTarget = {
+            labelId: LabelId
+          }
+        }
+        this.GetSearchVideoList({
+          params: { ...this.PageData },
+          data: { ...this.SearchParams, userId: this.UserInfo !== null ? this.UserInfo.id : null, ...LabelTarget }
+        }).then((res) => {
+          if (!res.data.data) {
+            this.HasNextPage = false
+          }
+          if (res.data.code - 0 === 0) {
+            this.HasNextPage = res.data.data.hasNextPage
+            if (this.HasNextPage) {
+              this.PageData.pageNum += 1
+            }
+          }
+          this.DataUnLock = true
+        }).catch(() => {
+          this.DataUnLock = true
+        })
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

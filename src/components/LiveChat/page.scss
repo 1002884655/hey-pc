@@ -1,0 +1,294 @@
+.components.LiveChat {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: visible;
+  > span {
+    display: block;
+    font-size: 16px;
+    line-height: 40px;
+    background: #222;
+    text-indent: 20px;
+  }
+  > .flex-item {
+    position: relative;
+    overflow: hidden;
+    background: #111;
+    z-index: 1;
+    > .TopGift {
+      position: relative;
+      overflow: hidden;
+      > div {
+        display: inline-block;
+        padding: 2px;
+        background: #ff7e7e;
+        border-radius: 44px;
+        position: relative;
+        overflow: hidden;
+        font-size: 0;
+        white-space: nowrap;
+        margin-top: 10px;
+        margin-left: 5px;
+        > * {
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: 10px;
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+        > a {
+          width: 40px;
+          height: 40px;
+          border-radius: 100%;
+          position: relative;
+          overflow: hidden;
+          background: #d8d8d8;
+        }
+        > div {
+          width: 40px;
+          height: 40px;
+          position: relative;
+          overflow: hidden;
+        }
+        > span {
+          font-size: 16px;
+          color: #fff;
+          line-height: 40px;
+          margin-right: 10px;
+        }
+      }
+    }
+    > .flex-item {
+      position: relative;
+      overflow: hidden;
+      border-left: 1px solid #222;
+      border-right: 1px solid #222;
+      > div {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        .ChatList {
+          padding: 0 10px;
+          > div {
+            position: relative;
+            overflow: hidden;
+            .ChatTips {
+              font-size: 14px;
+              color: #fff;
+              line-height: 20px;
+              display: block;
+              padding: 0 10px;
+              margin-top: 5px;
+              > a {
+                color: #fff;
+                font-size: 14px;
+                line-height: 20px;
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+              > em {
+                color: #0097c2;
+                font-size: 14px;
+                line-height: 20px;
+              }
+            }
+            > .flex-h {
+              padding: 0 10px;
+              margin-top: 5px;
+              &.active {
+                background: #0097c2;
+                border-radius: 8px;
+                padding-top: 5px;
+                > .flex-item {
+                  > span {
+                    > a {
+                      color: #fff;
+                    }
+                  }
+                }
+              }
+              > .UserIcon {
+                width: 30px;
+                position: relative;
+                overflow: hidden;
+                margin-right: 10px;
+                min-height: 30px;
+                > a {
+                  width: 100%;
+                  display: block;
+                  padding-bottom: 100%;
+                  position: relative;
+                  overflow: hidden;
+                  border-radius: 100%;
+                  background: #d8d8d8;
+                  border-radius: 100%;
+                }
+              }
+              > .flex-item {
+                > span {
+                  display: block;
+                  font-size: 14px;
+                  color: #fff;
+                  line-height: 20px;
+                  word-break: break-all;
+                  padding-top: 3px;
+                  > a {
+                    font-size: 14px;
+                    color: #999;
+                    line-height: 20px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    &:hover {
+                      text-decoration: underline;
+                    }
+                  }
+                }
+              }
+              > .Img {
+                width: 40px;
+                height: 40px;
+                position: relative;
+                overflow: hidden;
+              }
+              > span {
+                font-size: 16px;
+                color: #fff;
+                line-height: 40px;
+                margin-left: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  > .SendContainer {
+    align-items: flex-start;
+    padding-top: 10px;
+    position: relative;
+    overflow: visible;
+    z-index: 2;
+    background: #222;
+    > a {
+      width: 30px;
+      height: 30px;
+      display: block;
+      position: relative;
+      overflow: hidden;
+      background: #d8d8d8;
+      border-radius: 100%;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+    > div {
+      position: relative;
+      overflow: visible;
+      margin-right: 10px;
+      > span {
+        display: block;
+        font-size: 16px;
+        line-height: 20px;
+      }
+      > textarea {
+        border: none;
+        border-bottom: 1px solid #979797;
+        font-size: 16px;
+        background: none;
+        line-height: 20px;
+        padding: 5px 0;
+        width: 100%;
+        margin-top: 5px;
+      }
+      > div {
+        padding-bottom: 10px;
+        align-items: center;
+        position: relative;
+        overflow: visible;
+        &.Input {
+          margin-top: 5px;
+        }
+        > span {
+          color: #666;
+          margin-right: 10px;
+        }
+        > a {
+          font-size: 20px;
+          color: #999;
+          user-select: none;
+          line-height: 30px;
+          position: relative;
+          overflow: visible;
+          &.SendBtn {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            > i {
+              font-size: 20px;
+              z-index: 2;
+              color: #999;
+            }
+            &:active {
+              &::after {
+                content: "";
+                z-index: 1;
+                width: 0;
+                height: 0;
+                background: #333;
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                border-radius: 100%;
+                transform: translate(-50%, -50%);
+                -webkit-transform: translate(-50%, -50%);
+                animation: SendAnimation 0.1s;
+                -webkit-animation: SendAnimation 0.1s;
+              }
+            }
+          }
+          // &:hover {
+          //   > .EmojiBoxer {
+          //     display: block;
+          //   }
+          // }
+          // > .EmojiBoxer {
+          //   position: absolute;
+          //   top: 26px;
+          //   right: 0;
+          //   display: none;
+          //   &:hover {
+          //     display: block;
+          //   }
+          // }
+        }
+      }
+    }
+  }
+}
+@keyframes SendAnimation {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@-webkit-keyframes SendAnimation {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: 100%;
+    height: 100%;
+  }
+}

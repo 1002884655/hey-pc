@@ -1,0 +1,98 @@
+<template>
+  <div class="components" v-if="MediaInfo !== null">
+    <!-- 标题 -->
+    <div class="Title flex-h">
+      <span>{{MediaInfo.video.title}}</span>
+      <div class="flex-item"></div>
+    </div>
+
+    <!-- 更多信息 -->
+    <div class="MoreInfo">
+      <div class="flex-h">
+        <a :class="{'active': ShowMoreInfo}" @click="ShowMoreInfo = !ShowMoreInfo">
+          <span>Introduction</span>
+          <i class="iconfont" :class="[ShowMoreInfo ? 'iconjiantouup' : 'iconjiantoudown']"></i>
+        </a>
+      </div>
+      <!-- 可隐藏信息 -->
+      <div class="HideInfo" :class="{'active': ShowMoreInfo}">
+        <ul>
+          <li class="flex-h">
+            <span>Categories:</span>
+            <div class="flex-item">
+              <div>
+                <a v-for="(item, index) in (MediaInfo.serviceTypeList || [])" :key="index" :href="`./search.html?type=${item.serviceTypeId}`">{{item.name}}</a>
+              </div>
+            </div>
+          </li>
+          <li class="flex-h">
+            <span>Tag:</span>
+            <div class="flex-item">
+              <div>
+                <a v-for="(item, index) in  (MediaInfo.labelList || [])" :key="index" :href="`./search.html?tag=${item.labelId}`">{{item.name}}</a>
+              </div>
+            </div>
+          </li>
+          <li class="flex-h">
+            <span>Introduction:</span>
+            <div class="flex-item">
+              <div>
+                <span>{{MediaInfo.video.description}}</span>
+              </div>
+            </div>
+          </li>
+          <li class="flex-h">
+            <span>Release year:</span>
+            <div class="flex-item">
+              <div>
+                <span>{{new Date(MediaInfo.video.upTime).getFullYear()}}</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState } = createNamespacedHelpers('user')
+const { mapState: mapMediaState } = createNamespacedHelpers('media')
+
+export default {
+  name: 'PlayerMediaInfo',
+  props: ['data'],
+  data () {
+    return {
+      ShowMoreInfo: true
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo // 用户信息
+    }),
+    ...mapMediaState({
+      MediaInfo: x => x.MediaInfo // 视频信息
+    })
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Init () { // 初始化
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

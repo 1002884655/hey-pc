@@ -1,0 +1,124 @@
+<template>
+  <div class="components CommunityLeft">
+    <!-- 头像 -->
+    <div class="UserIcon">
+      <a>
+        <img :src="[CurrentUserInfo !== null ? CurrentUserInfo.picPath3 : null]" class="centerLabel cover" alt="">
+      </a>
+    </div>
+
+    <!-- 用户名 -->
+    <div class="UserName" v-if="CurrentUserInfo !== null">
+      <span>{{CurrentUserInfo.name}}</span>
+      <i v-if="CurrentUserInfo.sex - 0 === 1" class="iconfont iconnan"></i>
+      <i v-if="CurrentUserInfo.sex - 0 === 2" class="iconfont iconnv"></i>
+    </div>
+
+    <!-- 社交数据 -->
+    <div class="SocialData flex-h">
+      <div class="flex-item">
+        <span>2</span>
+        <span>Modelhub Rank</span>
+      </div>
+      <div class="flex-item">
+        <span>222</span>
+        <span>Subscribers</span>
+      </div>
+    </div>
+
+    <!-- 订阅 -->
+    <div class="Subscribers flex-h" v-if="!IsMySelf">
+      <a class="flex-item">Send a tip</a>
+      <a class="flex-item">Subscribers</a>
+    </div>
+
+    <!-- 介绍 -->
+    <div class="Describe">
+      <span>In a sense, the writing of a personal profile is no less than an interview. Through a short introdu of hundreds of words, not only must we fully demo the talents and comprehensive qualities of gras, but also make the employers feelbirthday birthday birthday.</span>
+    </div>
+
+    <!-- 更多账号信息 -->
+    <ul class="MoreAccountInfo">
+      <li class="flex-h">
+        <i class="iconfont iconnianling"></i>
+        <span class="flex-item">Age</span>
+      </li>
+      <li class="flex-h">
+        <i class="iconfont iconnianling-"></i>
+        <span class="flex-item">Birthday</span>
+      </li>
+      <li class="flex-h">
+        <i class="iconfont icondizhi"></i>
+        <span class="flex-item">Address</span>
+      </li>
+      <li class="flex-h">
+        <i class="iconfont icontuite"></i>
+        <span class="flex-item">Twitter</span>
+      </li>
+      <li class="flex-h">
+        <i class="iconfont icontian_facebook"></i>
+        <span class="flex-item">Facebook</span>
+      </li>
+      <li class="flex-h">
+        <i class="iconfont iconzuzhi"></i>
+        <span class="flex-item">Film dealer name</span>
+      </li>
+    </ul>
+
+    <!-- 视频 -->
+    <div class="MediaList">
+      <span>Media (100)</span>
+      <ul>
+        <li v-for="(item, index) in 15" :key="index">
+          <a>
+            <img src="" class="centerLabel cover" alt="">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState } = createNamespacedHelpers('user')
+
+export default {
+  name: 'CommunityLeft',
+  props: ['data'],
+  data () {
+    return {
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo, // 用户信息
+      OtherUserInfo: x => x.OtherUserInfo // 其他用户信息
+    }),
+    CurrentUserInfo () { // 当前显示用户信息
+      return this.ToolClass.GetUrlParams('heyid') ? this.OtherUserInfo : this.UserInfo
+    },
+    IsMySelf () { // 是否显示自己信息
+      return !((this.CurrentUserInfo !== null && this.UserInfo !== null && this.CurrentUserInfo.id !== this.UserInfo.id) || (this.CurrentUserInfo !== null && this.UserInfo === null))
+    }
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Init () { // 初始化
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

@@ -1,0 +1,112 @@
+<template>
+  <div id="app">
+    <HeyPornPlayer v-if="MediaSrcList.length && CapacityActiveIndex !== null" :CurrentTimeTamp="ToolClass.GetUrlParams('time') || null" :activeIndex="CapacityActiveIndex" :srcList="MediaSrcList" :FrontPath="MediaInfo.video.videoPath" :IsIframe="true"></HeyPornPlayer>
+
+    <!-- 网速测试 -->
+    <NetworkSpeedTest @load="NetworkSpeed"></NetworkSpeedTest>
+  </div>
+</template>
+
+<script>
+import HeyPornPlayer from '../../components/HeyPornPlayer'
+import NetworkSpeedTest from '../../components/NetworkSpeedTest'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapMediaState, mapActions: mapMediaActions } = createNamespacedHelpers('media')
+
+export default {
+  components: {
+    HeyPornPlayer,
+    NetworkSpeedTest
+  },
+  data () {
+    return {
+      MediaSrcList: [], // 视频链接数据
+      CapacityActiveIndex: null, // 适配清晰度索引值
+      CurrentCapacity: null, // 当前适配清晰度
+      IsFullWindow: false, // 全窗口模式状态
+      CurrentNetSpeed: null // 当前网速（粗略值）
+    }
+  },
+  created () {
+    this.GetMediaInfoById({
+      id: this.ToolClass.GetUrlParams('pid'),
+      params: { accountId: null }
+    }).then(() => {
+      let Arr = []
+      for (let n in JSON.parse(this.MediaInfo.video.capacity)) {
+        if (JSON.parse(this.MediaInfo.video.capacity)[n] - 0) {
+          Arr.push({
+            src: `${this.MediaInfo.video.videoPath}${n}/index.m3u8`,
+            id: n,
+            value: n - 0 === 1 ? '360P' : n - 0 === 2 ? '576P' : n - 0 === 4 ? '720P' : n - 0 === 8 ? '1080P' : n - 0 === 16 ? '4K' : '-P'
+          })
+        }
+      }
+      if (this.CurrentNetSpeed !== null) { // 清晰度适配
+        this.CurrentCapacity = this.MatchingCapacity(JSON.parse(this.MediaInfo.video.capacity), this.CurrentNetSpeed)
+        if (this.CapacityActiveIndex === null) {
+          Arr.map((item, index) => { // 默认清晰度索引
+            if (item.id - 0 === this.CurrentCapacity - 0) {
+              this.CapacityActiveIndex = index
+            }
+          })
+        }
+      }
+      // if (this.CapacityActiveIndex === null) {
+      //   this.CapacityActiveIndex = 0
+      // }
+      this.MediaSrcList = Arr
+    })
+  },
+  computed: {
+    ...mapMediaState({
+      MediaInfo: x => x.MediaInfo // 视频信息
+    })
+  },
+  methods: {
+    ...mapMediaActions([
+      'GetMediaInfoById'
+    ]),
+    MatchingCapacity (target, speed) { // 匹配清晰度
+      let CurrentCapacity = 4 // 默认 720p
+      if (speed <= 70) { // 360p
+        CurrentCapacity = 1
+      } else if (speed > 70 && speed <= 179) { // 576p
+        CurrentCapacity = 2
+      } else if (speed > 179 && speed <= 280) { // 720p
+        CurrentCapacity = 4
+      } else if (speed > 280) { // 1080p
+        CurrentCapacity = 8
+      }
+      if (target[`${CurrentCapacity}`] - 0 === 0) { // 匹配清晰度无资源，取最小清晰度
+        for (let n in target) {
+          if (target[n] - 0 !== 0) {
+            return n - 0
+          }
+        }
+      }
+      return CurrentCapacity
+    },
+    NetworkSpeed (e) { // 网速测试结束回调
+      this.CurrentNetSpeed = e
+      if (this.MediaInfo !== null && this.CurrentCapacity === null) {
+        this.CurrentCapacity = this.MatchingCapacity(JSON.parse(this.MediaInfo.video.capacity), this.CurrentNetSpeed)
+        if (this.MediaSrcList.length && this.CapacityActiveIndex === null) {
+          this.MediaSrcList.map((item, index) => { // 默认清晰度索引
+            if (item.id - 0 === this.CurrentCapacity - 0) {
+              this.CapacityActiveIndex = index
+            }
+          })
+          if (this.CapacityActiveIndex === null) {
+            this.CapacityActiveIndex = 0
+          }
+        }
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

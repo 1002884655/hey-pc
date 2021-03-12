@@ -1,0 +1,84 @@
+<template>
+  <div class="components MainPage">
+    <!-- 顶部nav -->
+    <MainNav v-if="GetUserInfoEnd" ref="MainNav" @LoginEnd="$emit('LoginEnd')" :ActiveIndex="ActiveIndex" :MenuActiveIndex="MenuActiveIndex" :SearchJump="SearchJump" @MainSearch="MainSearch" :TopFade="TopFade || false" @Logout="$emit('Logout')"></MainNav>
+
+    <!-- 页面主体 -->
+    <div class="SlotContent">
+      <slot></slot>
+    </div>
+
+    <!-- footer -->
+    <MainFooter></MainFooter>
+  </div>
+</template>
+
+<script>
+import MainNav from '../../components/MainNav'
+import MainFooter from '../../components/MainFooter'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+
+export default {
+  name: 'MainPage',
+  props: ['ActiveIndex', 'MenuActiveIndex', 'SearchJump', 'TopFade'],
+  data () {
+    return {
+      GetUserInfoEnd: false // 是否执行完获取用户信息逻辑
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo // 用户信息
+    })
+  },
+  components: {
+    MainNav,
+    MainFooter
+  },
+  created () {
+    this.UserInfoInit()
+  },
+  mounted () {
+    this.$nextTick(() => {
+    })
+  },
+  methods: {
+    ...mapUserActions(['GetUserInfoByToken']),
+    ToLogin () {
+      this.$refs.MainNav.LoginType = 1
+      this.$refs.MainNav.ShowLogin = true
+    },
+    MainSearch (e) {
+      this.$emit('MainSearch', e)
+    },
+    SearchKeyChange (key) {
+      this.$refs.MainNav.SearchKey = key
+    },
+    UserInfoInit () { // 用户登录初始化逻辑
+      if (this.$localStorage.get('heypornid') !== null) { // 检测本地localStorage是否存有用户token信息（heypornid）
+        this.GetUserInfoByToken({ // 根据token获取用户信息
+          params: { token: this.$localStorage.get('heypornid') }
+        }).then(() => {
+          if (this.UserInfo === null) { // 用户信息获取失败
+            this.$localStorage.remove('heypornid') // 移除token
+          }
+          this.GetUserInfoEnd = true
+          this.$emit('GetUserInfoChange')
+        }).catch(() => { // 获取用户信息报错
+          this.GetUserInfoEnd = true
+          this.$emit('GetUserInfoChange')
+        })
+      } else { // 无token
+        this.GetUserInfoEnd = true
+        this.$emit('GetUserInfoChange')
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

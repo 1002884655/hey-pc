@@ -1,0 +1,179 @@
+.components.SaveToFavorites {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  > div {
+    width: 400px;
+    padding: 20px;
+    background: #222;
+    > .Title {
+      align-items: center;
+      > span {
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 20px;
+        margin-right: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #999;
+      }
+      > a {
+        font-size: 16px;
+        color: #999;
+        user-select: none;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+    > .Content {
+      margin-top: 10px;
+      position: relative;
+      .List {
+        > li {
+          align-items: center;
+          user-select: none;
+          padding: 10px 0;
+          &:hover {
+            cursor: pointer;
+            background: #333;
+          }
+          &.active {
+            > i {
+              color: #e2041b;
+              &:nth-child(1) {
+                display: none;
+              }
+              &:nth-child(2) {
+                display: inline-block;
+              }
+            }
+          }
+          > i {
+            font-size: 16px;
+            color: #999;
+            margin-left: 5px;
+            &:nth-child(2) {
+              display: none;
+            }
+          }
+          > span {
+            font-size: 16px;
+            color: #999;
+            line-height: 20px;
+            margin-left: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          > * {
+            &:last-child {
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+    > .Bottom {
+      margin-top: 10px;
+      > a.Add {
+        box-sizing: border-box;
+        width: 100%;
+        border: 1px solid #333;
+        font-size: 0;
+        white-space: nowrap;
+        border-radius: 3px;
+        padding: 10px 0;
+        display: block;
+        user-select: none;
+        &:hover {
+          background: #e2041b;
+          border-color: #e2041b;
+          > * {
+            color: #fff;
+          }
+        }
+        > * {
+          display: inline-block;
+          vertical-align: middle;
+          color: #999;
+          margin-left: 10px;
+          font-weight: bold;
+          line-height: 20px;
+        }
+        > i {
+          font-size: 20px;
+        }
+        > span {
+          font-size: 16px;
+        }
+      }
+    }
+    > .Form {
+      padding-top: 30px;
+      > span {
+        display: block;
+        font-size: 14px;
+        line-height: 20px;
+        color: #999;
+        > em {
+          color: #999;
+          margin-left: 5px;
+        }
+      }
+      > div.flex-h {
+        box-sizing: border-box;
+        border: 2px solid #333;
+        padding: 10px 0;
+        border-radius: 3px;
+        margin-top: 10px;
+        align-items: center;
+        > input {
+          display: block;
+          font-size: 14px;
+          line-height: 20px;
+          text-indent: 10px;
+          background: none;
+        }
+        > span {
+          font-size: 14px;
+          margin: 0 10px;
+          color: #999;
+        }
+      }
+      > .FormBottom {
+        text-align: right;
+        margin-top: 30px;
+        > a {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 16px;
+          color: #999;
+          line-height: 30px;
+          font-weight: bold;
+          margin-right: 20px;
+          user-select: none;
+          padding: 0 15px;
+          background: #333;
+          border-radius: 3px;
+          &:hover {
+            color: #fff;
+            background: #666;
+          }
+          &:last-child {
+            margin-right: 0;
+            &:hover {
+              color: #fff;
+              background: #e2041b;
+            }
+          }
+        }
+      }
+    }
+  }
+}

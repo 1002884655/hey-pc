@@ -1,0 +1,168 @@
+<template>
+  <div class="components MyCollection">
+    <nav class="NavList" ref="NavList">
+      <a v-for="(item, index) in CollectionNavList" :key="index" ref="NavItem" :class="{'active': ActiveIndex === index}" @click="CutNav(index)">{{item.Name}}</a>
+      <span v-if="ActiveAnimateArr.length" :style="{width: `${ActiveAnimateArr[ActiveIndex].Width}px`, left: `${ActiveAnimateArr[ActiveIndex].Left}px`}"></span>
+    </nav>
+    <ul class="CutList">
+      <li v-for="(item, index) in CollectionNavList" :key="index" :class="{'active': ActiveIndex === index}">
+
+        <!-- Positive -->
+        <div v-if="index === 0">
+          <ul>
+            <li v-for="(item, index) in CollectionList.Positive" :key="index">
+              <a class="Img">
+                <img :src="item.Img" class="centerLabel cover" alt="">
+                <div class="Layer">
+                  <i class="iconfont iconbofang centerLabel Play" @click="ToPlay(item.VideoId, item.VideoChildId)"></i>
+                  <i class="iconfont iconqingkong Delete" @click="DeleteItem(item.Id, index)"></i>
+                </div>
+              </a>
+              <a class="Name">{{item.Name}}</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Trailer -->
+        <div v-if="index === 1"></div>
+
+        <!-- User -->
+        <div v-if="index === 2"></div>
+
+        <!-- Channel -->
+        <div v-if="index === 3"></div>
+
+        <!-- Moving -->
+        <div v-if="index === 4"></div>
+
+        <!-- <span class="NoData">You don’t have collection <a>View video</a></span> -->
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
+
+export default {
+  name: 'MyCollection',
+  props: ['data'],
+  data () {
+    return {
+      UnLock: true,
+      ActiveIndex: 0,
+      ActiveAnimateArr: [],
+      CollectionNavList: [ // 收藏记录
+        {
+          Id: '1',
+          Name: 'Positive',
+          PageNum: 1,
+          HasNextPage: true
+        }, {
+          Id: '2',
+          Name: 'Trailer',
+          PageNum: 1,
+          HasNextPage: true
+        }, {
+          Id: '3',
+          Name: 'User',
+          PageNum: 1,
+          HasNextPage: true
+        }, {
+          Id: '4',
+          Name: 'Channel',
+          PageNum: 1,
+          HasNextPage: true
+        }, {
+          Id: '5',
+          Name: 'Moving',
+          PageNum: 1,
+          HasNextPage: true
+        }
+      ]
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo,
+      CollectionList: x => x.CollectionList
+    })
+  },
+  components: {
+  },
+  created () {
+    this.ClearUserCollectionList(this.CollectionNavList[this.ActiveIndex].Id)
+    this.GetList()
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    ...mapUserActions(['GetUserCollectionList', 'DeleteCollection']),
+    ...mapUserMutations(['ClearUserCollectionList']),
+    DeleteItem (id, index) { // 删除收藏
+      if (this.UnLock) {
+        this.UnLock = false
+        this.DeleteCollection({
+          params: { ids: id },
+          data: { Type: this.CollectionNavList[this.ActiveIndex].Id, Index: index }
+        }).then(() => {
+          this.UnLock = true
+        }).catch(() => {
+          this.UnLock = true
+        })
+      }
+    },
+    GetList () { // 获取列表
+      if (this.UnLock && this.CollectionNavList[this.ActiveIndex].HasNextPage) {
+        this.UnLock = false
+        this.GetUserCollectionList({
+          pageNum: this.CollectionNavList[this.ActiveIndex].PageNum,
+          pageSize: 10,
+          accountId: this.UserInfo.id,
+          collectType: this.CollectionNavList[this.ActiveIndex].Id
+        }).then((res) => {
+          this.UnLock = true
+          this.CollectionNavList[this.ActiveIndex].PageNum += 1
+          this.CollectionNavList[this.ActiveIndex].HasNextPage = res.data.data.hasNextPage
+        }).catch(() => {
+          this.UnLock = true
+        })
+      }
+    },
+    Init () { // 初始化
+      let CollectionList = this.$refs.NavItem
+      let ParentLeft = this.$refs.NavList.getBoundingClientRect().left
+      window.setTimeout(() => {
+        CollectionList.map((item) => {
+          this.ActiveAnimateArr.push({
+            Left: item.getBoundingClientRect().left - ParentLeft,
+            Width: item.getBoundingClientRect().width
+          })
+        })
+      }, 100)
+    },
+    CutNav (index) { // 切换nav
+      if (this.UnLock) {
+        this.ActiveIndex = index
+        this.ClearUserCollectionList(this.CollectionNavList[this.ActiveIndex].Id)
+        this.CollectionNavList[this.ActiveIndex].PageNum = 1
+        this.CollectionNavList[this.ActiveIndex].HasNextPage = true
+        this.GetList()
+      }
+    },
+    ToPlay (id, cId) { // 去播放
+      let Url = cId ? `./media.html?pid=${id}&cid=${cId}` : `./media.html?pid=${id}`
+      window.open(Url)
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

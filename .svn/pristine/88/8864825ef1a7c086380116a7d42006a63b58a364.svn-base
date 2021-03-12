@@ -1,0 +1,67 @@
+<template>
+  <div class="components">
+    <!-- 标题 -->
+    <div class="Title flex-h">
+      <span class="flex-item">{{name}}</span>
+      <a v-if="more">More</a>
+    </div>
+
+    <!-- 列表 -->
+    <ul class="List">
+      <li v-for="(item, index) in list" :key="index" :class="{'none': (index + 1) % 4 === 1}">
+        <a class="Img" :href="`./media.html?pid=${item.videoId}`">
+          <img :src="item.frontPath" class="centerLabel cover" alt="">
+          <i class="iconfont iconbofang centerLabel"></i>
+        </a>
+        <div class="flex-h">
+          <div class="flex-item">
+            <div>
+              <a :href="`./media.html?pid=${item.videoId}`">{{item.title}}</a>
+            </div>
+          </div>
+          <span class="Score">{{item.score}}</span>
+        </div>
+        <div class="flex-h">
+          <div class="flex-item">
+            <div>
+              <span>{{item.description || 'No introduction'}}</span>
+            </div>
+          </div>
+          <span>{{item.playNum}} views</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'TipList',
+  props: ['data', 'name', 'more', 'list'],
+  data () {
+    return {
+    }
+  },
+  computed: {
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Init () { // 初始化
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

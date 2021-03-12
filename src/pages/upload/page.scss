@@ -1,0 +1,113 @@
+#app {
+  background: #111;
+  .MainContainer {
+    width: calc(100% - 400px);
+    min-width: 1000px;
+    margin: 68px auto 0;
+    padding-bottom: 30px;
+    position: relative;
+    overflow: visible;
+    > .SuccessContainer {
+      text-align: center;
+      padding-top: 100px;
+      i {
+        font-size: 65px;
+        line-height: 1.5;
+        + span {
+          color: #fff;
+        }
+      }
+      > span {
+        margin-top: 10px;
+        display: block;
+        font-size: 16px;
+        line-height: 30px;
+        text-align: center;
+        color: #999;
+      }
+      > div {
+        font-size: 0;
+        white-space: nowrap;
+        text-align: center;
+        margin-top: 60px;
+        > a {
+          display: inline-block;
+          font-size: 16px;
+          line-height: 40px;
+          width: 230px;
+          text-align: center;
+          background: #999;
+          color: #fff;
+          border-radius: 3px;
+          margin-left: 40px;
+          vertical-align: middle;
+          &:first-child {
+            margin-left: 0;
+          }
+          &.active {
+            background: #e2041b;
+          }
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    > .UploadTypeNav {
+      border-bottom: 1px solid #333;
+      a {
+        font-size: 16px;
+        line-height: 50px;
+        text-align: center;
+        position: relative;
+        &.active {
+          color: #e2041b;
+          &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            width: 100%;
+            background: #e2041b;
+          }
+        }
+      }
+    }
+    > .UploadContainer {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      > div {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+    }
+  }
+  .ErrorContainer {
+    width: calc(100% - 200px);
+    min-width: 1000px;
+    margin: 68px auto 0;
+    padding-bottom: 30px;
+    position: relative;
+    overflow: visible;
+    span {
+      width: 100%;
+      display: block;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: #999;
+      line-height: 1.5;
+      margin-top: 20px;
+      a {
+        text-decoration: underline;
+        &:hover {
+          color: #e2041b;
+        }
+      }
+    }
+  }
+}

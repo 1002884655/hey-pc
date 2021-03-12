@@ -1,0 +1,51 @@
+.components.ClassVideoList {
+  > ul {
+    font-size: 0;
+    > li {
+      width: calc((100% - 40px) / 5);
+      position: relative;
+      overflow: visible;
+      display: inline-block;
+      margin-bottom: 20px;
+      vertical-align: middle;
+      margin-left: 10px;
+      &:nth-child(5n + 1) {
+        margin-left: 0;
+      }
+      &.SearchList {
+        width: calc((100% - 30px) / 4);
+      }
+      &.SearchList:nth-child(4n + 1) {
+        margin-left: 0;
+      }
+    }
+  }
+  .NoData {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+    line-height: 30px;
+  }
+  .NextPage {
+    text-align: center;
+    padding: 20px 0;
+    > * {
+      display: inline-block;
+      font-size: 14px;
+      color: #fff;
+      line-height: 30px;
+    }
+    > a {
+      padding: 0 10px;
+      border-radius: 5px;
+      border: 1px solid #fff;
+      box-sizing: border-box;
+      &:hover {
+        background: #e2041b;
+        border-color: #e2041b;
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+<template>
+  <div class="components NetworkSpeedTest" style="width: 0; height: 0; opacity: 0; overflow: hidden;">
+    <img :src="IsTest ? TestImg : null" width="0" height="0" class="NetworkSpeedTest" @load="NetworkSpeedTestEnd" alt="">
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'NetworkSpeedTest',
+  props: ['data'],
+  data () {
+    return {
+      NetworkSpeedStartTime: 0,
+      IsTest: false,
+      HasEnd: false,
+      Timer: null,
+      TestImg: require('../../assets/img/test.jpg')
+      // TestImg: 'http://151.139.71.44/timg.jpg'
+    }
+  },
+  computed: {
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Init () { // 初始化
+      this.NetworkSpeedStartTime = Date.now()
+      this.IsTest = true
+      window.clearTimeout(this.Timer)
+      this.Timer = window.setTimeout(() => {
+        if (!this.HasEnd) {
+          this.HasEnd = true
+          this.$emit('load', 0)
+        }
+        window.clearTimeout(this.Timer)
+      }, 15000)
+    },
+    NetworkSpeedTestEnd () {
+      if (!this.HasEnd) {
+        this.HasEnd = true
+        let DownTime = Date.now() - this.NetworkSpeedStartTime
+        let FileSize = 382
+        let NetworkSpeed = FileSize / DownTime * 1000
+        this.$emit('load', NetworkSpeed)
+      }
+    }
+  }
+}
+</script>

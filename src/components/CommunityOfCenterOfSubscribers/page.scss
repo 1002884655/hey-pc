@@ -1,0 +1,87 @@
+.components.CommunityOfCenterOfSubscribers {
+  > ul {
+    position: relative;
+    overflow: hidden;
+    background: #222;
+    padding: 20px;
+    > li {
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: 20px;
+      &:first-child {
+        margin-top: 0;
+      }
+      > .Icon {
+        width: 48px;
+        height: 48px;
+        position: relative;
+        overflow: hidden;
+        background: #333;
+        margin-right: 20px;
+        border-radius: 100%;
+        > a {
+          width: 100%;
+          height: 100%;
+          display: block;
+          position: relative;
+          overflow: hidden;
+        }
+      }
+      > .flex-item {
+        position: relative;
+        overflow: hidden;
+        > div {
+          font-size: 0;
+          white-space: nowrap;
+          > * {
+            display: inline-block;
+            vertical-align: middle;
+          }
+          > a {
+            font-size: 16px;
+            color: #fff;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+          }
+          > i {
+            font-size: 20px;
+            &.iconnan {
+              color: #73c9ff;
+            }
+            &.iconnv {
+              color: #e238bd;
+            }
+          }
+        }
+        > span {
+          display: block;
+          font-size: 14px;
+          color: #999;
+          line-height: 20px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      > a {
+        width: 136px;
+        line-height: 40px;
+        color: #fff;
+        background: #ccc;
+        text-align: center;
+        user-select: none;
+        border-radius: 4px;
+        margin-left: 10px;
+        &.active {
+          background: #e2041b;
+        }
+      }
+    }
+  }
+  .Pagination {
+    text-align: center;
+    padding: 30px 0;
+  }
+}

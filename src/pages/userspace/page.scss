@@ -1,0 +1,331 @@
+#app {
+  background: #111;
+  .PageContainer {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 30px;
+    .TopBg {
+      padding-top: 68px;
+      width: calc(100% - 8px);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      > div {
+        width: 100%;
+        padding-bottom: 13.54%;
+        position: relative;
+        overflow: hidden;
+        > div {
+          width: 100%;
+          position: absolute;
+          overflow: hidden;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          z-index: 2;
+          &:hover {
+            > .EditBgImg {
+              display: inline-block;
+            }
+          }
+          > .EditBgImg {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 20px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 100%;
+            line-height: 40px;
+            width: 40px;
+            text-align: center;
+            display: none;
+            &:hover {
+              color: #e2041b;
+            }
+          }
+          > div {
+            width: 100%;
+            height: 70px;
+            position: absolute;
+            overflow: visible;
+            left: 0;
+            bottom: 0;
+            z-index: 2;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 1));
+            > div {
+              width: 72%;
+              height: 100%;
+              min-width: 1100px;
+              position: relative;
+              overflow: visible;
+              margin: 0 auto;
+              align-items: center;
+              > .UserIcon {
+                width: 108px;
+                height: 100%;
+                position: relative;
+                overflow: visible;
+                > div {
+                  width: 100%;
+                  padding-bottom: 100%;
+                  background: #333;
+                  border-radius: 100%;
+                  margin-top: -60px;
+                  position: relative;
+                  overflow: hidden;
+                  border: 2px solid #fff;
+                }
+                > a {
+                  display: inline-block;
+                  font-size: 12px;
+                  position: absolute;
+                  bottom: 28px;
+                  width: 20px;
+                  line-height: 20px;
+                  text-align: center;
+                  border-radius: 100%;
+                  background: #fff;
+                  right: 3px;
+                  color: #333;
+                  user-select: none;
+                  &:hover {
+                    color: #e2041b;
+                    background: #333;
+                  }
+                }
+              }
+              > span {
+                font-size: 18px;
+                font-weight: bold;
+                color: #fff;
+                margin-left: 20px;
+              }
+              > i {
+                font-size: 20px;
+                font-weight: bold;
+                color: #fff;
+                margin-left: 10px;
+                &.iconnan {
+                  color: #73c9ff;
+                }
+                &.iconnv {
+                  color: #e20475;
+                }
+              }
+              > a {
+                &.EditUserName {
+                  font-size: 20px;
+                  color: #999;
+                  margin-left: 10px;
+                  user-select: none;
+                  &:hover {
+                    color: #fff;
+                  }
+                }
+                &.Subscribers {
+                  font-size: 14px;
+                  line-height: 40px;
+                  width: 200px;
+                  text-align: center;
+                  border-radius: 4px;
+                  background: #ccc;
+                  user-select: none;
+                  margin-left: 10px;
+                  &.active {
+                    background: #e2041b;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .NavContainer {
+      width: 100%;
+      background: #222;
+      position: relative;
+      overflow: hidden;
+      > div {
+        width: 70%;
+        min-width: 1100px;
+        margin: 0 auto;
+        align-items: center;
+        > nav {
+          font-size: 0;
+          white-space: nowrap;
+          > a {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 50px;
+            color: #fff;
+            position: relative;
+            margin-left: 30px;
+            user-select: none;
+            &:first-child {
+              margin-left: 0;
+            }
+            &.active {
+              color: #e2041b;
+              &::after {
+                content: "";
+                width: 100%;
+                height: 2px;
+                background: #e2041b;
+                display: block;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+              }
+            }
+          }
+        }
+        > ul {
+          font-size: 0;
+          white-space: nowrap;
+          > li {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 20px;
+            &:first-child {
+              margin-left: 0;
+            }
+            > span {
+              display: block;
+              font-size: 12px;
+              color: #ccc;
+              line-height: 20px;
+              white-space: nowrap;
+              text-align: center;
+              font-weight: bold;
+              &:nth-child(2) {
+                font-size: 14px;
+              }
+            }
+          }
+        }
+        > div {
+          font-size: 0;
+          white-space: nowrap;
+          > a {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 20px;
+            position: relative;
+            padding: 5px 0;
+            user-select: none;
+            &:first-child {
+              margin-left: 0;
+            }
+            &.active {
+              &:hover {
+                > span {
+                  color: #e2041b;
+                }
+              }
+              > span {
+                color: #e2041b;
+              }
+              &::after {
+                content: "";
+                width: 100%;
+                height: 2px;
+                background: #e2041b;
+                display: block;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+              }
+            }
+            &:hover {
+              > span {
+                color: #fff;
+              }
+            }
+            > span {
+              display: block;
+              font-size: 12px;
+              color: #ccc;
+              line-height: 20px;
+              white-space: nowrap;
+              text-align: center;
+              font-weight: bold;
+              &:nth-child(2) {
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .Content {
+      width: 70%;
+      margin: 20px auto;
+      position: relative;
+      overflow: visible;
+      min-width: 1100px;
+      min-height: 300px;
+      > .UserTipsInfo {
+        width: 200px;
+        position: absolute;
+        right: -220px;
+        overflow: hidden;
+        background: #222;
+        padding: 20px 0;
+        > li {
+          align-items: center;
+          margin-top: 10px;
+          &:first-child {
+            margin-top: 0;
+          }
+          > i {
+            font-size: 20px;
+            color: #73c9ff;
+            margin-left: 10px;
+          }
+          > span,
+          > a {
+            font-size: 12px;
+            color: #ccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-left: 10px;
+            margin-right: 10px;
+            line-height: 20px;
+          }
+        }
+      }
+      > div.flex-h {
+        > .Menu {
+          width: 295px;
+          background: #222;
+          position: relative;
+          overflow: hidden;
+          margin-right: 20px;
+          > a {
+            display: block;
+            font-size: 14px;
+            line-height: 42px;
+            color: #fff;
+            user-select: none;
+            text-indent: 60px;
+            &:first-child {
+              margin-top: 10px;
+            }
+            &.active {
+              background: #e2041b;
+            }
+            &:hover {
+              background: #333;
+            }
+          }
+        }
+      }
+    }
+  }
+}

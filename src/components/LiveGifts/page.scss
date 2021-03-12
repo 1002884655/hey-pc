@@ -1,0 +1,55 @@
+.components.LiveGifts {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  > a {
+    font-size: 16px;
+    color: #666;
+    width: 20px;
+    text-align: center;
+    background: #333;
+    border-radius: 3px;
+    line-height: 50px;
+    user-select: none;
+    &:hover {
+      color: #fff;
+    }
+  }
+  > div {
+    margin: 0 10px;
+    position: relative;
+    overflow: hidden;
+    > div {
+      width: 100%;
+      position: absolute;
+      overflow: hidden;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      .Img {
+        width: 100%;
+        padding-bottom: 100%;
+        position: relative;
+        overflow: hidden;
+        box-sizing: border-box;
+        border: 2px solid transparent;
+        &:hover {
+          cursor: pointer;
+          background: #333;
+          border-color: #333;
+        }
+        &.active {
+          background: #333;
+          border-color: #333;
+        }
+        &.None {
+          &:hover {
+            cursor: default;
+            background: none;
+            border-color: transparent;
+          }
+        }
+      }
+    }
+  }
+}

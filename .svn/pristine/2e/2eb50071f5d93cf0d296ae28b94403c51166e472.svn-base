@@ -1,0 +1,129 @@
+.components {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #ccc;
+  a {
+    color: #fff;
+  }
+  .BannerSwiper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    .BannerVideo,
+    .BannerImg {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .BannerImg {
+      z-index: 2;
+    }
+    .BannerVideo {
+      > div {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .Desc {
+    position: absolute;
+    z-index: 3;
+    left: 50px;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    overflow: hidden;
+    color: #fff;
+    > span {
+      width: 50%;
+      font-size: 60px;
+      font-weight: bold;
+      text-shadow: #000 1px 1px 2px;
+      line-height: 70px;
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    div {
+      margin: 20px auto 0;
+      white-space: nowrap;
+      font-size: 0;
+      a {
+        width: 160px;
+        margin-right: 20px;
+        display: inline-block;
+        vertical-align: middle;
+        white-space: nowrap;
+        font-size: 0;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 3px;
+        text-align: center;
+        transition: all 0.1s linear;
+        -webkit-transition: all 0.1s linear;
+        &:hover {
+          background: #e2041b;
+        }
+        * {
+          display: inline-block;
+          vertical-align: middle;
+          text-shadow: #000 1px 1px 2px;
+        }
+        i {
+          font-size: 16px;
+          line-height: 40px;
+          margin-right: 5px;
+        }
+        span {
+          font-size: 14px;
+          line-height: 40px;
+        }
+      }
+    }
+  }
+  .BannerThumb {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow: visible;
+    text-align: center;
+    font-size: 0;
+    white-space: nowrap;
+    z-index: 10;
+    a {
+      width: 15%;
+      max-width: 300px;
+      min-width: 150px;
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+      overflow: hidden;
+      margin-left: 5px;
+      box-sizing: border-box;
+      border: 2px solid transparent;
+      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.05);
+      &:first-child {
+        margin-left: 0;
+      }
+      &.active {
+        border-color: #fff;
+      }
+      > div {
+        width: 100%;
+        padding-bottom: 56.25%;
+        position: relative;
+        overflow: hidden;
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+#app {
+  background: #111;
+  .PageContainer {
+    width: 72%;
+    min-width: 1100px;
+    align-items: flex-start;
+    margin: 78px auto 10px;
+    > .Left {
+      width: 330px;
+      position: relative;
+      overflow: visible;
+      background: #222;
+      margin-right: 10px;
+      min-height: 700px;
+      margin-right: 10px;
+      > .CreateBtn {
+        font-size: 0;
+        white-space: nowrap;
+        text-align: center;
+        user-select: none;
+        background: #333;
+        display: block;
+        margin-top: 10px;
+        &:hover {
+          background: #e2041b;
+          > i {
+            color: #fff;
+          }
+        }
+        > * {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 16px;
+          color: #fff;
+          line-height: 42px;
+        }
+        > i {
+          color: #999;
+          font-size: 24px;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}

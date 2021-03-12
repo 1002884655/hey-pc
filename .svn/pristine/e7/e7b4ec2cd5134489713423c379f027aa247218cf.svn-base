@@ -1,0 +1,108 @@
+<template>
+  <div id="app">
+    <MainPage ref="MainPage" :MainNavActiveIndex="0" :MainNavBgActive="MainNavBgActive" @MainPageScroll="MainPageScroll" @NetSpeedTestEnd="NetSpeedTestEnd">
+      <div class="MainPage">
+
+        <!-- Banner -->
+        <div class="IndexBannerContainer">
+          <div>
+            <IndexBanner v-if="NetSpeed" :list="HomeBannerList" @NeedLogin="$refs.MainPage.Login()" :NetSpeed="NetSpeed"></IndexBanner>
+          </div>
+        </div>
+
+        <!-- 栏目列表 -->
+        <div class="ColumnList">
+          <div v-for="(item, index) in ColumnList" :key="index">
+
+            <!-- 尺寸A栏目 -->
+            <div v-if="item.id - 0 === 0">
+              <IndexColumnA :data="item.list" :index="index" @NeedLogin="$refs.MainPage.Login()"></IndexColumnA>
+            </div>
+
+            <!-- 尺寸B栏目 -->
+            <div v-else>
+              <IndexColumnB :data="item.list" :index="index" @NeedLogin="$refs.MainPage.Login()"></IndexColumnB>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="width: 100%; height: 50px"></div>
+
+      </div>
+    </MainPage>
+  </div>
+</template>
+
+<script>
+/*
+  页面名称：主站首页
+  创建人：许成祥
+  创建时间：2019/12/19
+  最近修改人：许成祥
+  最近修改日期：2020/03/10
+  备注： 无
+*/
+import MainPage from '../../components/MainPage'
+import MockData from '../../util/MockData'
+import IndexBanner from '../../components/IndexBanner'
+import IndexColumnA from '../../components/IndexColumnA'
+import IndexColumnB from '../../components/IndexColumnB'
+export default {
+  components: {
+    MainPage,
+    IndexBanner,
+    IndexColumnA,
+    IndexColumnB
+  },
+  data () {
+    return {
+      NetSpeed: 0, // 网速估算值
+      MainNavBgActive: false, // MainNav背景板透明开关：true-非透明 false-透明
+      HomeBannerList: window.HomeBannerList || MockData.HomeBannerList, // 主页banner数据
+      ColumnList: this.ArrayRegroup(window.HomeVideoList || MockData.HomeVideoList, 'order') // 主页分类数据
+    }
+  },
+  computed: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+    })
+  },
+  methods: {
+    MainPageScroll (e) { // 页面滚动事件
+      this.MainNavBgActive = e >= 100 // 页面滚动距离>=100时，MainNav背景色非透明，反之透明
+    },
+    NetSpeedTestEnd (e) { // 网速估算结束回调
+      this.NetSpeed = e
+    },
+    ArrayRegroup (arr, key) { // 一维数组转二维数组
+      let aArray = []
+      let aBool = true
+      for (let n = 0; n < arr.length; n++) {
+        if (aArray.length) {
+          aBool = true
+          for (let a = 0; a < aArray.length; a++) {
+            if (arr[n][key] === aArray[a].id) {
+              aArray[a].list.push(arr[n])
+              aBool = false
+            }
+          }
+          if (aBool) {
+            aArray.push({ id: arr[n][key], list: [arr[n]] })
+          }
+        } else {
+          aArray.push({ id: arr[n][key], list: [arr[n]] })
+        }
+      }
+      return aArray
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

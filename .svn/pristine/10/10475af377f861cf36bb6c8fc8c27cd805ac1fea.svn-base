@@ -1,0 +1,43 @@
+<template>
+  <div class="components SettingForPrivacySettings">
+    111
+  </div>
+</template>
+
+<script>
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+
+export default {
+  name: 'SettingForPrivacySettings',
+  props: ['data'],
+  data () {
+    return {
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo
+    })
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    ...mapUserActions([]),
+    Init () { // 初始化
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

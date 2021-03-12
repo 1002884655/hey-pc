@@ -1,0 +1,187 @@
+<template>
+  <div class="components">
+
+    <!-- 网速测算 -->
+    <NetworkSpeedTest @load="NetSpeedTestEnd"></NetworkSpeedTest>
+
+    <!-- banner轮播 -->
+    <div class="BannerSwiper">
+
+      <!-- video -->
+      <div class="BannerVideo">
+        <video v-if="InitSrc !== null" id="HomeBannerVideo" class="video-js vjs-default-skin vjs-big-play-centered" preload="auto" muted>
+          <source :src="InitSrc" type="application/x-mpegURL">
+        </video>
+      </div>
+
+      <!-- Img -->
+      <div class="BannerImg" v-if="ShowImg">
+        <img :src="CurrentSrc" class="centerLabel cover" alt="">
+      </div>
+    </div>
+
+    <!-- 介绍 -->
+    <div class="Desc" v-if="BannerList.length">
+      <span>{{BannerList[BannerActiveIndex].title}}</span>
+      <div>
+        <a :href="`./media.html?pid=${BannerList[BannerActiveIndex].videoId}`">
+          <i class="iconfont iconbofang"></i>
+          <span>Play</span>
+        </a>
+        <a @click="CollectVideoById(BannerList[BannerActiveIndex].videoId)">
+          <i class="iconfont iconjia"></i>
+          <span>Collection</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- banner缩略图 -->
+    <div class="BannerThumb">
+      <a v-for="(item, index) in BannerList" :key="index" :class="{'active': BannerActiveIndex === index}" @click="CutBanner(index)">
+        <div>
+          <img :src="item.frontPath" class="centerLabel cover" alt="">
+        </div>
+      </a>
+    </div>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+import { Notification } from 'element-ui'
+import 'video.js/dist/video-js.css'
+import videojs from 'video.js'
+import 'videojs-flash'
+import 'videojs-contrib-hls'
+import NetworkSpeedTest from '../NetworkSpeedTest'
+import MockData from '../../util/MockData'
+import { createNamespacedHelpers } from 'vuex'
+Vue.prototype.$notify = Notification
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+
+export default {
+  name: 'HomeBanner',
+  props: ['data'],
+  data () {
+    return {
+      UnLock: true, // 数据锁定状态
+      ShowImg: false, // 显隐图片广告位
+      NetworkSpeed: null, // 网速
+      BannerActiveIndex: 0, // banner索引
+      CurrentSrc: null, // 当前视频src
+      InitSrc: null, // 初始视频src
+      VideoJs: null, // videojs实例对象初始化
+      Timer: null, // 定时器初始化
+      BannerList: [] // banner列表
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo
+    })
+  },
+  components: {
+    NetworkSpeedTest
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+    })
+  },
+  methods: {
+    ...mapUserActions(['AddCollect']),
+    CollectVideoById (id) { // 收藏视频
+      if (this.UserInfo !== null) { // 用户已登录
+        if (id !== null) {
+          if (this.UnLock) {
+            this.UnLock = false
+            this.AddCollect({
+              accountId: this.UserInfo.id,
+              collectType: 1,
+              workId: id
+            }).then(() => {
+              this.UnLock = true
+              this.$notify.success({
+                title: 'success',
+                message: 'Collection of success!'
+              })
+            }).catch(() => {
+              this.UnLock = true
+            })
+          }
+        } else {
+          this.$notify.error({
+            title: 'error',
+            message: 'Video message error!'
+          })
+        }
+      } else { // 用户未登录
+        this.$emit('NeedLogin')
+      }
+    },
+    CutBanner (index) { // 切换banner
+      if (this.UnLock && this.BannerActiveIndex !== index) {
+        this.UnLock = false
+        this.BannerActiveIndex = index
+        this.Step()
+        this.UnLock = true
+      }
+    },
+    Step () { // 轮播逻辑
+      let target = this.BannerList[this.BannerActiveIndex]
+      this.ShowImg = false // 隐藏图片显示位
+      window.clearTimeout(this.Timer) // 清除定时器
+      this.Timer = null
+      if (target.type - 0 === 1) { // 当前轮播内容为视频
+        this.CurrentSrc = `${target.videoPath}/${target.link}/${target.CurrentCapacity}/index.m3u8`
+        if (this.VideoJs !== null) { // 当前存在video
+          this.VideoJs.off('timeupdate') // 移除timeupdate事件
+          this.VideoJs.src([{ type: 'application/x-mpegURL', src: this.CurrentSrc }])
+          this.VideoJs.play()
+        } else { // 当前不存在video
+          let _that = this
+          this.VideoJs = videojs('HomeBannerVideo', {
+            autoplay: true,
+            bigPlayButton: false,
+            posterImage: false,
+            controlBar: false,
+            muted: true
+          }, function () {
+            this.on('ended', function () {
+              _that.BannerActiveIndex = _that.BannerActiveIndex + 1 < _that.BannerList.length ? _that.BannerActiveIndex + 1 : 0
+              _that.Step()
+            })
+          })
+        }
+      } else { // 当前轮播内容为图片
+        this.CurrentSrc = this.BannerList[this.BannerActiveIndex].frontPath
+        this.ShowImg = true
+        this.Timer = window.setTimeout(() => {
+          this.BannerActiveIndex = this.BannerActiveIndex + 1 < this.BannerList.length ? this.BannerActiveIndex + 1 : 0
+          this.Step()
+        }, 3000)
+      }
+    },
+    NetSpeedTestEnd (e) { // 瞬时网速测算结束回调（kb/s）
+      this.NetworkSpeed = e
+      let TargetList = [...(window.HomeBannerList || MockData.HomeBannerList)]
+      this.BannerList = []
+      TargetList.map((item, index) => { // 构建Banner列表
+        this.BannerList.push({ ...item, CurrentCapacity: this.ToolClass.MatchingCapacity(JSON.parse(item.capacity || null), this.NetworkSpeed) })
+        if (this.InitSrc === null && item.type - 0 === 1) {
+          this.InitSrc = `${this.BannerList[index].videoPath}/${this.BannerList[index].link}/${this.BannerList[index].CurrentCapacity}/index.m3u8`
+        }
+      })
+      window.setTimeout(() => {
+        this.Step() // 轮播逻辑
+      }, 13)
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

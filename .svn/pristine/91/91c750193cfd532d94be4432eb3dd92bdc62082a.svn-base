@@ -1,0 +1,130 @@
+<template>
+  <div class="components ViewingHistory">
+    <div class="Title flex-h">
+      <div class="flex-item">
+        <div><span>Play recently</span></div>
+      </div>
+      <el-switch v-model="FilterFlower" active-color="#E2041B" inactive-color="#ccc"></el-switch>
+      <span>Filter flower</span>
+    </div>
+
+    <ul v-if="ViewingHistory.length">
+      <li v-for="(item, index) in ViewingHistory" :key="index" v-if="ReturnFilterFlower(item)">
+        <a class="Img">
+          <img :src="item.Img" class="centerLabel cover" alt="">
+          <div class="Layer">
+            <i class="iconfont iconbofang centerLabel Play" @click="ToPlay(item.VideoId)"></i>
+            <i class="iconfont iconqingkong Delete" @click="DeleteHistory(item, index, 1)"></i>
+          </div>
+        </a>
+        <a class="Name">{{item.Name}}</a>
+      </li>
+    </ul>
+
+    <div v-if="EarlierViewingHistory.length" class="Title flex-h" style="margin-top: 40px;">
+      <div class="flex-item">
+        <div><span>Earlier</span></div>
+      </div>
+    </div>
+
+    <ul v-if="EarlierViewingHistory.length">
+      <li v-for="(item, index) in EarlierViewingHistory" :key="index" v-if="ReturnFilterFlower(item)">
+        <a class="Img">
+          <img :src="item.Img" class="centerLabel cover" alt="">
+          <div class="Layer">
+            <i class="iconfont iconbofang centerLabel Play" @click="ToPlay(item.VideoId)"></i>
+            <i class="iconfont iconqingkong Delete" @click="DeleteHistory(item, index, 2)"></i>
+          </div>
+        </a>
+        <a class="Name">{{item.Name}}</a>
+      </li>
+    </ul>
+
+    <span v-if="!ViewingHistory.length && !EarlierViewingHistory.length" class="NoData">You don’t have a play record <a>View video</a></span>
+
+    <div class="More" v-if="ViewingHistory.length || EarlierViewingHistory.length">
+      <a v-if="HasNextPage" @click="GetHistory">Load more</a>
+      <span v-else>Load all</span>
+    </div>
+  </div>
+</template>
+
+<script>
+import { Switch } from 'element-ui'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
+
+export default {
+  name: 'ViewingHistory',
+  props: ['data'],
+  data () {
+    return {
+      FilterFlower: true,
+      PageData: {
+        pageNum: 1,
+        pageSize: 10
+      },
+      UnLock: true,
+      HasNextPage: true
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo,
+      ViewingHistory: x => x.ViewingHistory,
+      EarlierViewingHistory: x => x.EarlierViewingHistory
+    })
+  },
+  components: {
+    'el-switch': Switch
+  },
+  created () {
+    this.ClearViewingHistory()
+    this.PageData.pageNum = 1
+    this.HasNextPage = true
+    this.GetHistory()
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    ...mapUserActions(['GetViewingHistory', 'DeleteViewingHistory']),
+    ...mapUserMutations(['ClearViewingHistory']),
+    Init () { // 初始化
+    },
+    DeleteHistory (item, index, type) { // 删除历史记录
+      this.DeleteViewingHistory({
+        ids: item.Id,
+        Type: type,
+        Index: index
+      })
+    },
+    GetHistory () { // 获取历史记录
+      if (this.UnLock) {
+        this.UnLock = false
+        this.GetViewingHistory({ ...this.PageData, accountId: this.UserInfo.id }).then((res) => {
+          this.UnLock = true
+          this.PageData.pageNum = res.data.data.pageNum + 1
+          this.HasNextPage = res.data.data.hasNextPage
+        }).catch(() => {
+          this.UnLock = true
+        })
+      }
+    },
+    ReturnFilterFlower (item) { // 过滤片花
+      return (this.FilterFlower && item.Type - 0 !== 1) || !this.FilterFlower
+    },
+    ToPlay (id) { // 去播放
+      let Url = `./media.html?pid=${id}`
+      window.open(Url)
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

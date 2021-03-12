@@ -1,0 +1,729 @@
+<template>
+  <div class="components HeyPornPlayer" :class="{'fullscreen': IsFullscreen}">
+    <div class="videoContent">
+      <video id="BlackHoleVideo" width="100%" height="100%" style="object-fit: contain;" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" muted>
+        <source :src="Media.src" type="application/x-mpegURL">
+      </video>
+    </div>
+  </div>
+</template>
+
+<script>
+/*
+  页面名称：视频播放器
+  创建人：许成祥
+  创建时间：2020/02/19
+  最近修改人：许成祥
+  最近修改日期：2020/03/10
+  备注： 无
+*/
+import 'video.js/dist/video-js.css'
+import videojs from 'video.js'
+import 'videojs-flash'
+import 'videojs-contrib-hls'
+import '../../assets/css/VideoReset.scss'
+
+export default {
+  name: 'HeyPornPlayer',
+  props: ['options', 'srcList', 'activeIndex', 'IsFullWindow', 'FrontPath', 'IsIframe', 'CurrentTimeTamp', 'OnFocus'],
+  data () {
+    return {
+      Media: {
+        src: '',
+        id: '',
+        value: ''
+      },
+      PlayerOptions: {
+        autoplay: false, // 自动播放
+        bigPlayButton: false, // 画中播放按钮
+        posterImage: false, // 显隐封面图片
+        controlBar: true, // 显隐控制条
+        showPausedAdImg: false, // 显示暂停广告位
+        fluid: false,
+        muted: false,
+        playbackRates: ['0.5', '1.0', '1.5', '2.0'] // 倍速播放设置
+      },
+      SpeedIndex: 1,
+      NormalActiveIndex: this.activeIndex - 0 || 0, // 默认播放索引值
+      CurrentTime: this.CurrentTimeTamp || 0, // 当前播放时间点
+      CutCurrentTime: 0, // 切换分辨率记录时间戳
+      Tag: false,
+      CurrentVolume: 1,
+      NextVolume: 0,
+      IsMuted: false,
+      VideoTimer: null,
+      PlayTimer: null,
+      LoadPercent: 0,
+      ProgressTimerUnlock: true,
+      IsFullscreen: false
+    }
+  },
+  computed: {
+    VideoOptions () {
+      return { ...this.PlayerOptions, ...this.options }
+    }
+  },
+  components: {
+  },
+  created () {
+    this.Media = this.srcList[this.NormalActiveIndex] || this.Media
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Init () { // 初始化
+      let _that = this
+      videojs('BlackHoleVideo', { ...this.VideoOptions }, function () { // 初始化播放器回调（加入自定义控件）
+        // 记住上次播放节点
+        if (_that.CurrentTimeTamp !== null) {
+          this.currentTime(_that.CurrentTimeTamp)
+        }
+
+        // 创建video遮罩层
+        let VideoLayer = document.createElement('div')
+        VideoLayer.className = 'VideoLayer'
+        document.getElementById('BlackHoleVideo').appendChild(VideoLayer)
+
+        // 创建水印
+        let VideoWaterMark = document.createElement('img')
+        VideoWaterMark.className = 'VideoWaterMark'
+        VideoWaterMark.src = require('../../assets/img/logomark3x.png')
+        VideoLayer.appendChild(VideoWaterMark)
+
+        // 创建热键表
+        let VideoHotKeyList = document.createElement('ul')
+        VideoHotKeyList.className = 'VideoHotKeyList centerLabel hide'
+        VideoHotKeyList.innerHTML = `
+          <li>
+            <div><img src="${require('../../assets/img/keyboard.png')}" style="left: 0px" /></div>
+            <span>Mute / Unmute</span>
+          </li>
+          <li>
+            <div style="width: 84px"><img src="${require('../../assets/img/keyboard.png')}" style="left: -40px" /></div>
+            <span>Play / Pause</span>
+          </li>
+          <li>
+            <div><img src="${require('../../assets/img/keyboard.png')}" style="left: -124px" /></div>
+            <span>Toggles Fullscreen</span>
+          </li>
+          <li>
+            <div><img src="${require('../../assets/img/keyboard.png')}" style="left: -164px" /></div>
+            <div><img src="${require('../../assets/img/keyboard.png')}" style="left: -204px" /></div>
+            <span>Volume up / down</span>
+          </li>
+          <li>
+            <div><img src="${require('../../assets/img/keyboard.png')}" style="left: -244px" /></div>
+            <span>Slow motion on / off</span>
+          </li>
+          <li>
+            <div><img src="${require('../../assets/img/keyboard.png')}" style="left: -284px" /></div>
+            <div><img src="${require('../../assets/img/keyboard.png')}" style="left: -324px" /></div>
+            <span>Leap 5 seconds</span>
+          </li>
+          <a class="VideoHotKeyListClose iconfont iconguanbi1"></a>
+        `
+        VideoLayer.appendChild(VideoHotKeyList)
+
+        document.getElementsByClassName('VideoHotKeyListClose')[0].onclick = () => {
+          VideoHotKeyList.className = 'VideoHotKeyList centerLabel hide'
+        }
+
+        // 创建鼠标右键调试tab
+        let MouseRightTab = document.createElement('ul')
+        MouseRightTab.className = 'MouseRightTab'
+        MouseRightTab.innerHTML = `
+          <li class="CopyUrl">Copy video url</li>
+          <li class="CopyUrlByTime">Copy video url at current time</li>
+          <li class="CopyEmbedCode">Copy embed code</li>
+          <li class="VideoLoop">Loop</li>
+          <li class="VideoKeyboard">Keyboard</li>
+        `
+        VideoLayer.appendChild(MouseRightTab)
+
+        VideoLayer.onclick = () => {
+          document.getElementsByClassName('MouseRightTab')[0].style.display = 'none'
+        }
+
+        document.getElementsByClassName('CopyUrl')[0].onclick = () => { // 复制视频链接
+          _that.$copyText(`${window.location.origin}/p/iframe.html?pid=${_that.ToolClass.GetUrlParams('pid')}`)
+        }
+
+        document.getElementsByClassName('CopyUrlByTime')[0].onclick = () => { // 复制视频链接（附带当前时间节点）
+          _that.$copyText(`${window.location.origin}/p/iframe.html?pid=${_that.ToolClass.GetUrlParams('pid')}&time=${Math.floor(this.currentTime())}`)
+        }
+
+        document.getElementsByClassName('CopyEmbedCode')[0].onclick = () => { // 复制视频嵌入链接
+          _that.$copyText(`<iframe width="1903" height="800" src="${window.location.origin}/p/iframe.html?pid=${_that.ToolClass.GetUrlParams('pid')}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)
+        }
+
+        document.getElementsByClassName('VideoLoop')[0].onclick = () => { // 视频循环
+        }
+
+        document.getElementsByClassName('VideoKeyboard')[0].onclick = () => { // 视频热键
+          VideoHotKeyList.className = 'VideoHotKeyList centerLabel'
+        }
+
+        // document.getElementsByClassName('CopyDebugInfo')[0].onclick = () => { // 复制视频debug信息
+        //   _that.$copyText('测试文案' + Date.now())
+        // }
+
+        // document.getElementsByClassName('StatsForNerds')[0].onclick = () => { // 显示视频数据信息
+        // }
+
+        // 创建中央播放按钮
+        let CenterPlayBtn = document.createElement('a')
+        CenterPlayBtn.className = 'centerLabel BigPlayBtn active'
+        CenterPlayBtn.innerHTML = '<i class="iconfont iconbofang centerLabel"></i>'
+        VideoLayer.appendChild(CenterPlayBtn)
+
+        // 创建中央暂停按钮
+        let CenterPauseBtn = document.createElement('a')
+        CenterPauseBtn.className = 'centerLabel BigPauseBtn'
+        CenterPauseBtn.innerHTML = '<i class="iconfont iconzanting centerLabel"></i>'
+        VideoLayer.appendChild(CenterPauseBtn)
+        CenterPauseBtn.onclick = () => { // 绑定屏幕点击：播放/暂停触发事件
+          _that.PlayTrigger()
+        }
+
+        // 创建返回正常模式按钮
+        let DefaultWindow = document.createElement('a')
+        DefaultWindow.className = `DefaultWindow iconfont iconguanbi`
+        VideoLayer.appendChild(DefaultWindow)
+        DefaultWindow.onclick = () => {
+          _that.$emit('ExitMini')
+        }
+
+        // 创建Mini模式拖拽层
+        let MiniDrag = document.createElement('a')
+        MiniDrag.className = 'MiniDrag'
+        VideoLayer.appendChild(MiniDrag)
+        let MiniStartX = 0
+        let MiniStartY = 0
+        MiniDrag.onmousedown = (e) => {
+          e = e || event
+          MiniStartX = e.pageX
+          MiniStartY = e.pageY
+          MiniDrag.onmousemove = (e) => {
+            e = e || event
+            _that.$emit('PositionChange', [e.pageX - MiniStartX, e.pageY - MiniStartY])
+          }
+          MiniDrag.onmouseup = () => {
+            MiniDrag.onmousemove = null
+            _that.$emit('PositionChangeEnd')
+          }
+          MiniDrag.onmouseout = () => {
+            MiniDrag.onmousemove = null
+            _that.$emit('PositionChangeEnd')
+          }
+          MiniDrag.onmouseleave = () => {
+            MiniDrag.onmousemove = null
+            _that.$emit('PositionChangeEnd')
+          }
+        }
+
+        // 创建点击播放暂停层
+        let ScreenPlayTrigger = document.createElement('a')
+        ScreenPlayTrigger.className = 'ScreenPlayTrigger'
+        VideoLayer.appendChild(ScreenPlayTrigger)
+        ScreenPlayTrigger.onclick = () => {
+          _that.PlayTrigger()
+        }
+
+        // 清除原生控制条内容
+        let ControlBar = document.getElementsByClassName('vjs-control-bar')[0] // 获取控制条对象
+        ControlBar.innerHTML = ''
+
+        // 创建播放按钮
+        let ControlPlayBtn = document.createElement('a')
+        ControlPlayBtn.className = 'ControlPlayBtn active BtnIcon'
+        ControlPlayBtn.innerHTML = '<i class="iconfont iconbofang"></i><i class="iconfont iconzanting"></i>'
+        ControlBar.appendChild(ControlPlayBtn)
+        ControlPlayBtn.onclick = () => { // 绑定控制条播放按钮：播放/暂停触发事件
+          _that.PlayTrigger()
+        }
+
+        // 创建下一个按钮
+        let ControlNextBtn = document.createElement('a')
+        if (!_that.IsIframe) {
+          ControlNextBtn.className = 'ControlNextBtn iconfont iconxiayige BtnIcon'
+          ControlBar.appendChild(ControlNextBtn)
+          ControlNextBtn.onclick = () => { // 下一个视频
+            _that.$emit('Next')
+          }
+        }
+
+        // 创建时间显示标签
+        let ControlTime = document.createElement('span')
+        ControlTime.className = 'ControlTime'
+        ControlTime.innerText = '00:00:00/00:00:00'
+        ControlBar.appendChild(ControlTime)
+
+        // 创建填充标签
+        let ControlFill = document.createElement('div')
+        ControlFill.className = 'ControlFill flex-item'
+        ControlBar.appendChild(ControlFill)
+
+        // 创建字幕
+        // let ControlSubTitle = document.createElement('a')
+        // ControlSubTitle.className = 'ControlSubTitle'
+        // ControlSubTitle.innerText = 'Subtitle'
+        // ControlBar.appendChild(ControlSubTitle)
+
+        // 创建清晰度切换
+        let ControlDefinition = document.createElement('a')
+        ControlDefinition.className = 'ControlDefinition BtnIcon'
+        ControlDefinition.innerHTML = `<span>${_that.srcList[_that.activeIndex].value}</span>`
+        ControlBar.appendChild(ControlDefinition)
+
+        // 创建清晰度列表
+        let ControlDefinitionList = document.createElement('ul')
+        ControlDefinitionList.className = 'ControlDefinitionList'
+        ControlDefinitionList.style.top = -_that.srcList.length * 40 - 3 + 'px'
+        let ControlDefinitionHtml = ''
+        for (let n = 0; n < _that.srcList.length; n++) {
+          ControlDefinitionHtml += `<li class="${n === _that.activeIndex ? 'active' : ''}">${_that.srcList[n].value}</li>`
+        }
+        ControlDefinitionList.innerHTML = ControlDefinitionHtml
+        ControlDefinition.appendChild(ControlDefinitionList)
+        for (let n = 0; n < ControlDefinitionList.children.length; n++) {
+          ControlDefinitionList.children[n].onclick = _that.CutDefinition(ControlDefinitionList, n)
+        }
+
+        // 创建设置按钮
+        let ControlSetting = document.createElement('a')
+        ControlSetting.className = 'ControlSetting iconfont iconshezhi1'
+        ControlBar.appendChild(ControlSetting)
+
+        // 创建设置列表
+        let ControlSettingList = document.createElement('ul')
+        ControlSettingList.className = 'ControlSettingList'
+        let ControlAutoPlay = document.createElement('li')
+        ControlAutoPlay.className = 'ControlAutoPlay flex-h'
+        ControlAutoPlay.innerHTML = `<span class="flex-item">AutoPlay</span><a class="AutoPlayState">OFF</a><i class="iconfont iconjiantouright"></i>`
+        ControlSettingList.appendChild(ControlAutoPlay)
+        let ControlSpeed = document.createElement('li')
+        ControlSpeed.className = 'ControlSpeed flex-h'
+        ControlSpeed.innerHTML = `<span class="flex-item">Speed</span><a class="SpeedState">1.0x</a><i class="iconfont iconjiantouright"></i>`
+        ControlSettingList.appendChild(ControlSpeed)
+        ControlSetting.appendChild(ControlSettingList)
+
+        // 创建倍速列表
+        let ControlSpeedList = document.createElement('ul')
+        ControlSpeedList.className = 'ControlSpeedList'
+        ControlSpeedList.style.top = -(_that.VideoOptions.playbackRates.length - 1) * 40 - 30 + 'px'
+        let ControlSpeedHtml = ''
+        for (let n = 0; n < _that.VideoOptions.playbackRates.length; n++) {
+          ControlSpeedHtml += `<li class="${_that.VideoOptions.playbackRates[n] - 0 === 1 ? 'active' : ''}">${_that.VideoOptions.playbackRates[n]}x</li>`
+        }
+        ControlSpeedList.innerHTML = ControlSpeedHtml
+        ControlSpeed.appendChild(ControlSpeedList)
+        for (let n = 0; n < ControlSpeedList.children.length; n++) {
+          ControlSpeedList.children[n].onclick = _that.CutSpeed(ControlSpeedList, n)
+          _that.SpeedIndex = n
+        }
+
+        // 创建音量按钮
+        let ControlVoice = document.createElement('a')
+        ControlVoice.className = 'ControlVoice iconfont iconshengyin'
+        ControlBar.appendChild(ControlVoice)
+
+        // 创建音量滑块
+        let ControlVoiceSlider = document.createElement('div')
+        let VoiceStartY = null
+        let VoiceEndY = null
+        let VoiceStartTop = 0
+        let VoiceNum = null
+        let VoiceMoveNum = null
+        ControlVoiceSlider.className = 'ControlVoiceSlider'
+        ControlVoiceSlider.innerHTML = '<a></a><div></div><span>50<span>'
+        ControlVoice.appendChild(ControlVoiceSlider)
+        this.volume(0.5)
+        ControlVoiceSlider.onmousedown = (e) => { // 绑定滑块事件
+          e = e || event
+          VoiceStartY = e.clientY
+          VoiceStartTop = ControlVoiceSlider.getBoundingClientRect().top
+          VoiceNum = 100 - VoiceStartY + VoiceStartTop || 0
+          VoiceNum = VoiceNum > 100 ? 100 : VoiceNum < 0 ? 0 : VoiceNum
+          ControlVoiceSlider.children[0].style.bottom = VoiceNum - 6.5 + 'px'
+          ControlVoiceSlider.children[1].style.top = 100 - VoiceNum + 'px'
+          ControlVoiceSlider.children[2].innerText = Math.floor(VoiceNum)
+          this.volume(VoiceNum / 100)
+          ControlVoiceSlider.onmousemove = (ev) => {
+            ev = ev || event
+            VoiceEndY = ev.clientY
+            VoiceMoveNum = VoiceNum + VoiceStartY - VoiceEndY
+            VoiceMoveNum = VoiceMoveNum > 100 ? 100 : VoiceMoveNum < 0 ? 0 : VoiceMoveNum
+            ControlVoiceSlider.children[0].style.bottom = VoiceMoveNum - 6.5 + 'px'
+            ControlVoiceSlider.children[1].style.top = 100 - VoiceMoveNum + 'px'
+            ControlVoiceSlider.children[2].innerText = Math.floor(VoiceMoveNum)
+            if (!VoiceMoveNum) {
+              ControlVoice.className = 'ControlVoice iconfont iconjingyin'
+            } else {
+              ControlVoice.className = 'ControlVoice iconfont iconshengyin'
+            }
+            this.volume(VoiceMoveNum / 100)
+            _that.CurrentVolume = VoiceMoveNum / 100
+          }
+          ControlVoiceSlider.onmouseup = () => {
+            ControlVoiceSlider.onmousemove = null
+            ControlVoiceSlider.onmouseup = null
+          }
+        }
+
+        // 创建谷歌画中画按钮
+        if (document.pictureInPictureEnabled) {
+          let ControlPIPBtn = document.createElement('a')
+          ControlPIPBtn.className = `ControlPIPBtn iconfont iconhuazhonghua`
+          ControlPIPBtn.title = `Picture in Picture`
+          ControlBar.appendChild(ControlPIPBtn)
+          ControlPIPBtn.onclick = () => {
+            if (!document.pictureInPictureElement) {
+              document.getElementsByClassName('vjs-tech')[0].requestPictureInPicture()
+            } else {
+              document.exitPictureInPicture()
+            }
+          }
+        }
+
+        // 创建剧场模式按钮
+        let ControlFullWindow = document.createElement('a')
+        if (!_that.IsIframe) {
+          ControlFullWindow.className = 'ControlFullWindow iconfont iconjuchang BtnIcon'
+          ControlFullWindow.title = 'FullWindow'
+          ControlBar.appendChild(ControlFullWindow)
+          ControlFullWindow.onclick = _that.TriggerFullWindow()
+        }
+
+        // 创建全屏模式按钮
+        let ControlFullScreen = document.createElement('a')
+        ControlFullScreen.className = 'ControlFullScreen iconfont iconquanping BtnIcon'
+        ControlFullScreen.title = 'FullScreen'
+        ControlBar.appendChild(ControlFullScreen)
+        ControlFullScreen.onclick = _that.TriggerFullScreen(ControlFullScreen)
+        this.on('fullscreenchange', () => { // 切换全屏图标样式绑定
+          window.setTimeout(() => {
+            if (this.isFullscreen()) { // 视频处于全屏状态
+              ControlFullScreen.className = 'ControlFullScreen iconfont iconquanping- BtnIcon'
+              if (!_that.IsIframe) {
+                ControlFullWindow.className = 'ControlFullWindow iconfont iconjuchang BtnIcon Hide'
+              }
+            } else { // 视频处于非全屏状态
+              ControlFullScreen.className = 'ControlFullScreen iconfont iconquanping BtnIcon'
+              if (!_that.IsIframe) {
+                ControlFullWindow.className = 'ControlFullWindow iconfont iconjuchang BtnIcon'
+              }
+            }
+          }, 30)
+        })
+
+        // 创建进度条
+        let ProgressLine = document.createElement('div')
+        ProgressLine.className = 'ProgressLine'
+        ProgressLine.innerHTML = '<div class="Line ProgressLineActive"><a class="ProgressIcon"></a></div>'
+        ControlBar.appendChild(ProgressLine)
+        let ProgressIcon = document.getElementsByClassName('ProgressIcon')[0]
+        _that.ProgressMove(ProgressIcon, this, ProgressLine)
+
+        // 创建缩略图
+        let ProgressThumb = document.createElement('div')
+        ProgressThumb.className = 'ProgressThumb'
+        ProgressThumb.innerHTML = '<div><img class="ThumbSrc cover" src="" /><span class="ThumbTime">00:00:00</span></div>'
+        ProgressLine.appendChild(ProgressThumb)
+        _that.InitProgress(ProgressLine)
+
+        // 播放结束重置状态
+        this.on('ended', function () {
+          window.setTimeout(() => {
+            _that.$emit('Next')
+          }, 1000)
+        })
+        document.onkeydown = (e) => {
+          e = e || event
+          if (e.keyCode === 32 && _that.OnFocus) { // 空格键
+            _that.PlayTrigger()
+            return false
+          }
+          if (e.keyCode === 70 && _that.OnFocus) { // f键
+            ControlFullScreen.click()
+            let Timer = null
+            this.on('fullscreenchange', () => { // 切换全屏图标样式绑定
+              Timer = window.setTimeout(() => {
+                window.clearTimeout(Timer)
+                if (this.isFullscreen()) { // 视频处于全屏状态
+                  ControlFullScreen.className = 'ControlFullScreen iconfont iconquanping- BtnIcon'
+                } else { // 视频处于非全屏状态
+                  ControlFullScreen.className = 'ControlFullScreen iconfont iconquanping BtnIcon'
+                }
+              }, 30)
+            })
+          }
+          if (e.keyCode === 39 && _that.OnFocus) { // 方向右键
+            _that.CurrentTime += 5
+            this.currentTime(_that.CurrentTime)
+          }
+          if (e.keyCode === 37 && _that.OnFocus) { // 方向左键
+            _that.CurrentTime -= 5
+            this.currentTime(_that.CurrentTime)
+          }
+          if (e.keyCode === 38 && _that.OnFocus) { // 方向上键
+            this.volume(this.volume() * 100 + 5 >= 100 ? 1 : ((this.volume() * 100 + 5) / 100).toFixed(2))
+            ControlVoiceSlider.children[0].style.bottom = 0 - 6.5 + this.volume() * 100 + 'px'
+            ControlVoiceSlider.children[1].style.top = 100 - this.volume() * 100 + 'px'
+            ControlVoiceSlider.children[2].innerText = Math.floor(this.volume() * 100)
+            if (this.volume()) {
+              ControlVoice.className = 'ControlVoice iconfont iconshengyin'
+            }
+            return false
+          }
+          if (e.keyCode === 40 && _that.OnFocus) { // 方向下键
+            this.volume(this.volume() * 100 - 5 <= 0 ? 0 : ((this.volume() * 100 - 5) / 100).toFixed(2))
+            ControlVoiceSlider.children[0].style.bottom = 0 - 6.5 + this.volume() * 100 + 'px'
+            ControlVoiceSlider.children[1].style.top = 100 - this.volume() * 100 + 'px'
+            ControlVoiceSlider.children[2].innerText = Math.floor(this.volume() * 100)
+            if (!this.volume()) {
+              ControlVoice.className = 'ControlVoice iconfont iconjingyin'
+            }
+            return false
+          }
+          if (e.keyCode === 77 && _that.OnFocus) { // M键（静音切换）
+            if (this.volume() - 0) { // 非静音
+              _that.NextVolume = this.volume() - 0
+              this.volume(0)
+              ControlVoiceSlider.children[0].style.bottom = 0 - 6.5 + 'px'
+              ControlVoiceSlider.children[1].style.top = 100 - 0 + 'px'
+              ControlVoiceSlider.children[2].innerText = Math.floor(0)
+              ControlVoice.className = 'ControlVoice iconfont iconjingyin'
+            } else { // 静音
+              this.volume(_that.NextVolume)
+              ControlVoiceSlider.children[0].style.bottom = _that.NextVolume * 100 - 6.5 + 'px'
+              ControlVoiceSlider.children[1].style.top = 100 - _that.NextVolume * 100 + 'px'
+              ControlVoiceSlider.children[2].innerText = Math.floor(_that.NextVolume * 100)
+              ControlVoice.className = 'ControlVoice iconfont iconshengyin'
+            }
+            // return false
+          }
+          if (e.keyCode === 83 && _that.OnFocus) { // S键（快慢切换）
+            if (_that.SpeedIndex === 0) {
+              _that.SpeedIndex = 1
+            } else {
+              _that.SpeedIndex = 0
+            }
+            _that.CutSpeed(ControlSpeedList, _that.SpeedIndex)()
+            // return false
+          }
+        }
+        document.getElementsByClassName('videoContent')[0].onmouseover = () => {
+          document.oncontextmenu = (e) => {
+            e = e || event
+            e.returnValue = false
+            MouseRightTab.style.top = e.offsetY + 'px'
+            MouseRightTab.style.left = e.offsetX + 'px'
+            MouseRightTab.style.display = 'block'
+          }
+        }
+        document.getElementsByClassName('videoContent')[0].onmouseleave = () => {
+          document.oncontextmenu = (e) => {
+            e = e || event
+            e.returnValue = true
+          }
+        }
+
+        _that.$emit('PlayerReady')
+      })
+    },
+    ProgressMove (target, video, line) { // 进度条滑动事件
+      let CutLeft = 0
+      target.onmousedown = () => {
+        this.ProgressTimerUnlock = false
+        document.onmousemove = (e) => {
+          e = e || event
+          CutLeft = e.clientX - line.getBoundingClientRect().left
+          document.getElementsByClassName('ProgressLineActive')[0].style.width = CutLeft + 'px'
+          document.onmouseup = () => {
+            document.onmousemove = null
+            document.onmouseup = null
+            this.ProgressTimerUnlock = true
+            video.currentTime(Math.floor(CutLeft / line.getBoundingClientRect().width * video.duration()))
+            this.CurrentTime = Math.floor(CutLeft / line.getBoundingClientRect().width * video.duration())
+          }
+        }
+      }
+    },
+    MiniReback () { // mini模式下返回
+      return () => {
+        this.$emit('ExitMini')
+      }
+    },
+    TriggerFullWindow () { // 切换全窗口模式
+      return () => {
+        let ControlFullWindow = document.getElementsByClassName('ControlFullWindow')[0]
+        this.$emit('TriggerFullWindow')
+        if (this.IsFullWindow) {
+          ControlFullWindow.className = 'ControlFullWindow iconfont iconjuchang BtnIcon'
+        } else {
+          ControlFullWindow.className = 'ControlFullWindow iconfont iconjuchang- BtnIcon'
+        }
+      }
+    },
+    TriggerFullScreen (target) { // 切换全屏
+      return () => {
+        let BlackHoleVideo = videojs('BlackHoleVideo') // 获取videojs实例
+        if (BlackHoleVideo.isFullscreen()) { // 视频处于全屏状态
+          BlackHoleVideo.exitFullscreen()
+          this.IsFullscreen = false
+          this.$emit('ExitFullscreen')
+        } else { // 视频处于非全屏状态
+          this.IsFullscreen = true
+          BlackHoleVideo.requestFullscreen()
+        }
+      }
+    },
+    CutDefinition (target, index) { // 切换清晰度
+      return () => {
+        let BlackHoleVideo = videojs('BlackHoleVideo') // 获取videojs实例
+        let ControlDefinition = document.getElementsByClassName('ControlDefinition')[0]
+        this.CutCurrentTime = BlackHoleVideo.currentTime() - 0
+        BlackHoleVideo.src([{ type: 'application/x-mpegURL', src: this.srcList[index].src }])
+        window.setTimeout(() => {
+          BlackHoleVideo.currentTime(this.CutCurrentTime)
+          this.PlayTrigger()
+          for (let n = 0; n < target.children.length; n++) {
+            if (n === index) {
+              target.children[n].className = 'active'
+            } else {
+              target.children[n].className = ''
+            }
+          }
+          ControlDefinition.children[0].innerText = this.srcList[index].value
+        }, 30)
+      }
+    },
+    CutSpeed (target, index) { // 切换倍速
+      return () => {
+        let BlackHoleVideo = videojs('BlackHoleVideo') // 获取videojs实例
+        let ControlSpeed = document.getElementsByClassName('SpeedState')[0]
+        BlackHoleVideo.playbackRate(this.VideoOptions.playbackRates[index])
+        for (let n = 0; n < target.children.length; n++) {
+          if (n === index) {
+            target.children[n].className = 'active'
+          } else {
+            target.children[n].className = ''
+          }
+        }
+        ControlSpeed.innerText = `${this.VideoOptions.playbackRates[index]}x`
+      }
+    },
+    InitProgress (target) { // 初始化播放进度
+      let BlackHoleVideo = videojs('BlackHoleVideo') // 获取videojs实例
+      let ControlTime = document.getElementsByClassName('ControlTime')[0] // 获取视频时间对象
+      this.VideoTimer = window.setInterval(() => {
+        if (BlackHoleVideo.duration()) {
+          window.clearInterval(this.VideoTimer)
+          this.VideoTimer = null
+          this.PlayTimer = window.setInterval(() => { // 监听播放进度
+            this.CurrentTime = BlackHoleVideo.currentTime()
+            if (Math.floor(BlackHoleVideo.duration()) <= Math.floor(BlackHoleVideo.currentTime())) {
+              window.clearInterval(this.PlayTimer)
+              this.PlayTimer = null
+            }
+            if (this.ProgressTimerUnlock) {
+              target.children[0].style.width = Math.floor(BlackHoleVideo.currentTime()) / Math.floor(BlackHoleVideo.duration()) * target.clientWidth + 'px' // 计算当前播放点显示位置
+            }
+            ControlTime.innerText = this.ToolClass.DateFormat(BlackHoleVideo.currentTime() * 1000) + '/' + this.ToolClass.DateFormat(BlackHoleVideo.duration() * 1000) // 计算显示播放总时长
+          }, 100)
+          target.onclick = (e) => { // 切换播放进度
+            let CutLeft = e.clientX - target.getBoundingClientRect().left
+            let CutPercent = CutLeft / target.getBoundingClientRect().width
+            let CutTime = Math.floor(BlackHoleVideo.duration() * CutPercent)
+            BlackHoleVideo.currentTime(CutTime)
+          }
+          target.onmousemove = (e) => { // 鼠标滑动显示缩略图
+            let PlayProgressWidth = target.getBoundingClientRect().width
+            let ThumbBoxWidth = document.getElementsByClassName('ProgressThumb')[0].getBoundingClientRect().width
+            let CutLeft = e.clientX - target.getBoundingClientRect().left
+            let CutPercent = CutLeft / PlayProgressWidth
+            let CutTime = Math.floor(BlackHoleVideo.duration() * CutPercent)
+            let CutImgIndex = Math.floor(CutTime / 25) + 1
+            let CutImgItemIndex = CutTime % 25 + 1
+            document.getElementsByClassName('ThumbTime')[0].innerText = this.ToolClass.DateFormat(CutTime * 1000)
+            let Left = CutLeft - ThumbBoxWidth / 2
+            if (Left <= 0) {
+              Left = 0
+            } else if (Left >= PlayProgressWidth - ThumbBoxWidth) {
+              Left = PlayProgressWidth - ThumbBoxWidth
+            }
+            document.getElementsByClassName('ProgressThumb')[0].style.left = Left + 'px'
+            document.getElementsByClassName('ThumbSrc')[0].src = `${this.FrontPath}Image3/merged${CutImgIndex}.jpg`
+            document.getElementsByClassName('ThumbSrc')[0].style.top = `-${Math.floor((CutImgItemIndex - 1) / 5) * 90}px`
+            document.getElementsByClassName('ThumbSrc')[0].style.left = `-${((CutImgItemIndex % 5 || 5) - 1) * 160}px`
+          }
+        }
+      }, 13)
+    },
+    PlayTrigger () { // 播放/暂停触发器
+      let BlackHoleVideo = videojs('BlackHoleVideo') // 获取videojs实例
+      let CenterPlayBtn = document.getElementsByClassName('BigPlayBtn')[0] // 获取中央播放按钮
+      let CenterPauseBtn = document.getElementsByClassName('BigPauseBtn')[0] // 获取中央暂停按钮
+      let ControlPlayBtn = document.getElementsByClassName('ControlPlayBtn')[0] // 获取控制条播放按钮
+      if (BlackHoleVideo.paused()) { // 视频处于暂停状态
+        BlackHoleVideo.play()
+        CenterPlayBtn.className = 'centerLabel BigPlayBtn'
+        CenterPauseBtn.className = 'centerLabel BigPauseBtn active'
+        ControlPlayBtn.className = 'ControlPlayBtn BtnIcon'
+      } else { // 视频处于播放状态
+        BlackHoleVideo.pause()
+        CenterPlayBtn.className = 'centerLabel BigPlayBtn active'
+        CenterPauseBtn.className = 'centerLabel BigPauseBtn'
+        ControlPlayBtn.className = 'ControlPlayBtn active BtnIcon'
+      }
+    },
+    VolumeTrigger () { // 音量触发器
+      let BlackHoleVideo = videojs('BlackHoleVideo') // 获取videojs实例
+      let VolumeBtn = document.getElementsByClassName('VolumeBtn')[0] // 获取音量按钮
+      if (this.IsMuted) { // 静音状态
+        this.IsMuted = false
+        BlackHoleVideo.volume(this.CurrentVolume)
+        VolumeBtn.className = 'VolumeBtn'
+      } else { // 非静音状态
+        this.IsMuted = true
+        BlackHoleVideo.volume(0)
+        VolumeBtn.className = 'VolumeBtn active'
+      }
+    },
+    FullTrigger () { // 全屏触发器
+      let BlackHoleVideo = videojs('BlackHoleVideo') // 获取videojs实例
+      if (BlackHoleVideo.isFullscreen()) { // 视频处于全屏状态
+        BlackHoleVideo.exitFullscreen()
+      } else { // 视频处于非全屏状态
+        BlackHoleVideo.requestFullscreen()
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+.components {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  .videoContent {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    > div {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+  }
+}
+</style>

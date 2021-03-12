@@ -1,0 +1,193 @@
+.components.ErrorPage {
+  .Error {
+    padding-top: 40px;
+    align-items: center;
+    > .flex-item {
+      margin-right: 20px;
+      span {
+        width: 100%;
+        display: block;
+        text-align: center;
+        font-size: 16px;
+        color: #999;
+        font-weight: bold;
+        line-height: 30px;
+        margin-top: 20px;
+        &:first-child {
+          font-size: 80px;
+          line-height: 100px;
+          color: #000;
+          margin: 0;
+        }
+      }
+    }
+    .RecommendVideo {
+      width: 40%;
+      > span {
+        font-size: 16px;
+        font-weight: bolder;
+        line-height: 30px;
+      }
+      > a {
+        width: 100%;
+        display: block;
+        padding-bottom: 56.25%;
+        position: relative;
+        overflow: hidden;
+        background: #eee;
+        margin-top: 10px;
+        img {
+          z-index: 1;
+          &.Gif {
+            z-index: 2;
+            display: none;
+          }
+        }
+        &:hover {
+          img.Gif {
+            display: block;
+          }
+          i {
+            display: block;
+          }
+        }
+        i {
+          z-index: 3;
+          color: #fff;
+          width: 60px;
+          line-height: 60px;
+          text-align: center;
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 100%;
+          font-size: 30px;
+          display: none;
+          &:hover {
+            color: #e2041b;
+          }
+        }
+      }
+      > div {
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0;
+        margin-top: 20px;
+        > a {
+          display: inline-block;
+          font-size: 12px;
+          line-height: 30px;
+          width: 136px;
+          text-align: center;
+          border-radius: 3px;
+          background: #999;
+          color: #fff;
+          margin-left: 20px;
+          vertical-align: middle;
+          &:first-child {
+            background: #e2041b;
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+  .PopVideoList {
+    position: relative;
+    overflow: hidden;
+    margin-top: 80px;
+    > span {
+      width: 100%;
+      display: block;
+      font-size: 16px;
+      line-height: 30px;
+      font-weight: bold;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+    }
+    > ul {
+      margin-top: 20px;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 0;
+      padding-bottom: 20px;
+      > li {
+        display: inline-block;
+        font-size: 16px;
+        vertical-align: middle;
+        width: calc((100% - 100px) / 6);
+        position: relative;
+        overflow: hidden;
+        margin-left: 20px;
+        &:first-child {
+          margin-left: 0;
+        }
+        > .Img {
+          width: 100%;
+          display: block;
+          padding-bottom: 56.25%;
+          position: relative;
+          overflow: hidden;
+          background: #eee;
+          > img {
+            z-index: 1;
+            &.Gif {
+              z-index: 2;
+              display: none;
+            }
+          }
+          &:hover {
+            > img.Gif {
+              display: block;
+            }
+            > i {
+              display: block;
+            }
+          }
+          > i {
+            z-index: 3;
+            color: #fff;
+            width: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 100%;
+            font-size: 20px;
+            display: none;
+            &:hover {
+              color: #e2041b;
+            }
+          }
+        }
+        > .Title {
+          width: 100%;
+          display: block;
+          font-size: 12px;
+          font-weight: bold;
+          color: #000;
+          line-height: 20px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          &:hover {
+            text-decoration: underline;
+            color: #e2041b;
+          }
+        }
+        > .flex-h {
+          align-items: center;
+          span {
+            font-size: 12px;
+            color: #999;
+            line-height: 20px;
+            &:first-child {
+              margin-right: 10px;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+    }
+  }
+}

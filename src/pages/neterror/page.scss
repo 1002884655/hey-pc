@@ -1,0 +1,19 @@
+#app {
+  background: #111;
+  position: relative;
+  overflow: hidden;
+  .ErrorBox {
+    > i {
+      font-size: 60px;
+      color: #999;
+    }
+    > span {
+      display: block;
+      font-size: 16px;
+      color: #999;
+      line-height: 20px;
+      margin-top: 10px;
+      text-align: center;
+    }
+  }
+}

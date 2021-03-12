@@ -1,0 +1,104 @@
+.components {
+  .Title {
+    align-items: center;
+    span {
+      font-size: 16px;
+      line-height: 20px;
+    }
+    a {
+      font-size: 12px;
+      color: #888;
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+  .List {
+    font-size: 0;
+    margin: 20px auto 0;
+    > li {
+      width: calc((100% - 15px) / 4);
+      display: inline-block;
+      margin: 0 0 10px 5px;
+      position: relative;
+      overflow: hidden;
+      vertical-align: middle;
+      &.none {
+        margin: 0 0 10px 0;
+      }
+      .Img {
+        width: 100%;
+        display: block;
+        padding-bottom: 56.25%;
+        background: #1a1a1a;
+        position: relative;
+        overflow: hidden;
+        img {
+          z-index: 1;
+        }
+        i {
+          z-index: 2;
+          display: none;
+          line-height: 40px;
+          width: 40px;
+          text-align: center;
+          border-radius: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          color: #fff;
+          &:hover {
+            color: #e2041b;
+          }
+        }
+        &:hover {
+          i {
+            display: inline-block;
+          }
+        }
+      }
+      > .flex-h {
+        align-items: center;
+        > .flex-item {
+          margin-right: 10px;
+          > div {
+            * {
+              width: 100%;
+              display: block;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+            }
+            a {
+              margin-top: 5px;
+              font-size: 12px;
+              color: #fff;
+              line-height: 20px;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+            span {
+              font-size: 10px;
+              color: #888;
+              line-height: 16px;
+            }
+          }
+        }
+        > span {
+          font-size: 10px;
+          color: #888;
+          &.Score {
+            line-height: 16px;
+            color: #fff;
+            width: 28px;
+            border-radius: 0 16px 16px 0;
+            background: #e2041b;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+  .PlayerComment {
+    margin: 20px auto 0;
+  }
+}

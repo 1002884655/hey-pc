@@ -1,0 +1,25 @@
+#app {
+  .Text {
+    padding: 68px 20px;
+    > pre {
+      width: 100%;
+      margin-top: 30px;
+      white-space: pre-wrap;
+      font-size: 14px;
+      line-height: 20px;
+      position: relative;
+      overflow: hidden;
+      > a {
+        color: #0086b2;
+        font-weight: bold;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      > img {
+        max-width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

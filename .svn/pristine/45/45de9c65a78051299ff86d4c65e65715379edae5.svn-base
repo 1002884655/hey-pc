@@ -1,0 +1,53 @@
+.components {
+  > ul {
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+    > li {
+      > ul {
+        margin-top: 20px;
+        > li {
+          align-items: center;
+          span {
+            font-size: 12px;
+            line-height: 30px;
+            a {
+              width: 26px;
+              height: 26px;
+              display: inline-block;
+              position: relative;
+              overflow: hidden;
+              margin-top: 2px;
+              img {
+                display: block;
+                height: 100%;
+              }
+              &:hover {
+                img:nth-child(1) {
+                  display: none;
+                }
+                img:nth-child(2) {
+                  display: block;
+                }
+              }
+              &.active {
+                img:nth-child(1) {
+                  display: none;
+                }
+                img:nth-child(2) {
+                  display: block;
+                }
+              }
+            }
+          }
+          &:first-child {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+            span {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+}

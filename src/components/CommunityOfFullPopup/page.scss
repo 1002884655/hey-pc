@@ -1,0 +1,201 @@
+.components {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  > .flex-h {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    > .flex-item {
+      > .flex-item {
+        position: relative;
+        overflow: hidden;
+        > a.iconfont {
+          display: inline-block;
+          position: absolute;
+          z-index: 100;
+          font-size: 24px;
+          color: #666;
+          top: 20px;
+          &:hover {
+            color: #fff;
+          }
+          &.iconquanping--,
+          &.iconsuoxiao {
+            left: 20px;
+          }
+          &.iconguanbi {
+            right: 20px;
+          }
+        }
+        > .ShowArea {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          overflow: hidden;
+          .TestSizeImg {
+            position: absolute;
+            display: block;
+            left: -100000px;
+            opacity: 0;
+          }
+          > a.iconfont {
+            display: inline-block;
+            position: absolute;
+            z-index: 100;
+            font-size: 45px;
+            color: #666;
+            top: 50%;
+            // font-weight: bold;
+            transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            &:hover {
+              color: #fff;
+            }
+            &.Prev {
+              left: 20px;
+            }
+            &.Next {
+              right: 20px;
+            }
+          }
+        }
+      }
+      > .PreviewList {
+        height: 108px;
+        padding: 30px 0;
+        position: relative;
+        overflow: visible;
+        > div {
+          width: 100%;
+          height: 100%;
+          .swiper-slide {
+            > div {
+              box-sizing: border-box;
+              border: 1px solid #333;
+              > a {
+                width: 100%;
+                display: block;
+                padding-bottom: 56.25%;
+                position: relative;
+                overflow: hidden;
+                > img {
+                  z-index: 1;
+                }
+                > div {
+                  width: 100%;
+                  height: 100%;
+                  position: absolute;
+                  z-index: 2;
+                  background: rgba(0, 0, 0, 0.7);
+                }
+              }
+              &.active {
+                border-color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+    > .CommentContainer {
+      width: 22%;
+      max-width: 450px;
+      min-width: 300px;
+      border-left: 1px solid #333;
+      position: relative;
+      overflow: visible;
+      > .ColumnOfShare {
+        font-size: 0;
+        white-space: nowrap;
+        padding: 15px 0;
+        border-bottom: 1px solid #333;
+        > * {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 16px;
+          color: #fff;
+          line-height: 30px;
+        }
+        > a {
+          font-size: 24px;
+          line-height: 30px;
+          margin-left: 30px;
+          &:hover,
+          &.active {
+            color: #e2041b;
+          }
+        }
+        > span {
+          margin-left: 5px;
+        }
+      }
+      > .ColumnOfUserInfo {
+        padding: 15px;
+        align-items: center;
+        border-bottom: 1px solid #333;
+        > .Icon {
+          width: 68px;
+          position: relative;
+          overflow: hidden;
+          margin-right: 10px;
+          > a {
+            width: 100%;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            border-radius: 100%;
+            background: #333;
+            padding-bottom: 100%;
+          }
+        }
+        > .flex-item {
+          > span {
+            width: 100%;
+            display: block;
+            font-size: 12px;
+            color: #999;
+            line-height: 20px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            &:first-child {
+              font-size: 16px;
+              color: #fff;
+              margin-bottom: 10px;
+            }
+          }
+        }
+        > .Opreation {
+          width: 100px;
+          margin-left: 10px;
+          > a {
+            width: 100%;
+            display: block;
+            text-align: center;
+            font-size: 12px;
+            color: #fff;
+            background: #e2041b;
+            border-radius: 3px;
+            margin-top: 10px;
+            line-height: 30px;
+            &:first-child {
+              margin-top: 0;
+            }
+          }
+        }
+      }
+      >.TextContainer {
+        padding: 15px;
+        border-bottom: 1px solid #333;
+        font-size: 14px;
+        color: #cccccc;
+        line-height: 20px;
+        word-break: break-all;
+        text-align: justify;
+      }
+    }
+  }
+}

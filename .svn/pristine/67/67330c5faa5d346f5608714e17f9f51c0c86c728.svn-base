@@ -1,0 +1,53 @@
+<template>
+  <div class="components CutNavByActiveLine" ref="CutNavByActiveLine">
+    <a v-for="(item, index) in data" ref="NavItem" :key="index" :class="{'active': (ActiveIndex || 0) === index}" @click="CutNav(index)">{{item.Name}}</a>
+    <div class="ActiveLine" :style="{width: `${AnimateArr.length >= data.length ? AnimateArr[(ActiveIndex || 0)].Width : 0}px`, left: `${AnimateArr.length >= data.length ? AnimateArr[(ActiveIndex || 0)].Left : 0}px`}"></div>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'CutNavByActiveLine',
+  props: ['data', 'ActiveIndex'],
+  data () {
+    return {
+      AnimateArr: []
+    }
+  },
+  computed: {
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Init () { // 初始化
+      this.AnimateArr = []
+      let NavArr = this.$refs.NavItem
+      let ParentLeft = this.$refs.CutNavByActiveLine.getBoundingClientRect().left
+      window.setTimeout(() => {
+        NavArr.map((item) => {
+          this.AnimateArr.push({
+            Left: item.getBoundingClientRect().left - ParentLeft,
+            Width: item.getBoundingClientRect().width
+          })
+        })
+      }, 100)
+    },
+    CutNav (index) { // 切换nav
+      this.$emit('Change', index)
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

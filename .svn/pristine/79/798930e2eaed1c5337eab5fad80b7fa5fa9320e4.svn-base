@@ -1,0 +1,68 @@
+<template>
+  <div id="app" class="WhitePage">
+
+    <!-- 页面主题框架 -->
+    <MainPage :ActiveIndex="2" :MenuActiveIndex="[null, null]" @GetUserInfoChange="GetUserInfoChange">
+      <!-- 个人背景 -->
+      <div class="UserBg">
+        <img src="" class="centerLabel cover" alt="">
+      </div>
+
+      <!-- 主体 -->
+      <div class="MainContent flex-h">
+
+        <!-- 主体左侧 -->
+        <div class="Left">
+          <CommunityLeft></CommunityLeft>
+        </div>
+
+        <!-- 主体内容 -->
+        <div class="flex-item">
+          <div>
+            <CommunityContent></CommunityContent>
+          </div>
+        </div>
+
+        <!-- 主体右侧 -->
+        <div class="Right">
+          <CommunityRight></CommunityRight>
+        </div>
+      </div>
+    </MainPage>
+  </div>
+</template>
+
+<script>
+import MainPage from '../../components/MainPage'
+import CommunityLeft from '../../components/CommunityLeft'
+import CommunityContent from '../../components/CommunityContent'
+import CommunityRight from '../../components/CommunityRight'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState } = createNamespacedHelpers('user')
+
+export default {
+  components: {
+    MainPage,
+    CommunityLeft,
+    CommunityContent,
+    CommunityRight
+  },
+  data () {
+    return {
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo // 用户信息
+    })
+  },
+  methods: {
+    GetUserInfoChange () {
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

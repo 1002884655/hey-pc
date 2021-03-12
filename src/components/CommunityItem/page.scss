@@ -1,0 +1,214 @@
+.components.CommunityItem {
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+  overflow: visible;
+  background: #222;
+  a.DeleteIcon {
+    display: none !important;
+  }
+  &:hover {
+    a.DeleteIcon {
+      display: inline-block !important;
+    }
+  }
+  > div.flex-h {
+    width: calc(100% - 20px);
+    padding: 10px;
+    align-items: flex-start;
+    position: relative;
+    overflow: visible;
+    > .Icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 100%;
+      background: #333;
+      margin-right: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+    > .flex-item {
+      overflow: visible;
+      > .Title {
+        align-items: center;
+        overflow: visible;
+        > div {
+          font-size: 0;
+          white-space: nowrap;
+          > a {
+            font-size: 14px;
+            line-height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+            font-weight: bold;
+          }
+          > span {
+            font-size: 12px;
+            color: #666;
+            vertical-align: middle;
+            vertical-align: middle;
+            margin-left: 10px;
+          }
+        }
+        > a {
+          display: inline-block;
+          position: relative;
+          overflow: visible;
+          &:hover {
+            > i {
+              color: #fff;
+            }
+            > .Tips {
+              display: block;
+            }
+          }
+          > i {
+            display: inline-block;
+            font-size: 14px;
+            color: #999;
+          }
+          > .Tips {
+            display: none;
+            width: 190px;
+            position: absolute;
+            top: 20px;
+            right: 0;
+            background: #fff;
+            // padding: 5px 0;
+            > a {
+              display: block;
+              font-size: 14px;
+              color: #000;
+              line-height: 40px;
+              border-top: 1px solid #eee;
+              text-indent: 10px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              user-select: none;
+              &:first-child {
+                border: none;
+              }
+              > em {
+                font-size: 14px;
+                color: #e2041b;
+                line-height: 40px;
+              }
+              &:hover {
+                background: #e2041b;
+                color: #fff;
+                > em {
+                  color: #fff;
+                }
+              }
+            }
+          }
+        }
+      }
+      > .Content {
+        margin-top: 10px;
+        padding-right: 20px;
+        > span {
+          display: block;
+          font-size: 12px;
+          color: #fff;
+          line-height: 20px;
+          text-align: justify;
+          color: #999;
+          word-break: break-all;
+        }
+      }
+      > .Tab {
+        font-size: 0;
+        white-space: nowrap;
+        margin-top: 10px;
+        > a {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 0;
+          white-space: nowrap;
+          margin-left: 20px;
+          user-select: none;
+          &:first-child {
+            margin-left: 0;
+          }
+          &:hover {
+            > * {
+              color: #fff;
+            }
+          }
+          &.active {
+            > * {
+              color: #e2041b;
+            }
+          }
+          > * {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 12px;
+            color: #999;
+            line-height: 20px;
+          }
+          > i {
+            font-size: 18px;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+  }
+  > .Level1Input {
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    padding: 10px 74px;
+    position: relative;
+    overflow: visible;
+    > textarea {
+      width: calc(100% - 20px);
+      display: block;
+      font-size: 14px;
+      line-height: 20px;
+      color: #fff;
+      background: #000;
+      padding: 10px;
+    }
+    > div {
+      align-items: center;
+      margin-top: 10px;
+      position: relative;
+      overflow: visible;
+      > a {
+        user-select: none;
+        &.TopicEmoji {
+          font-size: 20px;
+          color: #999;
+          position: relative;
+          overflow: visible;
+          &:hover {
+            color: #fff;
+            > div {
+              display: block;
+            }
+          }
+          > div {
+            display: none;
+            width: 327px;
+            height: 429px;
+            position: absolute;
+            left: 5px;
+            top: 15px;
+            z-index: 10;
+          }
+        }
+        &:last-child {
+          font-size: 12px;
+          line-height: 25px;
+          width: 75px;
+          text-align: center;
+          background: #e2041b;
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+}

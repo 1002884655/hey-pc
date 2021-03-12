@@ -1,0 +1,331 @@
+<template>
+  <div id="app" :class="{'WhitePage': ShowError}">
+    <MainPage ref="MainPage" @UserInfoChange="UserInfoChange" @NetSpeedTestEnd="NetSpeedTestEnd" :Show="!IsFullWindow">
+      <div class="MainContainer" v-if="MediaInfo !== null && MediaInfo.video !== null && !ShowError">
+
+        <!-- 播放区域 -->
+        <div class="PlayerContainer flex-h">
+          <div class="flex-item">
+
+            <!-- 播放器 -->
+            <div class="PlayerArea">
+              <div>
+                <div class="PlayerBorder" :class="{'active': IsMiniPlayer && MiniLock, 'IsFullWindow': IsFullWindow, 'DragPlayerBorder': IsMiniPlayer && MiniLock}">
+                  <HeyPornPlayer :class="{'mini': IsMiniPlayer && MiniLock, 'ShowMiniClose': IsMiniPlayer}" v-if="MediaSrcList.length && CapacityActiveIndex !== null" :OnFocus="PlayerFocus" :activeIndex="CapacityActiveIndex" :srcList="MediaSrcList" :FrontPath="MediaInfo.video.videoPath" @TriggerFullWindow="TriggerFullWindow" :IsFullWindow="IsFullWindow" @ExitMini="ExitMini" @Next="NextMedia" @PositionChange="PlayerDrag" @PositionChangeEnd="PlayerDragEnd"></HeyPornPlayer>
+                </div>
+              </div>
+            </div>
+
+            <!-- 播放区域底部信息 -->
+            <div class="BottomInfo">
+              <i class="iconfont iconbofang-"></i>
+              <span>Album Viewed {{MediaInfo.video.playNum}} Times</span>
+              <!-- <a>
+                <i class="iconfont iconfenxiang"></i>
+                <span>Share</span>
+              </a> -->
+            </div>
+          </div>
+
+          <!-- 播放器右侧推荐区域 -->
+          <div class="PlayerRecommend flex-v">
+            <div class="Title flex-h">
+              <span class="flex-item" :title="MediaInfo.video.title">{{MediaInfo.video.title}}</span>
+              <a :class="{'active': !MediaInfo.collectStatus}" @click="CollectVideoById">
+                <i class="iconfont iconjia" v-if="!MediaInfo.collectStatus"></i>
+                <span>{{MediaInfo.collectStatus ? 'Has Collected' : 'Collection'}}</span>
+              </a>
+            </div>
+            <span>Associated trailers</span>
+            <div class="flex-item">
+              <div>
+                <ScrollY>
+                  <PlayerRecommendY :List="VideoRecommendList.slice(0, 10)"></PlayerRecommendY>
+                </ScrollY>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 视频更多信息 -->
+        <div class="VideoMoreInfo">
+          <VideoMoreInfo :MediaInfo="MediaInfo"></VideoMoreInfo>
+        </div>
+
+        <!-- 推荐及评论 -->
+        <div class="RecommendAndComment flex-h">
+          <div class="flex-item">
+
+            <!-- 演职员表 -->
+            <PlayerActorList :MediaInfo="MediaInfo"></PlayerActorList>
+
+            <!-- 推荐列表 -->
+            <PlayerRecommendX :List="VideoRecommendList.slice(10, 8)" v-if="VideoRecommendList.slice(10, 8).length"></PlayerRecommendX>
+
+            <!-- 评论列表 -->
+            <div class="CommentListContainer">
+              <PlayerComment @ToLogin="$refs.MainPage.Login()"></PlayerComment>
+            </div>
+
+            <!-- 推荐列表 -->
+            <PlayerRecommendX :List="VideoRecommendList.slice(18, 20)" v-if="VideoRecommendList.slice(18, 20).length"></PlayerRecommendX>
+          </div>
+
+          <!-- Hot List -->
+          <div class="HotList">
+            <div class="Title flex-h">
+              <span class="flex-item">Hot List</span>
+              <a>All</a>
+            </div>
+            <PlayerRecommendY :List="HotVideoListForDay"></PlayerRecommendY>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 404页面 -->
+      <div class="ErrorContainer" v-if="ShowError">
+        <ErrorPage></ErrorPage>
+      </div>
+
+    </MainPage>
+  </div>
+</template>
+
+<script>
+/*
+  页面名称：视频播放页
+  创建人：许成祥
+  创建时间：2019/12/30
+  最近修改人：许成祥
+  最近修改日期：2020/03/10
+  备注： 无
+*/
+import MainPage from '../../components/MainPage'
+import ScrollY from '../../components/ScrollY'
+import PlayerRecommendY from '../../components/PlayerRecommendY'
+import PlayerRecommendX from '../../components/PlayerRecommendX'
+import VideoMoreInfo from '../../components/VideoMoreInfo'
+import PlayerActorList from '../../components/PlayerActorList'
+import PlayerComment from '../../components/PlayerComment'
+import HeyPornPlayer from '../../components/HeyPornPlayer'
+import ErrorPage from '../../components/ErrorPage'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+const { mapState: mapMediaState, mapActions: mapMediaActions, mapMutations: mapMediaMutations } = createNamespacedHelpers('media')
+export default {
+  components: {
+    MainPage,
+    ScrollY,
+    PlayerRecommendY,
+    PlayerRecommendX,
+    VideoMoreInfo,
+    PlayerActorList,
+    PlayerComment,
+    HeyPornPlayer,
+    ErrorPage
+  },
+  data () {
+    return {
+      ShowError: false, // 显示404页面
+      IsMiniPlayer: false, // 播放器mini模式开关
+      DataLock: false, // 数据锁
+      MediaSrcList: [], // 视频链接数据
+      CapacityActiveIndex: null, // 适配清晰度索引值
+      CurrentCapacity: null, // 当前适配清晰度
+      IsFullWindow: false, // 全窗口模式状态
+      CurrentNetSpeed: null, // 当前网速（粗略值）
+      MiniLock: true,
+      CurrentPlayerPosition: [18, 10], // 当前播放器位置：right, bottom
+      PlayerPositionDifferenceValue: [0, 0], // 播放器位移差值
+      PlayerFocus: false // 播放器获得焦点状态
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo // 用户信息
+    }),
+    ...mapMediaState({
+      MediaInfo: x => x.MediaInfo, // 视频信息
+      VideoRecommendList: x => x.VideoRecommendList, // 推荐视频列表
+      HotVideoListForDay: x => x.HotVideoListForDay // 视频日排行
+    })
+  },
+  created () {
+    this.ToolClass.WindowClick(() => {
+      this.PlayerFocus = false
+    })
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.MainPageScroll()
+    })
+  },
+  methods: {
+    ...mapMediaActions([
+      'GetMediaInfoById',
+      'GetVideoRecommend',
+      'GetHotVideoListForDay'
+    ]),
+    ...mapMediaMutations([
+      'EditMediaInfo'
+    ]),
+    ...mapUserActions([
+      'AddCollect'
+    ]),
+    CollectVideoById () { // 收藏视频
+      if (this.UserInfo !== null) { // 用户已登录
+        if (!this.DataLock) {
+          this.DataLock = true
+          this.AddCollect({
+            accountId: this.UserInfo.id,
+            collectType: 1,
+            workId: this.ToolClass.GetUrlParams('id')
+          }).then(() => {
+            this.EditMediaInfo({ collectStatus: 1 })
+            this.DataLock = false
+          }).catch(() => {
+            this.DataLock = false
+          })
+        }
+      } else { // 用户未登录
+        this.$emit('NeedLogin')
+      }
+    },
+    PlayerDrag (e) { // 播放器拖拽
+      let DragPlayerBorder = document.getElementsByClassName('DragPlayerBorder')[0]
+      if (DragPlayerBorder) {
+        let X = this.CurrentPlayerPosition[0] - e[0]
+        let Y = this.CurrentPlayerPosition[1] - e[1]
+        X = X < 8 ? 8 : X
+        X = X > document.body.clientWidth - 400 ? document.body.clientWidth - 400 : X
+        Y = Y < 0 ? 0 : Y
+        Y = Y > document.body.clientHeight - 68 - 225 ? document.body.clientHeight - 68 - 225 : Y
+        this.PlayerPositionDifferenceValue = [X, Y]
+        DragPlayerBorder.style.right = `${this.PlayerPositionDifferenceValue[0]}px`
+        DragPlayerBorder.style.bottom = `${this.PlayerPositionDifferenceValue[1]}px`
+      }
+    },
+    PlayerDragEnd () { // 播放器拖拽停止
+      this.CurrentPlayerPosition = this.PlayerPositionDifferenceValue.slice(0)
+    },
+    MainPageScroll () { // 页面滚动监听
+      let HeyScroll = document.getElementsByClassName('HeyScroll')[0].firstElementChild
+      HeyScroll.onscroll = () => {
+        this.IsMiniPlayer = HeyScroll.scrollTop >= 200
+        if (HeyScroll.scrollTop <= 100) {
+          this.MiniLock = true
+        }
+      }
+    },
+    UserInfoChange () { // 用户登录信息更新
+      this.GetMediaInfoById({
+        id: this.ToolClass.GetUrlParams('id'),
+        params: { accountId: this.UserInfo !== null ? this.UserInfo.id : null }
+      }).then(() => {
+        if (this.MediaInfo !== null && this.MediaInfo.video !== null) {
+          let Arr = []
+          for (let n in JSON.parse(this.MediaInfo.video.capacity)) {
+            if (JSON.parse(this.MediaInfo.video.capacity)[n] - 0) {
+              Arr.push({
+                src: `${this.MediaInfo.video.videoPath}${n}/index.m3u8`,
+                id: n,
+                value: n - 0 === 1 ? '360P' : n - 0 === 2 ? '576P' : n - 0 === 4 ? '720P' : n - 0 === 8 ? '1080P' : n - 0 === 16 ? '4K' : '-P'
+              })
+            }
+          }
+          if (this.CurrentNetSpeed !== null) { // 清晰度适配
+            this.CurrentCapacity = this.MatchingCapacity(JSON.parse(this.MediaInfo.video.capacity), this.CurrentNetSpeed)
+            if (this.CapacityActiveIndex === null) {
+              Arr.map((item, index) => { // 默认清晰度索引
+                if (item.id - 0 === this.CurrentCapacity - 0) {
+                  this.CapacityActiveIndex = index
+                }
+              })
+            }
+          }
+          this.MediaSrcList = Arr
+        } else {
+          // window.location.assign(`./error.html`)
+          this.ShowError = true
+        }
+      })
+      this.GetHotVideoListForDay() // 获取视频日排行
+      this.ToGetVideoRecommend() // 获取推荐视频
+    },
+    ToGetVideoRecommend () { // 获取推荐视频
+      let Params = {
+        pageNum: 1,
+        pageSize: 40,
+        videoId: this.ToolClass.GetUrlParams('id')
+      }
+      if (this.UserInfo !== null) {
+        Params.accountId = this.UserInfo.id
+      }
+      this.GetVideoRecommend({ ...Params })
+    },
+    NextMedia () { // 下一个视频
+      if (this.VideoRecommendList.length) {
+        window.location.href = `./media.html?id=${this.VideoRecommendList[0].videoId}`
+      }
+    },
+    ExitMini () { // 退出mini模式
+      this.MiniLock = false
+      this.IsMiniPlayer = false
+    },
+    TriggerFullWindow () { // 切换全窗口模式
+      this.IsFullWindow = !this.IsFullWindow
+    },
+    MatchingCapacity (target, speed) { // 匹配清晰度
+      let CurrentCapacity = 4 // 默认 720p
+      let CurrentIndex = 0
+      let Arr = []
+      if (speed <= 70) { // 360p
+        CurrentCapacity = 1
+        CurrentIndex = 0
+      } else if (speed > 70 && speed <= 179) { // 576p
+        CurrentCapacity = 2
+        CurrentIndex = 1
+      } else if (speed > 179 && speed <= 280) { // 720p
+        CurrentCapacity = 4
+        CurrentIndex = 2
+      } else if (speed > 280) { // 1080p
+        CurrentCapacity = 8
+        CurrentIndex = 3
+      }
+      if (target[`${CurrentCapacity}`] - 0 === 0) { // 匹配清晰度无资源，取最佳清晰度
+        for (let n in target) {
+          Arr.push({ name: n, value: target[n] })
+        }
+        for (let n = CurrentIndex; n >= 0; n--) {
+          if (Arr[n].value - 0) {
+            return Arr[n].name
+          }
+        }
+      }
+      return CurrentCapacity
+    },
+    NetSpeedTestEnd (e) { // 网速测试结束回调
+      this.CurrentNetSpeed = e
+      if (this.MediaInfo !== null && this.MediaInfo.video !== null && this.CurrentCapacity === null) {
+        this.CurrentCapacity = this.MatchingCapacity(JSON.parse(this.MediaInfo.video.capacity), this.CurrentNetSpeed)
+        if (this.MediaSrcList.length && this.CapacityActiveIndex === null) {
+          this.MediaSrcList.map((item, index) => { // 默认清晰度索引
+            if (item.id - 0 === this.CurrentCapacity - 0) {
+              this.CapacityActiveIndex = index
+            }
+          })
+          if (this.CapacityActiveIndex === null) {
+            this.CapacityActiveIndex = 0
+          }
+        }
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

@@ -1,0 +1,255 @@
+.components.PlayerComment {
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  background: #252525;
+  .Title {
+    align-items: center;
+    span {
+      font-size: 10px;
+      line-height: 25px;
+      &:first-child {
+        font-size: 18px;
+        margin-right: 20px;
+      }
+    }
+    ul {
+      font-size: 0;
+      white-space: nowrap;
+      li {
+        width: 15px;
+        text-align: center;
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 12px;
+        line-height: 20px;
+        background: #8e8e8e;
+        &:hover {
+          cursor: pointer;
+        }
+        &.active {
+          background: #e2041b;
+        }
+      }
+    }
+  }
+  .CommentTopic {
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+    background: #303030;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    textarea {
+      width: 100%;
+      border: none;
+      background: none;
+      color: #fff;
+      font-size: 15px;
+      line-height: 20px;
+    }
+    > div {
+      align-items: center;
+      > div {
+        margin-right: 20px;
+        > div {
+          width: 100%;
+          position: relative;
+          overflow: hidden;
+          a {
+            font-size: 20px;
+            color: #fff;
+          }
+        }
+      }
+      > a {
+        width: 80px;
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 30px;
+        text-align: center;
+        background: #e2041b;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  .CommentList {
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+    > li {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 15px;
+      .UserIcon {
+        width: 40px;
+        margin-right: 10px;
+        a {
+          width: 100%;
+          display: block;
+          padding-bottom: 100%;
+          position: relative;
+          overflow: hidden;
+          border-radius: 100%;
+          background: #333;
+        }
+      }
+      > .flex-item {
+        > div {
+          position: relative;
+          overflow: hidden;
+          .Name {
+            font-size: 0;
+            white-space: nowrap;
+            > * {
+              display: inline-block;
+              margin-right: 10px;
+              vertical-align: middle;
+              line-height: 20px;
+              color: #3a3a3a;
+              font-size: 12px;
+              font-weight: bold;
+              &:first-child {
+                color: #fff;
+              }
+            }
+          }
+          .Text {
+            line-height: 20px;
+            font-size: 12px;
+          }
+          .Operation {
+            font-size: 0;
+            white-space: nowrap;
+            > * {
+              display: inline-block;
+              font-size: 12px;
+              margin-right: 10px;
+              vertical-align: middle;
+              line-height: 28px;
+              &:nth-child(1),
+              &:nth-child(2) {
+                font-size: 18px;
+              }
+              &.red {
+                color: #e2041b;
+              }
+            }
+          }
+          > a {
+            font-size: 0;
+            white-space: nowrap;
+            > * {
+              display: inline-block;
+              vertical-align: middle;
+              font-size: 14px;
+              line-height: 20px;
+            }
+            i {
+              font-size: 12px;
+              margin-left: 10px;
+            }
+            &.active,
+            &:hover {
+              * {
+                color: #e2041b;
+              }
+            }
+          }
+          .ReplyList {
+            margin-top: 15px;
+            background: #212121;
+            padding: 10px;
+            display: none;
+            &.active {
+              display: block;
+            }
+            > li {
+              margin-bottom: 10px;
+              .UserIcon {
+                width: 34px;
+              }
+              .Text {
+                em {
+                  color: #e23f50;
+                  display: inline-block;
+                  margin-right: 5px;
+                }
+              }
+            }
+          }
+          .ReplyInput {
+            margin-top: 15px;
+            background: #2f2f2f;
+            display: none;
+            &.active {
+              display: flex;
+              display: -webkit-flex;
+            }
+            > div {
+              margin-right: 20px;
+              margin-left: 10px;
+              > div {
+                position: relative;
+                overflow: hidden;
+                textarea {
+                  width: 100%;
+                  background: none;
+                  border: none;
+                  font-size: 12px;
+                  line-height: 20px;
+                  padding: 5px 0;
+                  color: #fff;
+                }
+              }
+            }
+            > a:last-child {
+              width: 80px;
+              position: relative;
+              overflow: hidden;
+              background: #e2041b;
+              span {
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  > .NextPage {
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    a {
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 14px;
+      line-height: 30px;
+      &:hover {
+        color: #e2041b;
+        i {
+          color: #e2041b;
+        }
+      }
+    }
+    span {
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 14px;
+      line-height: 30px;
+    }
+  }
+  .EmojiBoxer {
+    position: fixed;
+    z-index: 100;
+    display: none;
+    width: 327px;
+    height: 429px;
+    &.active {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,100 @@
+<template>
+  <div class="components flex-v">
+
+    <!-- 标题 -->
+    <div class="Title flex-h">
+      <div class="flex-item">
+        <div><span>{{MediaInfo !== null ? MediaInfo.video.title : null}}</span></div>
+      </div>
+      <a v-if="UserInfo !== null && MediaInfo !== null && MediaInfo.collectStatus" class="Grey"><span>Has Collected</span></a>
+      <a v-else @click="CollectVideoById(MediaInfo.video.videoId)">
+        <i class="iconfont iconjia"></i>
+        <span>Collection</span>
+      </a>
+    </div>
+
+    <!-- 推荐列表 -->
+    <div class="List flex-item">
+      <RecommendListY name="Associated trailers" :more="false" :list="list"></RecommendListY>
+    </div>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+import { Notification } from 'element-ui'
+import RecommendListY from '../RecommendListY'
+import { createNamespacedHelpers } from 'vuex'
+Vue.prototype.$notify = Notification
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+const { mapState: mapMediaState, mapMutations: mapMediaMutations } = createNamespacedHelpers('media')
+
+export default {
+  name: 'PlayerRecommendList',
+  props: ['data', 'list'],
+  data () {
+    return {
+      UnLock: true
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo // 用户信息
+    }),
+    ...mapMediaState({
+      MediaInfo: x => x.MediaInfo // 视频信息
+    })
+  },
+  components: {
+    RecommendListY
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    ...mapUserActions(['AddCollect']),
+    ...mapMediaMutations(['EditMediaInfo']),
+    Init () { // 初始化
+    },
+    CollectVideoById (id) { // 收藏视频
+      if (this.UserInfo !== null && !this.MediaInfo.collectStatus) { // 用户已登录且未收藏
+        if (id !== null) {
+          if (this.UnLock) {
+            this.UnLock = false
+            this.AddCollect({
+              accountId: this.UserInfo.id,
+              collectType: 1,
+              workId: id
+            }).then(() => {
+              this.UnLock = true
+              this.EditMediaInfo({ collectStatus: true })
+              this.$notify.success({
+                title: 'success',
+                message: 'Collection of success!'
+              })
+            }).catch(() => {
+              this.UnLock = true
+            })
+          }
+        } else {
+          this.$notify.error({
+            title: 'error',
+            message: 'Video message error!'
+          })
+        }
+      } else { // 用户未登录
+        this.$emit('NeedLogin')
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

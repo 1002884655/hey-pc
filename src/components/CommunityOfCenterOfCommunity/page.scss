@@ -1,0 +1,47 @@
+.components.CommunityOfCenterOfCommunity {
+  > ul {
+    > li {
+      margin-top: 10px;
+      position: relative;
+      overflow: visible;
+    }
+  }
+  > .NextPage {
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    max-width: 700px;
+    > a {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 0;
+      white-space: nowrap;
+      user-select: none;
+      &:hover {
+        > * {
+          color: #e2041b;
+        }
+      }
+      > * {
+        font-size: 12px;
+        color: #999;
+        font-weight: bold;
+        line-height: 20px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      > i {
+        font-weight: normal;
+        margin-right: 5px;
+      }
+    }
+    > span {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 12px;
+      color: #999;
+      font-weight: bold;
+      line-height: 20px;
+    }
+  }
+}

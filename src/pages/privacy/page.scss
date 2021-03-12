@@ -1,0 +1,19 @@
+#app {
+  .Text {
+    padding: 68px 20px;
+    > * {
+      font-size: 14px;
+      line-height: 20px;
+      color: #000;
+      text-align: justify;
+      width: 100%;
+      display: block;
+      margin-bottom: 10px;
+    }
+    >h1 {
+      text-align: center;
+      line-height: 40px;
+      font-size: 20px;
+    }
+  }
+}

@@ -1,0 +1,194 @@
+.components.NewAccountOperation {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.6);
+  * {
+    color: #000;
+  }
+  .Success {
+    color: #00cb0b;
+  }
+  .Error {
+    color: #e2041b;
+  }
+  > div {
+    width: 340px;
+    min-height: 480px;
+    padding: 30px 100px;
+    background: #fff;
+    overflow: hidden;
+    > .Title {
+      align-items: center;
+      position: relative;
+      overflow: visible;
+      > span {
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 30px;
+      }
+      > a {
+        font-size: 16px;
+        color: #444;
+        margin-right: -80px;
+        &:hover {
+          color: #e2041b;
+        }
+      }
+    }
+    > .Form {
+      position: relative;
+      overflow: hidden;
+      padding-top: 20px;
+      > div {
+        &.CenterBox {
+          width: 100%;
+          text-align: center;
+          > span {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 1.5;
+            text-align: center;
+          }
+          > i {
+            font-size: 110px;
+            color: #0ecf1b;
+            margin-top: 60px;
+            display: inline-block;
+          }
+        }
+      }
+      > .LineTitle {
+        margin-top: 10px;
+        align-items: center;
+        > span {
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 30px;
+        }
+        > a {
+          font-size: 14px;
+          color: #0083aa;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      > .TextTips {
+        display: block;
+        font-size: 16px;
+        color: #999;
+        line-height: 24px;
+        word-break: break-all;
+        text-align: justify;
+      }
+      > .InputContainer {
+        align-items: center;
+        border: 1px solid #222;
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+        margin-top: 10px;
+        &.Error {
+          border-color: #e2041b;
+        }
+        > input {
+          font-size: 16px;
+          line-height: 20px;
+          padding: 10px 0;
+          text-indent: 10px;
+          color: #000;
+        }
+        > i {
+          font-size: 20px;
+          margin-right: 10px;
+        }
+        > a {
+          font-size: 20px;
+          margin-right: 10px;
+        }
+        > span {
+          font-size: 14px;
+          margin-right: 10px;
+        }
+      }
+      > .Tips {
+        display: block;
+        font-size: 14px;
+        line-height: 20px;
+        color: #e2041b;
+        margin-top: 3px;
+      }
+      > .ResetCode {
+        display: block;
+        white-space: nowrap;
+        font-size: 14px;
+        color: #333;
+        line-height: 20px;
+        margin-top: 10px;
+        > a {
+          color: #0083aa;
+          font-size: 14px;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      > .NextStep {
+        display: block;
+        text-align: center;
+        line-height: 40px;
+        background: #ccc;
+        color: #fff;
+        border-radius: 4px;
+        margin-top: 30px;
+        user-select: none;
+        &.active {
+          background: #e2041b;
+        }
+      }
+      > .LineText {
+        font-size: 0;
+        white-space: nowrap;
+        text-align: center;
+        margin-top: 15px;
+        > * {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 16px;
+          color: #000;
+          line-height: 20px;
+        }
+        > a {
+          margin-left: 10px;
+          color: #0083aa;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      > .LineTextTips {
+        display: block;
+        font-size: 14px;
+        color: #999;
+        line-height: 20px;
+        word-break: break-all;
+        margin-top: 20px;
+        > a {
+          font-size: 14px;
+          color: #0083aa;
+          line-height: 20px;
+          display: inline-block;
+          vertical-align: middle;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}

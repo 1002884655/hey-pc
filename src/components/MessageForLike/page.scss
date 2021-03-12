@@ -1,0 +1,259 @@
+.components.MessageForLike {
+  position: relative;
+  overflow: visible;
+  > nav {
+    background: #222;
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
+    > a {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 16px;
+      color: #fff;
+      font-weight: bold;
+      line-height: 40px;
+      margin-left: 20px;
+      position: relative;
+      user-select: none;
+      &.active {
+        color: #e2041b;
+      }
+    }
+  }
+  > ul {
+    position: relative;
+    overflow: visible;
+    > li {
+      position: relative;
+      overflow: visible;
+      background: #222;
+      margin-top: 10px;
+      align-items: flex-start;
+      padding: 10px;
+      > .flex-item {
+        position: relative;
+        overflow: visible;
+        > ul {
+          > li {
+            padding: 10px 0;
+            > div {
+              align-items: center;
+              > a {
+                width: 48px;
+                height: 48px;
+                display: inline-block;
+                position: relative;
+                overflow: hidden;
+                border-radius: 100%;
+                background: #333;
+                margin-left: 10px;
+                &:first-child {
+                  margin-left: 0;
+                }
+                &.More {
+                  background: #fff;
+                  > i {
+                    font-size: 20px;
+                    display: block;
+                    position: absolute;
+                    color: #e2041b;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%) rotateZ(90deg);
+                    -webkit-transform: translate(-50%, -50%) rotateZ(90deg);
+                  }
+                }
+              }
+              > div {
+                position: relative;
+                overflow: hidden;
+                margin-left: 20px;
+                > div {
+                  width: 100%;
+                  position: relative;
+                  overflow: hidden;
+                  > span {
+                    font-size: 14px;
+                    color: #999;
+                    line-height: 1.5;
+                    display: block;
+                    > a {
+                      font-weight: bold;
+                      font-size: 12px;
+                      color: #999;
+                      line-height: 1.5;
+                      &:hover {
+                        color: #fff;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            > span {
+              margin-top: 10px;
+              display: block;
+              font-size: 12px;
+              color: #999;
+              line-height: 1.5;
+            }
+          }
+        }
+      }
+      > .ParentTarget {
+        width: 30%;
+        position: relative;
+        overflow: hidden;
+        margin-left: 20px;
+        > span {
+          font-size: 12px;
+          color: #fff;
+          line-height: 20px;
+          display: block;
+          margin-top: 5px;
+        }
+        > .Img {
+          width: 100%;
+          position: relative;
+          overflow: hidden;
+          > img {
+            display: block;
+            z-index: 1;
+            position: relative;
+          }
+          > a {
+            z-index: 2;
+            width: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 100%;
+            font-size: 20px;
+            background: rgba(0, 0, 0, 0.6);
+          }
+        }
+      }
+    }
+  }
+  > .LikeDetail {
+    > .Top {
+      font-size: 0;
+      position: relative;
+      overflow: hidden;
+      background: #222;
+      padding: 0 20px;
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 14px;
+        color: #999;
+        line-height: 40px;
+      }
+      > a {
+        margin-right: 10px;
+        user-select: none;
+        &:hover {
+          color: #fff;
+        }
+      }
+      > span {
+        > a {
+          font-size: 14px;
+          color: #999;
+          line-height: 40px;
+          font-weight: bold;
+          &:hover {
+            color: #fff;
+          }
+        }
+      }
+    }
+    > ul {
+      > li {
+        padding: 10px;
+        position: relative;
+        background: #222;
+        margin-top: 10px;
+        > div {
+          align-items: center;
+          > a {
+            width: 48px;
+            height: 48px;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            border-radius: 100%;
+            background: #333;
+            margin-left: 10px;
+            &:first-child {
+              margin-left: 0;
+            }
+            &.More {
+              background: #fff;
+              > i {
+                font-size: 20px;
+                display: block;
+                position: absolute;
+                color: #e2041b;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%) rotateZ(90deg);
+                -webkit-transform: translate(-50%, -50%) rotateZ(90deg);
+              }
+            }
+          }
+          > div {
+            position: relative;
+            overflow: hidden;
+            margin-left: 20px;
+            > div {
+              width: 100%;
+              position: relative;
+              overflow: hidden;
+              > span {
+                font-size: 14px;
+                color: #999;
+                line-height: 1.5;
+                display: block;
+                > a {
+                  font-weight: bold;
+                  font-size: 12px;
+                  color: #999;
+                  line-height: 1.5;
+                  &:hover {
+                    color: #fff;
+                  }
+                }
+              }
+            }
+          }
+        }
+        > span {
+          margin-top: 10px;
+          display: block;
+          font-size: 12px;
+          color: #999;
+          line-height: 1.5;
+        }
+      }
+    }
+    > .MoreLike {
+      text-align: center;
+      padding: 20px 0;
+      > * {
+        font-size: 15px;
+        color: #999;
+        user-select: none;
+        line-height: 20px;
+        display: inline-block;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+  }
+  > .NextPage {
+    text-align: center;
+    padding: 20px 0;
+  }
+}

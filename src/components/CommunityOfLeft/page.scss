@@ -1,0 +1,198 @@
+.components.CommunityOfLeft {
+  .UserBasicInfo {
+    background: #161616;
+    padding: 0 20px;
+    .Icon {
+      width: 106px;
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+      margin: -53px auto 0;
+      > a {
+        width: 100%;
+        display: block;
+        padding-bottom: 100%;
+        background: #333;
+        border-radius: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+      > span {
+        font-size: 24px;
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        &:hover {
+          cursor: pointer;
+          color: #e2041b;
+        }
+      }
+    }
+    .OtherBasicInfo {
+      margin-top: 20px;
+      .UserName {
+        font-size: 0;
+        white-space: nowrap;
+        text-align: center;
+        > * {
+          display: inline-block;
+          line-height: 20px;
+          font-size: 16px;
+          font-weight: bold;
+          color: #fff;
+          vertical-align: middle;
+          margin-left: 10px;
+          &:first-child {
+            margin-left: 0;
+          }
+          &.iconnan {
+            color: #73c9ff;
+          }
+          &.iconnv {
+            color: #e20475;
+          }
+        }
+      }
+      .AccountData {
+        margin: 20px auto 0;
+        border-top: 1px solid #333;
+        border-bottom: 1px solid #333;
+        padding: 5px 0;
+        > a {
+          &:hover {
+            > span {
+              color: #e2041b;
+            }
+          }
+          > span {
+            width: 100%;
+            display: block;
+            text-align: center;
+            font-size: 12px;
+            color: #ccc;
+            line-height: 20px;
+            &:first-child {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+      .AccountOperation {
+        margin: 20px auto 0;
+        > a {
+          user-select: none;
+          margin-left: 10px;
+          font-size: 12px;
+          color: #fff;
+          line-height: 30px;
+          border-radius: 3px;
+          text-align: center;
+          background: #ccc;
+          &.active {
+            background: #e2041b;
+          }
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+      }
+      .UserDesc {
+        margin: 15px auto 0;
+        > span {
+          font-size: 12px;
+          line-height: 20px;
+          color: #999;
+          text-align: justify;
+        }
+      }
+      .SatelliteInfo {
+        margin: 20px auto 0;
+        padding-bottom: 20px;
+        > li {
+          align-items: center;
+          margin-top: 10px;
+          > span {
+            font-size: 12px;
+            line-height: 30px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            &:first-child {
+              width: 40px;
+            }
+            i {
+              font-size: 24px;
+            }
+          }
+          &:nth-child(1) {
+            i {
+              color: #13bf09;
+            }
+          }
+          &:nth-child(2) {
+            i {
+              color: #d7b20b;
+            }
+          }
+          &:nth-child(3) {
+            i {
+              color: #ff6d73;
+            }
+          }
+          &:nth-child(4) {
+            i {
+              color: #1296db;
+            }
+          }
+          &:nth-child(5) {
+            i {
+              color: #1296db;
+            }
+          }
+          &:nth-child(6) {
+            i {
+              color: #1296db;
+            }
+          }
+        }
+      }
+      .MediaList {
+        margin-top: 40px;
+        border-top: 1px solid #333;
+        > span {
+          font-size: 12px;
+          color: #fff;
+          font-weight: bold;
+          line-height: 20px;
+          padding: 10px 0;
+          display: block;
+        }
+        > ul {
+          font-size: 0;
+          > li {
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+            overflow: hidden;
+            width: calc((100% - 10px) / 3);
+            margin-left: 5px;
+            margin-bottom: 10px;
+            > a {
+              width: 100%;
+              display: inline-block;
+              position: relative;
+              overflow: hidden;
+              padding-bottom: 56.25%;
+              background: #eee;
+              border-radius: 5px;
+            }
+            &.active {
+              margin-left: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

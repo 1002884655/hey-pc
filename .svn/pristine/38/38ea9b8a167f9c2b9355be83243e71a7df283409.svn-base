@@ -1,0 +1,99 @@
+<template>
+  <div id="app">
+
+    <!-- 页面主题框架 -->
+    <MainPage ref="MainPage" :ActiveIndex="0" :MenuActiveIndex="[null, null]" :TopFade="true">
+      <!-- banner -->
+      <div class="Banner">
+        <div>
+          <HomeBanner @NeedLogin="$refs.MainPage.ToLogin()"></HomeBanner>
+        </div>
+      </div>
+
+      <!-- 栏目列表 -->
+      <div class="ColumnList">
+        <div v-for="(item, index) in ColumnList" :key="index">
+
+          <!-- 尺寸A栏目 -->
+          <div v-if="item.id - 0 === 0">
+            <HomeColumnA :data="item.list" :index="index" @NeedLogin="$refs.MainPage.ToLogin()"></HomeColumnA>
+          </div>
+
+          <!-- 尺寸B栏目 -->
+          <div v-else>
+            <HomeColumnB :data="item.list" :index="index" @NeedLogin="$refs.MainPage.ToLogin()"></HomeColumnB>
+          </div>
+        </div>
+      </div>
+    </MainPage>
+  </div>
+</template>
+
+<script>
+import MockData from '../../util/MockData'
+import MainPage from '../../components/MainPage'
+import HomeBanner from '../../components/HomeBanner'
+import HomeColumnA from '../../components/HomeColumnA'
+import HomeColumnB from '../../components/HomeColumnB'
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
+
+export default {
+  components: {
+    MainPage,
+    HomeBanner,
+    HomeColumnA,
+    HomeColumnB,
+    swiper,
+    swiperSlide
+  },
+  data () {
+    return {
+      ColumnList: this.ArrayRegroup(window.HomeVideoList || MockData.HomeVideoList, 'order')
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo
+    })
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.ToolClass.ImageObjectFit()
+    })
+  },
+  methods: {
+    ...mapUserActions(['AddCollect']),
+    ...mapUserMutations(['editUserInfo']),
+    ArrayRegroup (arr, key) { // 一维数组转二维数组
+      let aArray = []
+      let aBool = true
+      for (let n = 0; n < arr.length; n++) {
+        if (aArray.length) {
+          aBool = true
+          for (let a = 0; a < aArray.length; a++) {
+            if (arr[n][key] === aArray[a].id) {
+              aArray[a].list.push(arr[n])
+              aBool = false
+            }
+          }
+          if (aBool) {
+            aArray.push({ id: arr[n][key], list: [arr[n]] })
+          }
+        } else {
+          aArray.push({ id: arr[n][key], list: [arr[n]] })
+        }
+      }
+      return aArray
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

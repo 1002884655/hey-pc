@@ -1,0 +1,212 @@
+.components {
+  color: #fff;
+  position: relative;
+  overflow: visible;
+  padding: 0 35px;
+  margin: 50px auto 0;
+  > .Title {
+    align-items: center;
+    > div {
+      white-space: nowrap;
+      font-size: 0;
+      span {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 20px;
+        font-size: 18px;
+      }
+      i {
+        display: inline-block;
+        font-size: 14px;
+        vertical-align: middle;
+        margin-left: 10px;
+      }
+    }
+  }
+  .List {
+    width: 100%;
+    position: relative;
+    overflow: visible;
+    margin: 25px auto 0;
+    > a {
+      width: 48px;
+      height: 48px;
+      display: block;
+      text-align: center;
+      line-height: 48px;
+      border-radius: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      transition: all 0.1s linear;
+      -webkit-transition: all 0.1s linear;
+      color: #333;
+      z-index: 10;
+      &.Left {
+        left: -24px;
+      }
+      &.Right {
+        right: -24px;
+      }
+      &.swiper-button-disabled {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+    > .Swiper {
+      width: 100%;
+      position: relative;
+      overflow: visible;
+      z-index: 1;
+      .swiper-container {
+        overflow: visible;
+        .swiper-wrapper {
+          overflow: visible;
+          .swiper-slide {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.1s linear;
+            -webkit-transition: all 0.1s linear;
+            z-index: 1;
+            > div {
+              width: 100%;
+              position: relative;
+              overflow: hidden;
+              padding-bottom: 130%;
+              > a {
+                width: 100%;
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                overflow: hidden;
+                &:hover {
+                  cursor: default;
+                }
+                > img {
+                  z-index: 1;
+                }
+                .Layer {
+                  width: 100%;
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  bottom: 0;
+                  z-index: 2;
+                  transition: all 0.1s linear;
+                  -webkit-transition: all 0.1s linear;
+                  background: rgba(0, 0, 0, 0);
+                  .Gif {
+                    width: 100%;
+                    padding-bottom: 80%;
+                    position: relative;
+                    overflow: hidden;
+                    transition: all 0.1s linear;
+                    -webkit-transition: all 0.1s linear;
+                    img {
+                      display: none;
+                    }
+                  }
+                  > .flex-item {
+                    > div {
+                      padding: 0 20px;
+                      height: 100%;
+                      position: relative;
+                      overflow: hidden;
+                      span {
+                        width: 100%;
+                        font-size: 14px;
+                        line-height: 20px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                        word-break: break-all;
+                        text-shadow: #000 1px 1px 2px;
+                        margin-top: 10px;
+                        &:first-child {
+                          display: block;
+                          font-size: 24px;
+                          font-weight: bold;
+                          line-height: 30px;
+                          overflow: hidden;
+                          white-space: nowrap;
+                          text-overflow: ellipsis;
+                        }
+                      }
+                      > div {
+                        white-space: nowrap;
+                        font-size: 0;
+                        margin: 10px auto 0;
+                        display: none;
+                        a {
+                          display: inline-block;
+                          font-size: 14px;
+                          vertical-align: middle;
+                          margin-right: 20px;
+                          width: 36px;
+                          height: 36px;
+                          line-height: 36px;
+                          text-align: center;
+                          border-radius: 100%;
+                          overflow: hidden;
+                          background: rgba(255, 255, 255, 0.4);
+                          color: #fff;
+                          &:hover {
+                            background: #e2041b;
+                          }
+                        }
+                      }
+                      > em {
+                        position: absolute;
+                        right: 20px;
+                        bottom: 10px;
+                        font-size: 12px;
+                        line-height: 20px;
+                        display: none;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            &:hover {
+              z-index: 2;
+              transform: scale(1.1, 1.1);
+              -webkit-transform: scale(1.1, 1.1);
+              > div {
+                > a {
+                  .Layer {
+                    background: rgba(0, 0, 0, 1);
+                    .Gif {
+                      padding-bottom: 56.25%;
+                      img {
+                        display: block;
+                      }
+                    }
+                    > .flex-item {
+                      > div {
+                        span {
+                          -webkit-line-clamp: 4;
+                        }
+                        > div {
+                          display: block;
+                        }
+                        > em {
+                          display: inline-block;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

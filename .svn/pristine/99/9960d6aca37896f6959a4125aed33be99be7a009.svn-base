@@ -1,0 +1,129 @@
+#app {
+  background: rgba(255, 255, 255, 1);
+  .Container {
+    align-items: flex-start;
+    width: 70%;
+    position: relative;
+    margin: 0 auto;
+    padding-top: 68px;
+    min-width: 1100px;
+    overflow-x: hidden;
+    .LeftTab {
+      width: 164px;
+      position: relative;
+      overflow: hidden;
+      margin-right: 60px;
+      .UserIcon {
+        width: 106px;
+        height: 106px;
+        display: block;
+        margin: 40px auto 0;
+        position: relative;
+        overflow: hidden;
+        border-radius: 100%;
+        background: #eee;
+      }
+      .UserName {
+        white-space: nowrap;
+        font-size: 0;
+        margin: 20px auto 0;
+        text-align: center;
+        * {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 22px;
+          max-width: 140px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        i {
+          margin-left: 5px;
+          &.iconnan {
+            color: #73c9ff;
+          }
+          &.iconnv {
+            color: #ea3f9e;
+          }
+        }
+      }
+      .UserMember {
+        width: 100%;
+        display: block;
+        text-align: center;
+        font-size: 12px;
+        line-height: 30px;
+        border-radius: 5px;
+        background: #ccc;
+        color: #fff;
+        margin-top: 20px;
+        // &:hover {
+        //   background: #f3041d;
+        // }
+        &.active {
+          background: #e2041b;
+        }
+      }
+      .UserTabList {
+        margin: 20px auto 0;
+        > a {
+          align-items: center;
+          margin: 10px auto 0;
+          &.active,
+          &:hover {
+            background: #e2041b;
+            i,
+            span {
+              color: #fff;
+            }
+          }
+          * {
+            color: #888;
+          }
+          i {
+            font-size: 20px;
+            margin-right: 10px;
+            margin-left: 5px;
+          }
+          span {
+            line-height: 30px;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+    .RightContent {
+      position: relative;
+      overflow: hidden;
+    }
+  }
+  .NeedLogin {
+    padding-top: 68px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    a {
+      display: inline-block;
+      margin: 60px auto 0;
+      font-size: 16px;
+      padding: 0 15px;
+      line-height: 40px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      color: #ccc;
+      &:hover {
+        color: #fff;
+        background: #e2041b;
+        border-color: #e2041b;
+      }
+    }
+    span {
+      margin-right: 10px;
+    }
+  }
+}

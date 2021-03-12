@@ -1,0 +1,77 @@
+<template>
+  <div id="app" class="WhitePage">
+    <MainPage :MainNavActiveIndex="2">
+      <div class="PageContainer">
+
+        <!-- 背景图 -->
+        <div class="TopBg">
+          <div>
+            <img src="" class="centerLabel cover" alt="">
+          </div>
+        </div>
+
+        <!-- 主体内容 -->
+        <div class="PageContent flex-h">
+
+          <!-- 左侧 -->
+          <div class="PageLeft">
+            <CommunityOfLeft></CommunityOfLeft>
+          </div>
+
+          <!-- 中间 -->
+          <div class="PageCenter flex-item">
+            <CommunityOfCenter></CommunityOfCenter>
+          </div>
+
+          <!-- 右侧 -->
+          <div class="PageRight">
+            <CommunityOfRight></CommunityOfRight>
+          </div>
+
+        </div>
+
+      </div>
+    </MainPage>
+  </div>
+</template>
+
+<script>
+/*
+  页面名称：个人社交主页
+  创建人：许成祥
+  创建时间：2019/12/30
+  最近修改人：许成祥
+  最近修改日期：2020/03/13
+  备注： 无
+*/
+import MainPage from '../../components/MainPage'
+import CommunityOfLeft from '../../components/CommunityOfLeft'
+import CommunityOfCenter from '../../components/CommunityOfCenter'
+import CommunityOfRight from '../../components/CommunityOfRight'
+export default {
+  components: {
+    MainPage,
+    CommunityOfLeft,
+    CommunityOfCenter,
+    CommunityOfRight
+  },
+  data () {
+    return {
+    }
+  },
+  computed: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+    })
+  },
+  methods: {
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

@@ -1,0 +1,135 @@
+.components.CommunityLeft {
+  .UserIcon {
+    width: 106px;
+    position: relative;
+    overflow: hidden;
+    margin: -103px auto 0;
+    a {
+      width: 100%;
+      display: block;
+      box-sizing: border-box;
+      border: 2px solid #fff;
+      border-radius: 100%;
+      background: #eee;
+      padding-bottom: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+  }
+  .UserName {
+    text-align: center;
+    white-space: nowrap;
+    font-size: 0;
+    margin-top: 20px;
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 16px;
+      line-height: 20px;
+    }
+    > span {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    i.iconnan {
+      color: #73c9ff;
+    }
+  }
+  .SocialData {
+    align-items: center;
+    border: 1px solid #eee;
+    border-left: none;
+    border-right: none;
+    margin: 20px auto 0;
+    > div {
+      text-align: center;
+      padding: 5px 0;
+      span {
+        width: 100%;
+        display: block;
+        line-height: 16px;
+        font-size: 12px;
+        color: #999;
+      }
+    }
+  }
+  .Subscribers {
+    align-items: center;
+    margin-top: 20px;
+    a {
+      text-align: center;
+      font-size: 12px;
+      line-height: 30px;
+      color: #fff;
+      border-radius: 3px;
+      background: #e2041b;
+      &:first-child {
+        margin-right: 10px;
+      }
+    }
+  }
+  .Describe {
+    margin-top: 20px;
+    span {
+      width: 100%;
+      display: block;
+      font-size: 12px;
+      line-height: 16px;
+      color: #999;
+      text-align: justify;
+    }
+  }
+  .MoreAccountInfo {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    li {
+      align-items: center;
+      margin-top: 15px;
+      i {
+        font-size: 20px;
+        width: 30px;
+        text-align: left;
+      }
+      span {
+        line-height: 20px;
+        font-size: 12px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+  }
+  .MediaList {
+    margin-top: 40px;
+    border-top: 1px solid #eee;
+    > span {
+      width: 100%;
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 40px;
+    }
+    > ul {
+      font-size: 0;
+      > li {
+        display: inline-block;
+        vertical-align: middle;
+        width: calc((100% - 9px) / 3);
+        position: relative;
+        overflow: hidden;
+        margin-right: 3px;
+        margin-bottom: 10px;
+        a {
+          width: 100%;
+          display: block;
+          position: relative;
+          overflow: hidden;
+          padding-bottom: 56.25%;
+          border-radius: 5px;
+          background: #eee;
+        }
+      }
+    }
+  }
+}

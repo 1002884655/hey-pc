@@ -1,0 +1,108 @@
+<template>
+  <div class="components Setting">
+
+    <!-- nav -->
+    <CutNavByActiveLine :data="NavList" :ActiveIndex="NavActiveIndex" @Change="NavChange"></CutNavByActiveLine>
+
+    <!-- nav切换主体 -->
+    <div class="CutContent">
+
+      <!-- Information -->
+      <div v-if="NavActiveIndex === 0">
+        <SettingForInformation @EditUserIcon="$emit('EditUserIcon')"></SettingForInformation>
+      </div>
+
+      <!-- Security center -->
+      <div v-if="NavActiveIndex === 1">
+        <SettingForSecurityCenter></SettingForSecurityCenter>
+      </div>
+
+      <!-- Pay -->
+      <div v-if="NavActiveIndex === 2">
+        <SettingForPay></SettingForPay>
+      </div>
+
+      <!-- Privacy Settings -->
+      <div v-if="NavActiveIndex === 3">
+        <SettingForPrivacySettings></SettingForPrivacySettings>
+      </div>
+
+      <!-- Preferences -->
+      <div v-if="NavActiveIndex === 4">
+        <SettingForPreferences></SettingForPreferences>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import CutNavByActiveLine from '../CutNavByActiveLine'
+import SettingForInformation from '../SettingForInformation'
+import SettingForSecurityCenter from '../SettingForSecurityCenter'
+import SettingForPay from '../SettingForPay'
+import SettingForPrivacySettings from '../SettingForPrivacySettings'
+import SettingForPreferences from '../SettingForPreferences'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+
+export default {
+  name: 'Setting',
+  props: ['data'],
+  data () {
+    return {
+      NavList: [ // navlist
+        {
+          Name: 'Information',
+          Id: '1'
+        }, {
+          Name: 'Security center',
+          Id: '2'
+        }, {
+          Name: 'Pay',
+          Id: '3'
+        }, {
+          Name: 'Privacy Settings',
+          Id: '4'
+        }, {
+          Name: 'Preferences',
+          Id: '5'
+        }
+      ],
+      NavActiveIndex: 0
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo
+    })
+  },
+  components: {
+    CutNavByActiveLine,
+    SettingForInformation,
+    SettingForSecurityCenter,
+    SettingForPay,
+    SettingForPrivacySettings,
+    SettingForPreferences
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    ...mapUserActions([]),
+    Init () { // 初始化
+    },
+    NavChange (e) { // nav切换
+      this.NavActiveIndex = e || 0
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

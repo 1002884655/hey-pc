@@ -1,0 +1,694 @@
+#app {
+  background: #111;
+  .PageContainer {
+    position: relative;
+    overflow: visible;
+    > .LiveContainer {
+      width: calc(100% - 40px);
+      position: relative;
+      overflow: visible;
+      max-width: 1500px;
+      margin: 80px auto 0;
+      z-index: 2;
+      > .flex-item {
+        position: relative;
+        overflow: hidden;
+        > .LivePlayer {
+          width: 100%;
+          padding-bottom: 56.25%;
+          position: relative;
+          overflow: hidden;
+          background: #222;
+          > span {
+            font-size: 20px;
+            color: #999;
+          }
+          > #PlayerContainer {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+          }
+        }
+        > .LiveBottom {
+          align-items: center;
+          padding: 5px 0;
+          position: relative;
+          overflow: visible;
+          background: #242424;
+          z-index: 10;
+          > a {
+            display: inline-block;
+            font-size: 0;
+            white-space: nowrap;
+            padding: 0 15px;
+            border-radius: 32px;
+            margin-left: 20px;
+            user-select: none;
+            background: #111;
+            > * {
+              display: inline-block;
+              vertical-align: middle;
+              color: #999;
+              line-height: 32px;
+            }
+            > i {
+              font-size: 20px;
+            }
+            > span {
+              font-size: 16px;
+            }
+          }
+          > div {
+            &.flex-item {
+              position: relative;
+              overflow: hidden;
+            }
+            &.GiftsListContainer {
+              position: relative;
+              overflow: visible;
+              width: 380px;
+              margin-right: 20px;
+              > div {
+                &.Detail {
+                  width: 320px;
+                  padding: 10px;
+                  background: #242424;
+                  position: absolute;
+                  z-index: 4;
+                  border-radius: 8px;
+                  overflow: hidden;
+                  top: -110px;
+                  right: 0;
+                  > .Name {
+                    align-items: center;
+                    > .Img {
+                      width: 50px;
+                      height: 50px;
+                      background: #000;
+                      border-radius: 4px;
+                      position: relative;
+                      overflow: hidden;
+                      margin-right: 10px;
+                    }
+                    > .flex-item {
+                      position: relative;
+                      overflow: hidden;
+                      > span {
+                        display: block;
+                        white-space: nowrap;
+                        font-size: 14px;
+                        font-weight: bold;
+                        color: #ff7e7e;
+                        line-height: 20px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        text-align: left;
+                      }
+                      > div {
+                        font-size: 0;
+                        white-space: nowrap;
+                        text-align: left;
+                        margin-top: 5px;
+                        > * {
+                          display: inline-block;
+                          vertical-align: middle;
+                        }
+                        > img {
+                          height: 13px;
+                          width: auto;
+                          margin-right: 5px;
+                        }
+                        > span {
+                          font-size: 12px;
+                          color: #999;
+                          line-height: 20px;
+                        }
+                      }
+                    }
+                  }
+                  > .Num {
+                    align-items: center;
+                    margin-top: 20px;
+                    > * {
+                      margin-left: 10px;
+                      &:first-child {
+                        margin-left: 0;
+                      }
+                    }
+                    > a {
+                      font-size: 12px;
+                      line-height: 16px;
+                      text-align: center;
+                      color: #333;
+                      background: #fff;
+                      user-select: none;
+                      border-radius: 2px;
+                      box-sizing: border-box;
+                      border: 2px solid #fff;
+                      position: relative;
+                      &:last-child {
+                        background: #e2041b;
+                        color: #fff;
+                        border: none;
+                        line-height: 20px;
+                      }
+                      &.active {
+                        border: 2px solid #e2041b;
+                        color: #e2041b;
+                      }
+                    }
+                    > input {
+                      font-size: 12px;
+                      color: #333;
+                      line-height: 20px;
+                      text-align: center;
+                      border-radius: 2px;
+                    }
+                  }
+                }
+              }
+            }
+            // > ul {
+            //   font-size: 0;
+            //   text-align: right;
+            //   white-space: nowrap;
+            //   position: relative;
+            //   overflow: visible;
+            //   z-index: 2;
+            //   > li {
+            //     display: inline-block;
+            //     vertical-align: middle;
+            //     width: 50px;
+            //     height: 50px;
+            //     border-radius: 4px;
+            //     background: #000;
+            //     margin-left: 10px;
+            //     position: relative;
+            //     overflow: visible;
+            //     &:hover {
+            //       cursor: pointer;
+            //       > div.Detail {
+            //         display: block;
+            //       }
+            //     }
+            //     > img {
+            //       z-index: 1;
+            //     }
+            //     > span {
+            //       display: block;
+            //       font-size: 10px;
+            //       color: #fff;
+            //       line-height: 14px;
+            //       position: absolute;
+            //       z-index: 3;
+            //       left: 0;
+            //       bottom: 0;
+            //       width: 100%;
+            //       text-align: center;
+            //     }
+            //     > div {
+            //       &.PriceBg {
+            //         position: absolute;
+            //         z-index: 2;
+            //         background: #ff7e7e;
+            //         width: 100%;
+            //         left: 0;
+            //         bottom: 0;
+            //         height: 14px;
+            //         border-radius: 10px 10px 4px 4px;
+            //       }
+            //       &.Detail {
+            //         width: 320px;
+            //         padding: 10px;
+            //         background: #242424;
+            //         position: absolute;
+            //         z-index: 4;
+            //         border-radius: 8px;
+            //         overflow: hidden;
+            //         top: -110px;
+            //         right: 0;
+            //         display: none;
+            //         > .Name {
+            //           align-items: center;
+            //           > .Img {
+            //             width: 50px;
+            //             height: 50px;
+            //             background: #000;
+            //             border-radius: 4px;
+            //             position: relative;
+            //             overflow: hidden;
+            //             margin-right: 10px;
+            //           }
+            //           > .flex-item {
+            //             position: relative;
+            //             overflow: hidden;
+            //             > span {
+            //               display: block;
+            //               white-space: nowrap;
+            //               font-size: 14px;
+            //               font-weight: bold;
+            //               color: #ff7e7e;
+            //               line-height: 20px;
+            //               overflow: hidden;
+            //               text-overflow: ellipsis;
+            //               text-align: left;
+            //             }
+            //             > div {
+            //               font-size: 0;
+            //               white-space: nowrap;
+            //               text-align: left;
+            //               margin-top: 5px;
+            //               > * {
+            //                 display: inline-block;
+            //                 vertical-align: middle;
+            //               }
+            //               > img {
+            //                 height: 13px;
+            //                 width: auto;
+            //                 margin-right: 5px;
+            //               }
+            //               > span {
+            //                 font-size: 12px;
+            //                 color: #999;
+            //                 line-height: 20px;
+            //               }
+            //             }
+            //           }
+            //         }
+            //         > .Num {
+            //           align-items: center;
+            //           margin-top: 20px;
+            //           > * {
+            //             margin-left: 10px;
+            //             &:first-child {
+            //               margin-left: 0;
+            //             }
+            //           }
+            //           > a {
+            //             font-size: 12px;
+            //             line-height: 16px;
+            //             text-align: center;
+            //             color: #333;
+            //             background: #fff;
+            //             user-select: none;
+            //             border-radius: 2px;
+            //             box-sizing: border-box;
+            //             border: 2px solid #fff;
+            //             position: relative;
+            //             &:last-child {
+            //               background: #e2041b;
+            //               color: #fff;
+            //               border: none;
+            //               line-height: 20px;
+            //             }
+            //             &.active {
+            //               border: 2px solid #e2041b;
+            //               color: #e2041b;
+            //             }
+            //           }
+            //           > input {
+            //             font-size: 12px;
+            //             color: #333;
+            //             line-height: 20px;
+            //             text-align: center;
+            //             border-radius: 2px;
+            //           }
+            //         }
+            //       }
+            //     }
+            //   }
+            // }
+          }
+          // > .MoreGift {
+          //   width: 16px;
+          //   margin-left: 10px;
+          //   position: relative;
+          //   overflow: visible;
+          //   margin-right: 5px;
+          //   z-index: 100;
+          //   &:hover {
+          //     > ul {
+          //       display: block;
+          //     }
+          //   }
+          //   > i {
+          //     width: 100%;
+          //     font-size: 10px;
+          //     color: #ccc;
+          //     text-align: center;
+          //     background: #000;
+          //     border-radius: 4px;
+          //     line-height: 50px;
+          //     display: block;
+          //     &:hover {
+          //       cursor: pointer;
+          //     }
+          //   }
+          //   > ul {
+          //     width: 300px;
+          //     padding: 10px;
+          //     border-radius: 8px;
+          //     background: #242424;
+          //     position: absolute;
+          //     right: 0;
+          //     top: calc(-100% - 20px);
+          //     font-size: 0;
+          //     overflow: visible;
+          //     padding-left: 0;
+          //     padding-top: 0;
+          //     word-break: break-all;
+          //     text-align: left;
+          //     word-wrap: break-word;
+          //     white-space: normal;
+          //     display: none;
+          //     > li {
+          //       display: inline-block;
+          //       vertical-align: middle;
+          //       width: 50px;
+          //       height: 50px;
+          //       border-radius: 4px;
+          //       background: #000;
+          //       margin-left: 10px;
+          //       position: relative;
+          //       overflow: visible;
+          //       margin-top: 10px;
+          //       &:hover {
+          //         cursor: pointer;
+          //         > div.Detail {
+          //           display: block;
+          //         }
+          //       }
+          //       > img {
+          //         z-index: 1;
+          //       }
+          //       > span {
+          //         display: block;
+          //         font-size: 10px;
+          //         color: #fff;
+          //         line-height: 14px;
+          //         position: absolute;
+          //         z-index: 3;
+          //         left: 0;
+          //         bottom: 0;
+          //         width: 100%;
+          //         text-align: center;
+          //       }
+          //       > div {
+          //         &.PriceBg {
+          //           position: absolute;
+          //           z-index: 2;
+          //           background: #ff7e7e;
+          //           width: 100%;
+          //           left: 0;
+          //           bottom: 0;
+          //           height: 14px;
+          //           border-radius: 10px 10px 4px 4px;
+          //         }
+          //         &.Detail {
+          //           width: 320px;
+          //           padding: 10px;
+          //           background: #242424;
+          //           position: absolute;
+          //           z-index: 4;
+          //           border-radius: 8px;
+          //           overflow: hidden;
+          //           top: -110px;
+          //           right: 0;
+          //           display: none;
+          //           > .Name {
+          //             align-items: center;
+          //             > .Img {
+          //               width: 50px;
+          //               height: 50px;
+          //               background: #000;
+          //               border-radius: 4px;
+          //               position: relative;
+          //               overflow: hidden;
+          //               margin-right: 10px;
+          //             }
+          //             > .flex-item {
+          //               position: relative;
+          //               overflow: hidden;
+          //               > span {
+          //                 display: block;
+          //                 white-space: nowrap;
+          //                 font-size: 14px;
+          //                 color: #ff7e7e;
+          //                 line-height: 20px;
+          //                 overflow: hidden;
+          //                 text-overflow: ellipsis;
+          //                 text-align: left;
+          //                 > em {
+          //                   font-size: 14px;
+          //                   color: #fff;
+          //                   line-height: 20px;
+          //                 }
+          //               }
+          //             }
+          //           }
+          //           > .Num {
+          //             align-items: center;
+          //             margin-top: 20px;
+          //             > * {
+          //               margin-left: 10px;
+          //               &:first-child {
+          //                 margin-left: 0;
+          //               }
+          //             }
+          //             > a {
+          //               font-size: 12px;
+          //               line-height: 16px;
+          //               text-align: center;
+          //               color: #333;
+          //               background: #fff;
+          //               user-select: none;
+          //               border-radius: 2px;
+          //               box-sizing: border-box;
+          //               border: 2px solid #fff;
+          //               position: relative;
+          //               &:last-child {
+          //                 background: #e2041b;
+          //                 color: #fff;
+          //                 border: none;
+          //                 line-height: 20px;
+          //               }
+          //               &.active {
+          //                 border: 2px solid #e2041b;
+          //                 color: #e2041b;
+          //               }
+          //             }
+          //             > input {
+          //               font-size: 12px;
+          //               color: #333;
+          //               line-height: 20px;
+          //               text-align: center;
+          //               border-radius: 2px;
+          //             }
+          //           }
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
+        }
+        > .BalanceInfo {
+          position: relative;
+          overflow: hidden;
+          background: #242424;
+          text-align: right;
+          z-index: 1;
+          font-size: 0;
+          white-space: nowrap;
+          padding: 5px;
+          > * {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+          }
+          > span {
+            font-size: 14px;
+            color: #999;
+            line-height: 20px;
+            &.Amount {
+              color: #fff;
+            }
+          }
+          > img {
+            height: 15px;
+          }
+          > a {
+            font-size: 14px;
+            color: #fff;
+            user-select: none;
+            background: #e2041b;
+            line-height: 20px;
+            padding: 0 15px;
+            border-radius: 4px;
+            margin-left: 30px;
+          }
+        }
+      }
+      > .ChatContainer {
+        width: 370px;
+        margin-left: 10px;
+        position: relative;
+        overflow: visible;
+      }
+    }
+    > .OtherInfo {
+      align-items: flex-start;
+      width: calc(100% - 40px);
+      position: relative;
+      overflow: visible;
+      max-width: 1500px;
+      margin: 10px auto 0;
+      z-index: 1;
+      > .flex-item {
+        position: relative;
+        overflow: hidden;
+        > span {
+          font-size: 30px;
+          color: #fff;
+          font-weight: bold;
+          display: block;
+          line-height: 40px;
+          &.TotalNum {
+            font-size: 14px;
+            color: #666;
+            line-height: 20px;
+            font-weight: normal;
+          }
+        }
+        > .flex-h {
+          align-items: flex-start;
+          margin-top: 20px;
+          > .UserIcon {
+            width: 68px;
+            height: 68px;
+            border-radius: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #333;
+            margin-right: 20px;
+          }
+          > .flex-item {
+            > a {
+              display: inline-block;
+              font-size: 16px;
+              color: #fff;
+              font-weight: bold;
+              line-height: 20px;
+            }
+            > span {
+              display: block;
+              font-size: 12px;
+              color: #999;
+              line-height: 20px;
+            }
+          }
+          > .Follow {
+            font-size: 12px;
+            color: #fff;
+            line-height: 28px;
+            width: 100px;
+            margin-left: 20px;
+            text-align: center;
+            user-select: none;
+            background: #ccc;
+            border-radius: 2px;
+            &.active {
+              background: #e2041b;
+            }
+          }
+        }
+      }
+      > .LiveList {
+        width: 370px;
+        position: relative;
+        overflow: hidden;
+        margin-left: 10px;
+        > span {
+          display: block;
+          font-size: 30px;
+          font-weight: bold;
+          line-height: 40px;
+        }
+        > ul {
+          > li {
+            position: relative;
+            overflow: hidden;
+            margin-top: 15px;
+            > a {
+              display: block;
+              width: 100%;
+              position: relative;
+              overflow: hidden;
+              padding-bottom: 56.25%;
+              background: #333;
+              > img {
+                z-index: 1;
+              }
+              > span {
+                display: inline-block;
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                z-index: 2;
+                font-size: 16px;
+                color: #fff;
+                background: #62e232;
+                line-height: 26px;
+                width: 48px;
+                text-align: center;
+                border-radius: 26px;
+                &.active {
+                  background: #f24f2c;
+                }
+              }
+              > .Info {
+                width: 100%;
+                position: absolute;
+                z-index: 3;
+                left: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.7);
+                overflow: hidden;
+                > .flex-h {
+                  align-items: center;
+                  padding: 0 10px;
+                  > span {
+                    font-size: 16px;
+                    color: #fff;
+                    line-height: 30px;
+                    &:first-child {
+                      font-weight: bold;
+                    }
+                  }
+                  > i {
+                    font-size: 20px;
+                    color: #fff;
+                    margin-left: 10px;
+                    margin-right: 5px;
+                  }
+                }
+                > .Desc {
+                  padding: 0 10px;
+                  position: relative;
+                  overflow: hidden;
+                  > span {
+                    font-size: 16px;
+                    line-height: 20px;
+                    color: #fff;
+                    display: block;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,98 @@
+.components.VideoPlayerList {
+  > .flex-h {
+    align-items: center;
+    > span {
+      font-size: 16px;
+      line-height: 30px;
+      color: #999;
+    }
+    > a {
+      font-size: 26px;
+    }
+  }
+  > .SwiperContainer {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+    > a {
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 38px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 10;
+      &.Left {
+        left: 0;
+      }
+      &.Right {
+        right: 0;
+      }
+    }
+    .swiper-container {
+      .swiper-wrapper {
+        .swiper-slide {
+          position: relative;
+          overflow: hidden;
+          z-index: 1;
+          &.active {
+            > div.Img {
+              border: 1px solid #e2041b;
+            }
+          }
+          > div.Img {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 56.25%;
+            box-sizing: border-box;
+            > a {
+              width: 100%;
+              display: block;
+              position: absolute;
+              left: 0;
+              top: 0;
+              bottom: 0;
+              overflow: hidden;
+              > img {
+                z-index: 1;
+                &.Gif {
+                  z-index: 2;
+                }
+              }
+              > span {
+                font-size: 12px;
+                line-height: 20px;
+                padding: 0 10px;
+                background: rgba(0, 0, 0, 0.7);
+                position: absolute;
+                z-index: 3;
+                right: 5px;
+                bottom: 5px;
+                color: #fff;
+              }
+            }
+          }
+          > a {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            font-size: 14px;
+            line-height: 20px;
+            height: 40px;
+            margin-top: 3px;
+            word-break: break-all;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}

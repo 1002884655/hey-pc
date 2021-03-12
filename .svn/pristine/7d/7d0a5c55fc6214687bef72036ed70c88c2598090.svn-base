@@ -1,0 +1,165 @@
+
+const prefix = process.env.NODE_ENV === 'production' ? '' : '/api'
+
+const $api = {
+  Video: { // 视频及相关信息
+    GetHotVideoListForDay: { // 获取视频日排行
+      method: 'post',
+      url: `${prefix}/video/dayTop`
+    },
+    GetVideoRecommend: { // 获取推荐视频
+      method: 'post',
+      url: `${prefix}/video/recommend`
+    },
+    GetMediaInfoById: { // 通过id获取视频信息
+      method: 'get',
+      url: `${prefix}/video/`
+    },
+    GetCommentList: { // 获取视频评论列表
+      method: 'post',
+      url: `${prefix}/comment/getPageList`
+    },
+    GetCommentTotalCounts: { // 获取视频总评论数（包括一二级评论）
+      method: 'post',
+      url: `${prefix}/comment/total`
+    },
+    SubmitCommentForVideo: { // 提交视频评论
+      method: 'post',
+      url: `${prefix}/comment/save`
+    },
+    SubmitSubComment: { // 提交一二级评论
+      method: 'post',
+      url: `${prefix}/comment/saveReply`
+    },
+    GetSearchVideoList: { // 获取搜索视频列表
+      method: 'post',
+      url: `${prefix}/video/search`
+    },
+    GetClassVideoList: { // 获取分类视频列表
+      method: 'post',
+      url: `${prefix}/video/pageList`
+    },
+    GetVideoRankingList: { // 视频搜索排名
+      method: 'get',
+      url: `${prefix}/video/searchRanking`
+    },
+    GetSearchFilter: { // 获取搜索过滤器
+      method: 'get',
+      url: `${prefix}/video/getSearchTypes`
+    }
+  },
+  Common: {
+    RandomSearchKey: { // 获取随机搜索关键词
+      method: 'get',
+      url: `${prefix}/video/randomTitle`
+    },
+    GetSearchAutoComple: { // 搜索补全
+      method: 'get',
+      url: `${prefix}/video/searchCompletion`
+    }
+  },
+  User: { // 用户及相关信息
+    CheckAccountStatus: { // 校验账户是否能注册
+      method: 'post',
+      url: `${prefix}/account/checkInfo`
+    },
+    CheckRegCode: { // 校验注册账户验证码
+      method: 'post',
+      url: `${prefix}/account/checkCode`
+    },
+    Register: { // 注册账户
+      method: 'post',
+      url: `${prefix}/account/register`
+    },
+    SendCode: { // 发送验证码
+      method: 'post',
+      url: `${prefix}/account/resendCode`
+    },
+    Login: { // 登录
+      method: 'post',
+      url: `${prefix}/account/login`
+    },
+    Logout: { // 登出
+      method: 'post',
+      url: `${prefix}/account/logout`
+    },
+    GetUserInfoByToken: { // 根据token获取用户信息
+      method: 'post',
+      url: `${prefix}/account/getAccountInfo`
+    },
+    ForgotPassword: { // 找回密码
+      method: 'post',
+      url: `${prefix}/account/retrievePassword`
+    },
+    ResetCheckCode: { // 找回密码校验验证码
+      method: 'post',
+      url: `${prefix}/account/resetCheckCode`
+    },
+    ResetPassword: { // 重置密码
+      method: 'post',
+      url: `${prefix}/account/setPassword`
+    },
+    GetHistorySearchList: { // 获取用户搜索历史
+      method: 'get',
+      url: `${prefix}/video/searchFocus`
+    },
+    GetViewingHistory: { // 获取用户观看历史
+      method: 'post',
+      url: `${prefix}/account/playHistory`
+    },
+    DeleteViewingHistory: { // 删除用户观看历史
+      method: 'post',
+      url: `${prefix}/account/removePlayHistory`
+    },
+    GetUserCollectionList: { // 获取用户收藏列表
+      method: 'post',
+      url: `${prefix}/account/collectList`
+    },
+    DeleteCollection: { // 删除用户收藏
+      method: 'post',
+      url: `${prefix}/account/removeCollcet`
+    },
+    GetAreaForFirstClass: { // 获取一级地区
+      method: 'post',
+      url: `${prefix}/area/countryList`
+    },
+    GetAreaForSecondClass: { // 获取二级地区
+      method: 'post',
+      url: `${prefix}/area/stateList`
+    },
+    GetAreaForThirdClass: { // 获取三级地区
+      method: 'post',
+      url: `${prefix}/area/cityList`
+    },
+    GetUserLoveType: { // 获取用户喜好类型
+      method: 'post',
+      url: `${prefix}/account/getLoveType`
+    },
+    UpdateUserInfo: { // 更新用户信息
+      method: 'post',
+      url: `${prefix}/account/update`
+    },
+    UpdateBase64: { // 上传base64图片
+      method: 'post',
+      url: `${prefix}/account/uploadPic`
+    },
+    GetLikeTypes: { // 获取偏好列表
+      method: 'post',
+      url: `${prefix}/account/likeTypes`
+    },
+    AddCollect: { // 添加收藏
+      method: 'post',
+      url: `${prefix}/account/saveCollect`
+    },
+    GetUserLikes: { // 获取用户偏好
+      method: 'post',
+      url: `${prefix}/account/getLikes`
+    },
+    EditUserLikes: { // 设置用户偏好
+      method: 'post',
+      url: `${prefix}/account/setLike`
+    }
+  }
+}
+
+export default $api

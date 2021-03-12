@@ -1,0 +1,581 @@
+import Axios from 'axios'
+import Api from '../../util/Api'
+
+export default {
+  namespaced: true,
+  state: {
+    TopActiveFansList: [], // 活跃粉丝列表
+    OtherUserInfo: null, // 其他用户信息
+    UserInfo: null, // 用户信息
+    HistorySearchList: [], // 历史搜索记录
+    SearchRankingList: [], // 搜索排名
+    LikeTypes: [], // 偏好列表
+    UserLikes: [], // 用户偏好
+    CollectionList: {
+      Positive: [],
+      Trailer: [],
+      User: [],
+      Channel: [],
+      Moving: []
+    },
+    AreaList: { // 地区列表
+      FirstClass: [],
+      SecondClass: [],
+      ThirdClass: []
+    },
+    LoveList: [], // 用户喜好列表
+    AllViewingHistory: [], // 全部观看历史
+    ViewingHistory: [], // 观看历史
+    EarlierViewingHistory: [] // 更早观看历史
+  },
+  mutations: {
+    UpdateUserCollectionList (state, data) { // 更新用户收藏记录
+      if (data.Type - 0 === 1) { // Positive
+        state.CollectionList.Positive.splice(data.Index, 1)
+      } else if (data.Type - 0 === 2) { // Trailer
+        state.CollectionList.Trailer.splice(data.Index, 1)
+      } else if (data.Type - 0 === 3) { // User
+        state.CollectionList.User.splice(data.Index, 1)
+      } else if (data.Type - 0 === 4) { // Channel
+        state.CollectionList.Channel.splice(data.Index, 1)
+      } else if (data.Type - 0 === 5) { // Moving
+        state.CollectionList.Moving.splice(data.Index, 1)
+      }
+    },
+    ClearAllViewingHistory (state) { // 清空用户观看历史
+      state.AllViewingHistory = []
+    },
+    ClearViewingHistory (state) { // 清空用户观看历史
+      state.ViewingHistory = []
+      state.EarlierViewingHistory = []
+    },
+    SetUserInfo (state, data) { // 设置用户信息
+      state.UserInfo = data === null ? null : { ...data }
+    },
+    SetAllViewingHistory (state, data) { // 赋值用户观看历史
+      let aData = data.list || []
+      aData.map((item) => {
+        state.AllViewingHistory.push({
+          Id: item.id,
+          Img: item.frontPath,
+          Type: item.funcType,
+          ViewingDate: new Date(item.createTime).getTime(),
+          Name: item.title,
+          ViewingTimeTamp: null,
+          TotalTimeTamp: null,
+          VideoId: item.videoId,
+          VideoChildrenId: item.videoChildrenId
+        })
+      })
+    },
+    SetViewingHistory (state, data) { // 赋值用户观看历史
+      let aData = data.list || []
+      aData.map((item) => {
+        if (new Date(item.createTime).getTime() >= Date.now() - 24 * 60 * 60 * 1000 * 7) {
+          state.ViewingHistory.push({
+            Id: item.id,
+            Img: item.frontPath,
+            Type: item.funcType,
+            ViewingDate: new Date(item.createTime).getTime(),
+            Name: item.title,
+            ViewingTimeTamp: null,
+            TotalTimeTamp: null,
+            VideoId: item.videoId,
+            VideoChildrenId: item.videoChildrenId
+          })
+        } else {
+          state.EarlierViewingHistory.push({
+            Id: item.id,
+            Img: item.frontPath,
+            Type: item.funcType,
+            ViewingDate: new Date(item.createTime).getTime(),
+            Name: item.title,
+            ViewingTimeTamp: null,
+            TotalTimeTamp: null,
+            VideoId: item.videoId,
+            VideoChildrenId: item.videoChildrenId
+          })
+        }
+      })
+    },
+    ClearUserCollectionList (state, data) { // 清空用户收藏记录
+      if (data - 0 === 0) { // Positive
+        state.CollectionList.Positive = []
+      } else if (data - 0 === 1) { // Trailer
+        state.CollectionList.Trailer = []
+      } else if (data - 0 === 2) { // User
+        state.CollectionList.User = []
+      } else if (data - 0 === 3) { // Channel
+        state.CollectionList.Channel = []
+      } else if (data - 0 === 4) { // Moving
+        state.CollectionList.Moving = []
+      }
+    },
+    SetUserCollectionList (state, data) { // 赋值用户收藏记录
+      if (data.payload.collectType - 0 === 1) { // Positive
+        data.data.list.map((item) => {
+          state.CollectionList.Positive.push({
+            Id: item.id,
+            VideoId: item.videoId || null,
+            VideoChildId: item.videoChildrenId || null,
+            Img: item.frontPath,
+            Type: item.collectType,
+            ViewingDate: new Date(item.createTime).getTime(),
+            Name: item.title
+          })
+        })
+      } else if (data.payload.collectType - 0 === 2) { // Trailer
+
+      } else if (data.payload.collectType - 0 === 3) { // User
+
+      } else if (data.payload.collectType - 0 === 4) { // Channel
+
+      } else if (data.payload.collectType - 0 === 5) { // Moving
+
+      }
+    },
+    SetUserLikeTypes (state, data) { // 赋值偏好列表
+      state.LikeTypes = []
+      for (let n in data) {
+        state.LikeTypes.push({ TypeName: data[n][0].name, List: data[n].slice(1) })
+      }
+    },
+    SetHistorySearchList (state, data) { // 写入历史搜索记录
+      if (data.historyList !== undefined) {
+        state.HistorySearchList = []
+        data.historyList.map((item) => {
+          if (item !== null && item.content.trim()) {
+            state.HistorySearchList.push(item)
+          }
+        })
+      }
+      if (data.rankingList !== undefined) {
+        state.SearchRankingList = data.rankingList || []
+      }
+    },
+    ClearHistorySearchList (state) { // 清空历史搜索记录
+      state.HistorySearchList = []
+    },
+    SetAreaList (state, data) { // 赋值地区列表
+      let aData = data.data || []
+      if (data.type - 0 === 1) { // 一级地区
+        state.AreaList.FirstClass = aData
+      } else if (data.type - 0 === 2) { // 二级地区
+        state.AreaList.SecondClass = aData
+      } else if (data.type - 0 === 3) { // 三级地区
+        state.AreaList.ThirdClass = aData
+      }
+    },
+    SetUserLoveType (state, data) { // 赋值用户喜好类型
+      state.LoveList = [{ id: null, name: 'Keep secret' }, ...data] || [{ id: null, name: 'Keep secret' }]
+    },
+    SetUserLikes (state, data) { // 赋值用户偏好
+      state.UserLikes = data || []
+    },
+    UpdateViewingHistory (state, data) { // 更新用户观看历史
+      state.ViewingHistory.map((item, index) => {
+        if (item.Id === data.ids) {
+          state.ViewingHistory.splice(index, 1)
+          return false
+        }
+      })
+      state.EarlierViewingHistory.map((item, index) => {
+        if (item.Id === data.ids) {
+          state.EarlierViewingHistory.splice(index, 1)
+          return false
+        }
+      })
+      state.AllViewingHistory.map((item, index) => {
+        if (item.Id === data.ids) {
+          state.AllViewingHistory.splice(index, 1)
+          return false
+        }
+      })
+    }
+  },
+  actions: {
+    AddCollect (context, payload) { // 添加收藏
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.AddCollect.method,
+          url: Api.User.AddCollect.url,
+          data: { ...payload }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            resolve(res)
+          } else {
+            reject(res)
+          }
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    DeleteViewingHistory (context, payload) { // 删除用户观看历史
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.DeleteViewingHistory.method,
+          url: Api.User.DeleteViewingHistory.url,
+          params: { ...payload }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('UpdateViewingHistory', payload)
+          }
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    DeleteCollection (context, payload) { // 删除用户收藏
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.DeleteCollection.method,
+          url: Api.User.DeleteCollection.url,
+          params: { ...payload.params }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('UpdateUserCollectionList', { ...payload.data })
+          }
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    Logout (context, payload) { // 登出
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.Logout.method,
+          url: Api.User.Logout.url,
+          params: { ...payload }
+        }).then(res => {
+          if (res.data.code - 0 === 1030) {
+            resolve(res)
+          } else {
+            reject(res)
+          }
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    UpdateBase64 (context, payload) { // 上传base64图片
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.UpdateBase64.method,
+          url: Api.User.UpdateBase64.url,
+          data: { ...payload }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            resolve(res)
+          } else {
+            reject(res)
+          }
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    EditUserLikes (context, payload) { // 设置用户偏好
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.EditUserLikes.method,
+          url: Api.User.EditUserLikes.url,
+          data: { ...payload }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            resolve(res)
+          } else {
+            reject(res)
+          }
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    UpdateUserInfo (context, payload) { // 更新用户信息
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.UpdateUserInfo.method,
+          url: Api.User.UpdateUserInfo.url,
+          data: { ...payload }
+        }).then(res => {
+          if (res.data.code - 0 === 1032) {
+            resolve(res)
+          } else {
+            reject(res)
+          }
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    GetUserLoveType (context, payload) { // 获取用户喜好类型
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.GetUserLoveType.method,
+          url: Api.User.GetUserLoveType.url
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('SetUserLoveType', res.data.data)
+          }
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    GetAreaList (context, payload) { // 获取地区列表
+      return new Promise((resolve, reject) => {
+        let Method = null
+        let Url = null
+        let Other = {}
+        if (payload.type - 0 === 1) { // 一级地区
+          Method = Api.User.GetAreaForFirstClass.method
+          Url = Api.User.GetAreaForFirstClass.url
+          Other = {}
+        } else if (payload.type - 0 === 2) { // 二级地区
+          Method = Api.User.GetAreaForSecondClass.method
+          Url = Api.User.GetAreaForSecondClass.url
+          Other = { params: { countryCode: payload.code || null } }
+        } else if (payload.type - 0 === 3) { // 三级地区
+          Method = Api.User.GetAreaForThirdClass.method
+          Url = Api.User.GetAreaForThirdClass.url
+          Other = { params: { stateCode: payload.code || null } }
+        }
+        Axios({
+          method: Method,
+          url: Url,
+          ...Other
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('SetAreaList', { type: payload.type, data: res.data.data })
+          }
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    GetUserLikes (context, payload) { // 获取用户偏好
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.GetUserLikes.method,
+          url: Api.User.GetUserLikes.url,
+          params: { ...payload }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('SetUserLikes', res.data.data)
+            resolve(res)
+          } else {
+            reject(res)
+          }
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    GetLikeTypes (context, payload) { // 获取偏好列表
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.GetLikeTypes.method,
+          url: Api.User.GetLikeTypes.url
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('SetUserLikeTypes', res.data.data)
+            resolve(res)
+          } else {
+            reject(res)
+          }
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    GetUserCollectionList (context, payload) { // 获取用户收藏列表
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.GetUserCollectionList.method,
+          url: Api.User.GetUserCollectionList.url,
+          params: { ...payload }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('SetUserCollectionList', { data: res.data.data, payload })
+          }
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    GetViewingHistory (context, payload) { // 获取用户观看历史
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.GetViewingHistory.method,
+          url: Api.User.GetViewingHistory.url,
+          params: { ...payload }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('SetViewingHistory', res.data.data)
+          }
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    GetAllViewingHistory (context, payload) { // 获取用户全部观看历史
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.GetViewingHistory.method,
+          url: Api.User.GetViewingHistory.url,
+          params: { ...payload }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('SetAllViewingHistory', res.data.data)
+          }
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    ResetCheckCode (context, payload) { // 找回密码校验验证码
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.ResetCheckCode.method,
+          url: Api.User.ResetCheckCode.url,
+          params: { ...payload }
+        }).then(res => {
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    ResetPassword (context, payload) { // 重置密码
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.ResetPassword.method,
+          url: Api.User.ResetPassword.url,
+          params: { ...payload }
+        }).then(res => {
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    ForgotPassword (context, payload) { // 找回密码
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.ForgotPassword.method,
+          url: Api.User.ForgotPassword.url,
+          params: { ...payload }
+        }).then(res => {
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    Login (context, payload) { // 用户登录
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.Login.method,
+          url: Api.User.Login.url,
+          params: { ...payload }
+        }).then(res => {
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    SendCode (context, payload) { // 发送验证码
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.SendCode.method,
+          url: Api.User.SendCode.url,
+          params: { ...payload }
+        }).then(res => {
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    Register (context, payload) { // 注册账户
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.Register.method,
+          url: Api.User.Register.url,
+          params: { ...payload }
+        }).then(res => {
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    CheckRegCode (context, payload) { // 校验注册账户验证码
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.CheckRegCode.method,
+          url: Api.User.CheckRegCode.url,
+          params: { ...payload }
+        }).then(res => {
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    CheckAccountStatus (context, payload) { // 校验账户是否能注册
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.CheckAccountStatus.method,
+          url: Api.User.CheckAccountStatus.url,
+          params: { ...payload }
+        }).then(res => {
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    GetUserInfoByToken (context, payload) { // 根据token获取用户信息
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.GetUserInfoByToken.method,
+          url: Api.User.GetUserInfoByToken.url,
+          params: { ...payload.params }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('SetUserInfo', res.data.data)
+          }
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    },
+    GetHistorySearchList (context, payload) { // 获取用户搜索历史
+      return new Promise((resolve, reject) => {
+        Axios({
+          method: Api.User.GetHistorySearchList.method,
+          url: Api.User.GetHistorySearchList.url,
+          params: payload === undefined ? null : { ...payload.params }
+        }).then(res => {
+          if (res.data.code - 0 === 0) {
+            context.commit('SetHistorySearchList', res.data.data)
+          }
+          resolve(res)
+        }).catch((res) => {
+          reject(res)
+        })
+      })
+    }
+  }
+}

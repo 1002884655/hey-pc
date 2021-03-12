@@ -1,0 +1,265 @@
+<template>
+  <div id="app" class="WhitePage">
+
+    <!-- 截图组件 -->
+    <div class="ImageCaptureBox" v-show="ShowImageCapture">
+      <div class="centerLabel">
+        <div class="flex-h">
+          <div class="flex-item">
+            <div>
+              <div class="Title flex-h">
+                <span class="flex-item">Picture editing</span>
+                <a class="iconfont iconshangchuan" @click="SelectImage"></a>
+                <a class="iconfont iconxuanzhuan-" @click="ImageCaptureRotate"></a>
+                <input type="file" accept="image/*" id="ImageFile" hidden ref="ImageFile" @change="FileChange">
+              </div>
+              <div class="ImageCaptureContent">
+                <div>
+                  <div>
+                    <ImageCapture v-if="CreateImageCapture" ref="MyImageCapture" @Change="ImageCaptureChange" :src="FileImageUrl" width="128" height="128" :keep="true" :size="[108, 108]"></ImageCapture>
+                  </div>
+                </div>
+                <span>Only JPG, PNG, JEPG, GIF, BMP are supported, and the size is no more than 5M The length and width of the image should not be less than 108px</span>
+              </div>
+            </div>
+          </div>
+          <div class="Right">
+            <div class="Top">
+              <a class="iconfont iconguanbi1" @click="CloseImageCapture"></a>
+            </div>
+            <ul>
+              <li>
+                <div><img :src="CaptureNewImg" class="centerLabel cover" alt=""></div>
+                <span>108 * 108</span>
+              </li>
+              <li>
+                <div><img :src="CaptureNewImg" class="centerLabel cover" alt=""></div>
+                <span>64 * 64</span>
+              </li>
+              <li>
+                <div><img :src="CaptureNewImg" class="centerLabel cover" alt=""></div>
+                <span>48 * 48</span>
+              </li>
+            </ul>
+            <a @click="$refs.MyImageCapture.SelectImgArea()">Preview</a>
+          </div>
+        </div>
+        <div class="Bottom">
+          <a @click="UpdateUserIcon">Confirm</a>
+          <a @click="CloseImageCapture">Cancel</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 页面主题框架 -->
+    <MainPage :ActiveIndex="null" :MenuActiveIndex="[null, null]" @Logout="Logout" @LoginEnd="LoginEnd">
+      <!-- 主体 -->
+      <div class="Content flex-h" v-if="UserInfo !== null">
+        <div class="Left">
+          <div class="Icon">
+            <a @click="ShowImageCapture = true"><img :src="UserInfo.picPath3" class="centerLabel cover" alt=""></a>
+          </div>
+          <div class="Name">
+            <span :title="UserInfo.name">{{UserInfo.name}}</span>
+            <i class="iconfont iconnan" v-if="UserInfo.sex - 0 === 1"></i>
+            <i class="iconfont iconnv" v-if="UserInfo.sex - 0 === 2"></i>
+          </div>
+          <a>Edit</a>
+          <ul>
+            <li class="flex-h" @click="CutNav(null)">
+              <i class="iconfont iconzhuye"></i>
+              <span class="flex-item">My home</span>
+            </li>
+            <li class="flex-h" v-for="(item, index) in NavList" :key="index" :class="{'active': NavActiveIndex === index}" @click="CutNav(index)">
+              <i class="iconfont" :class="item.Icon"></i>
+              <span class="flex-item">{{item.Name}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="Right flex-item">
+          <div>
+            <ul>
+
+              <!-- Viewing history -->
+              <li v-if="NavActiveIndex === 0">
+                <ViewingHistory></ViewingHistory>
+              </li>
+
+              <!-- My single -->
+              <li v-if="NavActiveIndex === 1"></li>
+
+              <!-- My collection -->
+              <li v-if="NavActiveIndex === 2">
+                <MyCollection></MyCollection>
+              </li>
+
+              <!-- My subscription -->
+              <li v-if="NavActiveIndex === 3"></li>
+
+              <!-- My message -->
+              <li v-if="NavActiveIndex === 4"></li>
+
+              <!-- Setting -->
+              <li v-if="NavActiveIndex === 5">
+                <Setting @EditUserIcon="ShowImageCapture = true"></Setting>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </MainPage>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+import { Notification } from 'element-ui'
+import MainPage from '../../components/MainPage'
+import ViewingHistory from '../../components/ViewingHistory'
+import MyCollection from '../../components/MyCollection'
+import Setting from '../../components/Setting'
+import ImageCapture from '../../components/ImageCapture'
+import { createNamespacedHelpers } from 'vuex'
+Vue.prototype.$notify = Notification
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+
+export default {
+  components: {
+    MainPage,
+    ViewingHistory,
+    MyCollection,
+    Setting,
+    ImageCapture
+  },
+  data () {
+    return {
+      NavList: [
+        {
+          Name: 'Viewing history',
+          Icon: 'iconlishi',
+          Id: ''
+        }, {
+          Name: 'My single',
+          Icon: 'iconbofang1',
+          Id: ''
+        }, {
+          Name: 'My collection',
+          Icon: 'iconshoucang1',
+          Id: ''
+        }, {
+          Name: 'My subscription',
+          Icon: 'icondingyue',
+          Id: ''
+        }, {
+          Name: 'My message',
+          Icon: 'iconxiaoxi',
+          Id: ''
+        }, {
+          Name: 'Setting',
+          Icon: 'iconshezhi-',
+          Id: ''
+        }
+      ],
+      UnLock: true,
+      CreateImageCapture: false,
+      FileImageUrl: null,
+      CaptureNewImg: null,
+      ShowImageCapture: false,
+      NavActiveIndex: (this.ToolClass.GetUrlParams('type') - 0) || 0
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo
+    })
+  },
+  created () {
+    if (!this.ToolClass.GetUrlParams('type')) {
+      window.history.replaceState({}, '', `?type=${0}`)
+    }
+  },
+  methods: {
+    ...mapUserActions(['UpdateBase64', 'GetUserInfoByToken']),
+    LoginEnd () { // 登录流程执行完毕回调
+      if (this.UserInfo === null) {
+        window.location.href = `./index.html`
+      }
+    },
+    Logout () { // 退出登录回调
+      window.location.href = `./index.html`
+    },
+    UpdateUserIcon () { // 上传头像.
+      if (this.CaptureNewImg === null) {
+        this.$notify.warning({
+          title: 'warning',
+          message: 'Please preview the screenshot first!'
+        })
+        return false
+      }
+      if (this.UnLock) {
+        this.UnLock = false
+        this.UpdateBase64({
+          accountId: this.UserInfo.id,
+          base64Data: this.CaptureNewImg
+        }).then(() => {
+          this.UnLock = true
+          this.CloseImageCapture()
+          this.$notify.success({
+            title: 'success',
+            message: 'Avatar updated successfully!'
+          })
+          this.GetUserInfoByToken({ params: { token: this.$localStorage.get('heypornid') } })
+        }).catch(() => {
+          this.UnLock = true
+        })
+      }
+    },
+    CloseImageCapture () { // 关闭截图弹窗
+      this.ShowImageCapture = false
+      this.CaptureNewImg = null
+    },
+    ImageCaptureChange (e) {
+      this.CaptureNewImg = e
+    },
+    getObjectURL (file) {
+      let url = null
+      // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+      if (window.createObjectURL !== undefined) { // basic
+        url = window.createObjectURL(file)
+      } else if (window.URL !== undefined) { // mozilla(firefox)
+        url = window.URL.createObjectURL(file)
+      } else if (window.webkitURL !== undefined) { // webkit or chrome
+        url = window.webkitURL.createObjectURL(file)
+      }
+      return url
+    },
+    FileChange () {
+      this.CreateImageCapture = false
+      this.FileImageUrl = this.getObjectURL(this.$refs.ImageFile.files[0])
+      window.setTimeout(() => {
+        this.CreateImageCapture = true
+      }, 30)
+    },
+    ImageCaptureRotate () { // 图片旋转
+      if (this.CreateImageCapture) {
+        this.$refs.MyImageCapture.Rotate()
+      }
+    },
+    SelectImage () {
+      this.$refs.ImageFile.click()
+    },
+    CutNav (index) { // 切换nav
+      if (index === null) {
+        location.assign('./community.html')
+      } else {
+        this.NavActiveIndex = index
+        window.history.replaceState({}, '', `?type=${index}`)
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

@@ -1,0 +1,346 @@
+<template>
+  <div class="components SettingForSecurityCenter">
+
+    <ul v-if="!IsEdit">
+      <li class="flex-h">
+        <div class="flex-item">
+          <div>
+            <i class="iconfont iconshouji-"></i>
+            <span>Phone</span>
+          </div>
+        </div>
+        <div class="flex-item">
+          <div>
+            <span>unbounded</span>
+          </div>
+        </div>
+        <div class="flex-item">
+          <div>
+            <a @click="GoBound(1)">go bound</a>
+          </div>
+        </div>
+      </li>
+      <li class="flex-h">
+        <div class="flex-item">
+          <div>
+            <i class="iconfont iconhebingxingzhuang"></i>
+            <span>Email</span>
+          </div>
+        </div>
+        <div class="flex-item">
+          <div>
+            <span>unbounded</span>
+          </div>
+        </div>
+        <div class="flex-item">
+          <div>
+            <a @click="GoBound(2)">go bound</a>
+          </div>
+        </div>
+      </li>
+      <li class="flex-h">
+        <div class="flex-item">
+          <div>
+            <i class="iconfont iconmima"></i>
+            <span>Password</span>
+          </div>
+        </div>
+        <div class="flex-item">
+          <div>
+            <span>unbounded</span>
+          </div>
+        </div>
+        <div class="flex-item">
+          <div>
+            <a @click="GoBound(3)">go bound</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- 绑定手机 -->
+    <div class="SetItem" v-if="IsEdit && EditType === 1">
+
+      <span>Mobile phone binding</span>
+
+      <!-- 输入手机号 -->
+      <div v-if="StepIndex === 0">
+        <div>
+          <input type="text" placeholder="Please enter your mobile phone number">
+          <span v-if="Tips !== ''">{{Tips}}</span>
+        </div>
+        <div><a @click="NextStep(false)">Next</a></div>
+      </div>
+
+      <!-- 输入验证码 -->
+      <div v-if="StepIndex === 1">
+        <div>
+          <span style="color: #999; margin-bottom: 10px;">we’ve send a code to +86 111****2222</span>
+          <input type="text" placeholder="Please enter the verification code">
+          <span style="color: #000; margin-top: 10px; font-weight: bold;">Don‘t receive the code? <a>Resend</a> <span>99s</span></span>
+          <span v-if="Tips !== ''">{{Tips}}</span>
+        </div>
+        <div><a @click="NextStep(false)">Next</a></div>
+      </div>
+
+      <!-- 绑定结果 -->
+      <div v-if="StepIndex === 2">
+        <div>
+          <i style="color: #0ECF1B; font-size: 52px;" class="iconfont iconqueren"></i>
+          <span style="text-align: center; font-size: 16px; font-weight: bold; margin-top: 20px; margin-bottom: 20px;">Successfully！</span>
+        </div>
+        <div><a @click="NextStep(true)">Return to safety center</a></div>
+      </div>
+    </div>
+
+    <!-- 邮箱绑定 -->
+    <div class="SetItem" v-if="IsEdit && EditType === 2">
+      <span>Email binding</span>
+
+      <!-- 输入邮箱 -->
+      <div v-if="StepIndex === 0">
+        <div>
+          <input type="text" placeholder="Please enter your email">
+          <span v-if="Tips !== ''">{{Tips}}</span>
+        </div>
+        <div><a @click="NextStep(false)">Next</a></div>
+      </div>
+
+      <!-- 输入验证码 -->
+      <div v-if="StepIndex === 1">
+        <div>
+          <span style="color: #999; margin-bottom: 10px;">we’ve send a code to 1002884655@qq.com</span>
+          <input type="text" placeholder="Please enter the verification code">
+          <span style="color: #000; margin-top: 10px; font-weight: bold;">Don‘t receive the code? <a>Resend</a> <span>99s</span></span>
+          <span v-if="Tips !== ''">{{Tips}}</span>
+        </div>
+        <div><a @click="NextStep(false)">Next</a></div>
+      </div>
+
+      <!-- 绑定结果 -->
+      <div v-if="StepIndex === 2">
+        <div>
+          <i style="color: #0ECF1B; font-size: 52px;" class="iconfont iconqueren"></i>
+          <span style="text-align: center; font-size: 16px; font-weight: bold; margin-top: 20px; margin-bottom: 20px;">Successfully！</span>
+        </div>
+        <div><a @click="NextStep(true)">Return to safety center</a></div>
+      </div>
+    </div>
+
+    <!-- 密码修改 -->
+    <div class="SetItem" v-if="IsEdit && EditType === 3">
+      <span>Passwords amend</span>
+
+      <!-- 输入邮箱or手机 -->
+      <div v-if="StepIndex === 0">
+        <div>
+          <span style="color: #999; margin-bottom: 10px;">we‘ll send code to confirm that this email/phone belongs to you</span>
+          <input type="text" placeholder="Please enter your email/phone" v-model="FormData.Password.Account">
+          <span v-if="Tips !== ''">{{Tips}}</span>
+        </div>
+        <div><a @click="NextStep(false)">Next</a></div>
+      </div>
+
+      <!-- 输入验证码 -->
+      <div v-if="StepIndex === 1">
+        <div>
+          <span style="color: #999; margin-bottom: 10px;">we’ve send a code to 1002884655@qq.com</span>
+          <input type="text" placeholder="Please enter the verification code" v-model="FormData.Password.Code">
+          <span style="color: #000; margin-top: 10px; font-weight: bold;">{{CanResend ? `Don‘t receive the code?` : ``}} <a v-show="CanResend" @click="SendResetPasswordCode(() => {})">Resend</a> <span v-if="!CanResend">{{Seconds}}s</span></span>
+          <span v-if="Tips !== ''">{{Tips}}</span>
+        </div>
+        <div><a @click="NextStep(false)">Next</a></div>
+      </div>
+
+      <!-- 设置新密码 -->
+      <div v-if="StepIndex === 2">
+        <div>
+          <span style="color: #999; margin-bottom: 10px;">please set a new password</span>
+          <input type="text" placeholder="new password" v-model="FormData.Password.NewPassword">
+          <span v-if="Tips !== ''">{{Tips}}</span>
+          <input type="text" placeholder="confirm new password" v-model="FormData.Password.ConfirmNewPassword">
+          <span v-if="Tips !== ''">{{Tips}}</span>
+        </div>
+        <div><a @click="NextStep(false)">Next</a></div>
+      </div>
+
+      <!-- 设置结果 -->
+      <div v-if="StepIndex === 3">
+        <div>
+          <i style="color: #0ECF1B; font-size: 52px;" class="iconfont iconqueren"></i>
+          <span style="text-align: center; font-size: 16px; font-weight: bold; margin-top: 20px; margin-bottom: 20px;">Successfully！</span>
+        </div>
+        <div><a @click="NextStep(true)">Return to safety center</a></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+import { Notification } from 'element-ui'
+import { createNamespacedHelpers } from 'vuex'
+Vue.prototype.$notify = Notification
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+
+export default {
+  name: 'SettingForSecurityCenter',
+  props: ['data'],
+  data () {
+    return {
+      FormData: { // 表单数据
+        Phone: { // 手机绑定
+        },
+        Email: { // 邮箱绑定
+        },
+        Password: { // 密码重置
+          Account: '',
+          Code: '',
+          NewPassword: '',
+          ConfirmNewPassword: ''
+        }
+      },
+      Tips: '', // 提示
+      UnLock: true, // 数据请求状态
+      CanResend: true, // 重发验证码状态
+      Seconds: 60, // 定时计数
+      Timer: null, // 定时器
+      EditType: 1, // 修改类型：1-手机 2-邮箱 3-密码
+      IsEdit: false, // 是否为修改模式
+      StepIndex: 0 // 修改步骤索引值
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo
+    })
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      window.clearInterval(this.Timer)
+      this.Timer = null
+      this.Init()
+    })
+  },
+  methods: {
+    ...mapUserActions(['ForgotPassword', 'ResetCheckCode', 'ResetPassword']),
+    Init () { // 初始化
+    },
+    GoBound (index) { // 绑定逻辑
+      this.StepIndex = 0
+      this.EditType = index
+      this.IsEdit = true
+    },
+    NextStep (bool) { // 下一步
+      if (bool) { // 退出编辑模式
+        this.IsEdit = false
+      } else { // 下一步
+        if (this.EditType === 1) { // 手机
+          if (this.StepIndex === 0) { // 校验手机号
+
+          } else if (this.StepIndex === 1) { // 检验并提交验证码
+
+          }
+        } else if (this.EditType === 2) { // 邮箱
+          if (this.StepIndex === 0) { // 校验邮箱
+
+          } else if (this.StepIndex === 1) { // 检验并提交验证码
+
+          }
+        } else if (this.EditType === 3) { // 密码
+          if (this.StepIndex === 0) { // 校验邮箱/手机号
+            if (this.ToolClass.CheckEmail(this.FormData.Password.Account) || this.ToolClass.CheckPhone(this.FormData.Password.Account)) { // 邮箱or手机获取验证码
+              this.SendResetPasswordCode(() => { // 重置密码发送验证码
+                this.Tips = ''
+                this.StepIndex += 1
+              }) // 重置密码发送验证码
+            } else {
+              this.Tips = 'Please enter the correct email address or mobile phone number!'
+              // this.$notify.error({
+              //   title: 'error',
+              //   message: 'Please enter the correct email address or mobile phone number!'
+              // })
+              return false
+            }
+          } else if (this.StepIndex === 1) { // 检验并提交验证码
+            if (this.FormData.Password.Code === '') {
+              this.Tips = 'The verification code cannot be empty!'
+              // this.$notify.error({
+              //   title: 'error',
+              //   message: 'The verification code cannot be empty!'
+              // })
+              return false
+            }
+            if (this.UnLock) {
+              this.UnLock = false
+              this.ResetCheckCode({ info: this.FormData.Password.Account, checkCode: this.FormData.Password.Code }).then((res) => {
+                this.UnLock = true
+                if (res.data.code - 0 === 0) {
+                  this.Tips = ''
+                  this.StepIndex += 1
+                } else {
+                  this.Tips = 'Verification code error!'
+                  // this.$notify.error({
+                  //   title: 'error',
+                  //   message: 'Verification code error!'
+                  // })
+                }
+              })
+            }
+          } else if (this.StepIndex === 2) { // 检验并提交新密码
+            if (this.FormData.Password.NewPassword === '') {
+              this.Tips = 'Password cannot be empty!'
+              return false
+            }
+            if (this.FormData.Password.NewPassword !== this.FormData.Password.ConfirmNewPassword) {
+              this.Tips = 'The two passwords do not match!'
+              return false
+            }
+            this.Tips = ''
+            if (this.UnLock) {
+              this.UnLock = false
+              this.ResetPassword({ info: this.FormData.Password.Account, password: this.FormData.Password.NewPassword }).then((res) => {
+                this.UnLock = true
+                if (res.data.code - 0 === 0) {
+                  this.StepIndex += 1
+                }
+              }).catch(() => {
+                this.UnLock = true
+              })
+            }
+          }
+        }
+      }
+    },
+    SendResetPasswordCode (callback) { // 重置密码发送验证码
+      if (this.CanResend) {
+        this.CanResend = false
+        this.ForgotPassword({ info: this.FormData.Password.Account }).then((res) => {
+          if (res.data.code - 0 === 0) {
+            this.Timer = window.setInterval(() => {
+              if (this.Seconds - 0) {
+                this.Seconds = this.Seconds - 1 > 9 ? this.Seconds - 1 : `0${this.Seconds - 1}`
+              } else {
+                window.clearInterval(this.Timer)
+                this.Timer = null
+                this.Seconds = 60
+                this.CanResend = true
+              }
+            }, 1000)
+            callback()
+          }
+        })
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

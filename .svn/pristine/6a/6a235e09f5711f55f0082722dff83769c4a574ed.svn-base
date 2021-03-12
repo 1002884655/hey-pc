@@ -1,0 +1,42 @@
+#app {
+  background: rgba(0, 0, 0, 1);
+  .MainPage {
+    > span {
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: 88px;
+      height: 38px;
+      background: #1a1a1a;
+      display: block;
+      z-index: 1;
+    }
+    > div {
+      width: 70%;
+      position: relative;
+      margin: 0 auto;
+      padding-top: 68px;
+      min-width: 1100px;
+      overflow-x: hidden;
+      .MainLevelList {
+        margin-top: 20px;
+        z-index: 2;
+        position: relative;
+        white-space: nowrap;
+        font-size: 0;
+        a {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 14px;
+          line-height: 38px;
+          width: 100px;
+          text-align: center;
+          &.active,
+          &:hover {
+            background: #e2041b;
+          }
+        }
+      }
+    }
+  }
+}

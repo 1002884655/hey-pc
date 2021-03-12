@@ -1,0 +1,276 @@
+#app {
+  background: #111;
+  .MainContainer {
+    width: calc(100% - 400px);
+    min-width: 800px;
+    max-width: 1200px;
+    margin: 88px auto 0;
+    padding-bottom: 30px;
+    position: relative;
+    overflow: visible;
+    > .Title {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      align-items: center;
+      > a {
+        font-size: 20px;
+        user-select: none;
+        color: #666;
+        &:hover {
+          color: #fff;
+        }
+      }
+      > span {
+        font-size: 16px;
+        color: #fff;
+        line-height: 30px;
+        margin-left: 10px;
+      }
+    }
+    > .PayStatus {
+      width: 410px;
+      position: relative;
+      overflow: hidden;
+      margin: 100px auto 0;
+      > div {
+        > span {
+          display: block;
+          text-align: center;
+          color: #fff;
+          line-height: 30px;
+          margin-bottom: 10px;
+          &:nth-child(1) {
+            font-size: 28px;
+            font-weight: bold;
+          }
+          &:nth-child(2) {
+            font-size: 16px;
+          }
+          &:nth-child(3) {
+            font-size: 26px;
+            font-weight: bold;
+          }
+          &:nth-child(4) {
+            font-size: 14px;
+            color: #999;
+          }
+        }
+        > i {
+          font-size: 70px;
+          color: #2fc25b;
+          display: block;
+          text-align: center;
+          &.Waitting {
+            color: #ccc;
+          }
+          &.Error {
+            color: #e2041b;
+          }
+        }
+        > a {
+          display: block;
+          user-select: none;
+          line-height: 40px;
+          border-radius: 4px;
+          text-align: center;
+          background: #e2041b;
+          margin-top: 10px;
+          color: #fff;
+        }
+      }
+    }
+    > .Form {
+      position: relative;
+      overflow: visible;
+      width: 100%;
+      margin: 20px auto 0;
+      > .BuyType {
+        display: block;
+        font-size: 18px;
+        line-height: 42px;
+        background: #e2041b;
+        color: #fff;
+        font-weight: bold;
+        text-indent: 10px;
+      }
+      > .Title {
+        align-items: flex-start;
+        padding-top: 10px;
+        position: relative;
+        overflow: hidden;
+        > div {
+          margin-left: 20px;
+          &:first-child {
+            margin-left: 0;
+          }
+          > span {
+            font-size: 12px;
+            color: #999;
+            display: block;
+            line-height: 20px;
+            &:first-child {
+              font-size: 16px;
+              color: #fff;
+              margin-bottom: 5px;
+            }
+          }
+        }
+      }
+      > .InputContainer {
+        align-items: flex-start;
+        > div {
+          margin-left: 20px;
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+      }
+      > .Agree {
+        font-size: 0;
+        white-space: nowrap;
+        text-align: center;
+        margin-top: 10px;
+        > * {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 14px;
+          margin-left: 10px;
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+        > a {
+          user-select: none;
+          font-size: 16px;
+          color: #999;
+          &.active {
+            color: #e2041b;
+          }
+        }
+      }
+      > .Icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 100%;
+        background-color: #60a108;
+        border-radius: 100%;
+        position: absolute;
+        overflow: hidden;
+        left: -80px;
+        top: 0;
+        color: #fff;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 54px;
+        + span {
+          font-size: 16px;
+          color: #fff;
+        }
+      }
+      > span {
+        display: block;
+        font-size: 12px;
+        color: #999;
+        line-height: 20px;
+        word-break: break-all;
+      }
+      .InputLine {
+        position: relative;
+        overflow: hidden;
+        background: #fff;
+        border-radius: 4px;
+        margin-top: 20px;
+        + span {
+          margin-top: 10px;
+        }
+        > span {
+          width: 100%;
+          display: block;
+          position: absolute;
+          z-index: 1;
+          color: #999;
+          font-size: 14px;
+          line-height: 20px;
+          left: 0;
+          top: 10px;
+          text-indent: 10px;
+          transition: all 0.1s linear;
+          -webkit-transition: all 0.05s linear;
+          &.active {
+            top: 0;
+            font-size: 8px;
+          }
+        }
+        > input {
+          width: 100%;
+          display: block;
+          position: relative;
+          overflow: hidden;
+          margin-top: 14px;
+          z-index: 2;
+          font-size: 14px;
+          line-height: 26px;
+          height: 26px;
+          color: #333;
+          text-indent: 10px;
+          background: none;
+        }
+      }
+      .InputFlex {
+        > span {
+          display: block;
+          font-size: 12px;
+          color: #999;
+          line-height: 20px;
+        }
+        > div {
+          align-items: center;
+          > div {
+            margin-left: 20px;
+            &:first-child {
+              margin-left: 0;
+            }
+            > .InputLine {
+              margin-top: 10px;
+            }
+          }
+        }
+      }
+      > .flex-h {
+        align-items: flex-start;
+        margin-top: 10px;
+        > a {
+          user-select: none;
+          font-size: 16px;
+          color: #999;
+          &.active {
+            color: #e2041b;
+          }
+        }
+        > span {
+          font-size: 12px;
+          color: #999;
+          line-height: 18px;
+          margin-left: 10px;
+        }
+      }
+      > .Submit {
+        display: block;
+        text-align: center;
+        font-size: 14px;
+        color: #fff;
+        line-height: 40px;
+        border-radius: 4px;
+        background: #ccc;
+        user-select: none;
+        width: 410px;
+        margin: 20px auto 0;
+        &.active {
+          background: #e2041b;
+        }
+      }
+    }
+  }
+}

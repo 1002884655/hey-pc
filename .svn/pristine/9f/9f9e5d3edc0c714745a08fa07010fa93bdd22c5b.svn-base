@@ -1,0 +1,146 @@
+<template>
+  <div id="app" class="WhitePage">
+    <MainPage ref="MainPage">
+      <div class="Container flex-h" v-if="UserInfo !== null">
+
+        <!-- 左侧选项 -->
+        <div class="LeftTab">
+
+          <!-- 用户头像 -->
+          <a class="UserIcon">
+            <img :src="UserInfo.picPath3" class="centerLabel cover" alt="">
+          </a>
+
+          <!-- 用户名 -->
+          <div class="UserName">
+            <span :title="UserInfo.name">{{UserInfo.name}}</span>
+            <i class="iconfont iconnan" v-if="UserInfo.sex - 0 === 1"></i>
+            <i class="iconfont iconnv" v-if="UserInfo.sex - 0 === 2"></i>
+          </div>
+
+          <a class="UserMember">Member</a>
+
+          <!-- 用户选项 -->
+          <nav class="UserTabList">
+            <a v-for="(item, index) in UserTabList" :key="index" class="flex-h" @click="CutUserTab(item, index)" :class="{'active': UserTabActiveIndex === index}">
+              <i class="iconfont" :class="item.Icon"></i>
+              <span>{{item.Value}}</span>
+            </a>
+          </nav>
+
+        </div>
+
+        <!-- 右侧内容 -->
+        <div class="RightContent flex-item">
+
+          <!-- My single -->
+          <div class="UserForMySingle" v-if="UserTabActiveIndex === 1">
+            <UserForMySingle></UserForMySingle>
+          </div>
+
+          <!-- Viewing History -->
+          <div class="UserForViewingHistory" v-if="UserTabActiveIndex === 2">
+            <UserForViewingHistory></UserForViewingHistory>
+          </div>
+
+          <!-- My collection -->
+          <div class="UserForMyCollection" v-if="UserTabActiveIndex === 3">
+            <UserForMyCollection></UserForMyCollection>
+          </div>
+
+          <!-- My subscription -->
+          <div class="UserForMySubscription" v-if="UserTabActiveIndex === 4">
+            <UserForMySubscription></UserForMySubscription>
+          </div>
+
+          <!-- My message -->
+          <div class="UserForMyMessage" v-if="UserTabActiveIndex === 5">
+            <UserForMyMessage></UserForMyMessage>
+          </div>
+
+          <!-- Setting -->
+          <div class="UserForSetting" v-if="UserTabActiveIndex === 6">
+            <UserForSetting></UserForSetting>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 未登录 -->
+      <div class="NeedLogin" v-else>
+        <span>You need to be logged in to continue accessing this page!</span>
+        <a @click="$refs.MainPage.Login()">To Login</a>
+      </div>
+    </MainPage>
+  </div>
+</template>
+
+<script>
+/*
+  页面名称：个人主页
+  创建人：许成祥
+  创建时间：2019/12/30
+  最近修改人：许成祥
+  最近修改日期：2020/01/09
+  备注： 无
+*/
+import MainPage from '../../components/MainPage'
+import UserForMySingle from '../../components/UserForMySingle'
+import UserForViewingHistory from '../../components/UserForViewingHistory'
+import UserForMyCollection from '../../components/UserForMyCollection'
+import UserForMySubscription from '../../components/UserForMySubscription'
+import UserForMyMessage from '../../components/UserForMyMessage'
+import UserForSetting from '../../components/UserForSetting'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState } = createNamespacedHelpers('user')
+export default {
+  components: {
+    MainPage,
+    UserForMySingle,
+    UserForViewingHistory,
+    UserForMyCollection,
+    UserForMySubscription,
+    UserForMyMessage,
+    UserForSetting
+  },
+  data () {
+    return {
+      UserTabActiveIndex: this.ToolClass.GetUrlParams('type') === false || this.ToolClass.GetUrlParams('type') - 0 === 0 ? 2 : this.ToolClass.GetUrlParams('type') - 0, // 用户选项索引值
+      UserTabList: [ // 用户选项列表
+        { Value: 'My home', Icon: 'iconzhuye', Id: '1' },
+        { Value: 'My single', Icon: 'iconbofang1', Id: '2' },
+        { Value: 'Viewing history', Icon: 'iconlishi', Id: '3' },
+        { Value: 'My collection', Icon: 'iconshoucang1', Id: '4' },
+        { Value: 'My subscription', Icon: 'icondingyue', Id: '5' },
+        { Value: 'My message', Icon: 'iconxiaoxi', Id: '6' },
+        { Value: 'Setting', Icon: 'iconshezhi-', Id: '7' }
+      ]
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo // 用户信息
+    })
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+    })
+  },
+  methods: {
+    CutUserTab (item, index) { // 切换用户选项
+      if (item.Id - 0 !== 1) {
+        this.UserTabActiveIndex = index
+        window.history.replaceState({}, '', `?type=${index}`) // 同步url参数
+      } else {
+        window.location.href = `./community.html`
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

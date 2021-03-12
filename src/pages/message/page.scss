@@ -1,0 +1,92 @@
+#app {
+  position: relative;
+  background: #111;
+  .Container {
+    padding-top: 90px;
+    width: 72% !important;
+    min-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    overflow: visible;
+    align-items: flex-start;
+    > .Menu {
+      width: 338px;
+      background: #222;
+      margin-right: 10px;
+      position: relative;
+      min-height: 500px;
+      > .Title {
+        padding: 0 15px;
+        > span {
+          display: block;
+          font-size: 18px;
+          color: #fff;
+          font-weight: bold;
+          line-height: 40px;
+          border-bottom: 1px solid #333;
+        }
+      }
+      > nav {
+        padding: 5px 0;
+        position: relative;
+        // &::after {
+        //   content: '';
+        //   display: block;
+        //   left: 15px;
+        //   right: 15px;
+        //   bottom: 0;
+        //   height: 1px;
+        //   background: #333;
+        //   position: absolute;
+        // }
+        > a {
+          padding: 0 15px;
+          user-select: none;
+          &:hover {
+            background: #333;
+          }
+          &.active {
+            > span {
+              color: #e2041b;
+            }
+          }
+          > span {
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 40px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            &:last-child {
+              font-weight: normal;
+            }
+          }
+        }
+      }
+      > a {
+        display: block;
+        padding: 0 15px;
+        font-size: 16px;
+        font-weight: bold;
+        user-select: none;
+        line-height: 40px;
+        margin-top: 5px;
+        &:hover {
+          background: #333;
+        }
+        &.active {
+          color: #e2041b;
+        }
+      }
+    }
+    > .flex-item {
+      position: relative;
+      overflow: visible;
+      > div {
+        width: 100%;
+        position: relative;
+        overflow: visible;
+      }
+    }
+  }
+}

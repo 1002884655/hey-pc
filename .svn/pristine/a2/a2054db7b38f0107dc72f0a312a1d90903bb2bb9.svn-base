@@ -1,0 +1,150 @@
+<template>
+  <div class="components TestPlayer">
+    <div class="videoContent">
+      <video id="BlackHoleVideo" width="100%" height="100%" style="object-fit: contain;" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" muted>
+        <source :src="Media.src" type="application/x-mpegURL">
+      </video>
+    </div>
+  </div>
+</template>
+
+<script>
+import 'video.js/dist/video-js.css'
+import videojs from 'video.js'
+import 'videojs-flash'
+import 'videojs-contrib-hls'
+import '../../assets/css/Player.scss'
+
+export default {
+  name: 'HeyPornPlayer',
+  props: [],
+  data () {
+    return {
+      Media: {
+        src: 'http://192.168.0.13/7e480d6d7f37a2875102fddab33c63f4/8/index.m3u8',
+        id: '',
+        value: ''
+      },
+      PlayerOptions: {
+        autoplay: false, // 自动播放
+        bigPlayButton: false, // 画中播放按钮
+        posterImage: false, // 显隐封面图片
+        controlBar: true, // 显隐控制条
+        showPausedAdImg: false, // 显示暂停广告位
+        fluid: false,
+        muted: false,
+        playbackRates: ['0.5', '1.0', '1.5', '2.0'] // 倍速播放设置
+      }
+    }
+  },
+  computed: {
+    VideoOptions () {
+      return { ...this.PlayerOptions, ...this.options }
+    }
+  },
+  components: {
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Init () { // 初始化
+      // let _that = this
+      videojs('BlackHoleVideo', { ...this.VideoOptions }, function () { // 初始化播放器回调（加入自定义控件）
+        // 获取播放器容器
+        let PlayerContainer = document.getElementById('BlackHoleVideo')
+        // 清除原生控制条内容
+        let ControlBar = document.getElementsByClassName('vjs-control-bar')[0] // 获取控制条对象
+        ControlBar.innerHTML = ''
+
+        // 创建视频遮罩层
+        let VideoLayer = document.createElement('div')
+        VideoLayer.className = `VideoLayer`
+        PlayerContainer.appendChild(VideoLayer)
+
+        // 创建视频遮罩层内-播放、暂停按钮（居中放大）
+        let CenterPlayBtn = document.createElement('a')
+        CenterPlayBtn.className = 'centerLabel BigPlayBtn active'
+        CenterPlayBtn.innerHTML = '<i class="iconfont iconbofang centerLabel"></i>'
+        VideoLayer.appendChild(CenterPlayBtn)
+
+        // 创建视频遮罩层内-鼠标右键菜单
+
+        // 创建控制条内-播放、暂停按钮
+
+        // 创建控制条内-下一个视频按钮
+
+        // 创建控制条内-时间进度数值显示
+
+        // 创建控制条内-清晰度切换按钮
+
+        // 创建控制条内-清晰度切换列表
+
+        // 创建控制条内-设置按钮
+
+        // 创建控制条内-设置按钮-更多设置列表（自动播放、倍速播放）
+
+        // 创建控制条内-倍速播放列表
+
+        // 创建控制条内-音量按钮
+
+        // 创建控制条内-音量调节滚动条
+
+        // 创建控制条内-谷歌画中画按钮
+
+        // 创建控制条内-剧场模式按钮
+
+        // 创建控制条内-全屏模式按钮
+
+        // 创建控制条内-视频进度条
+
+        // 创建控制条内-视频缩略图
+      })
+    },
+    PlayTrigger () { // 播放/暂停触发器
+      let BlackHoleVideo = videojs('BlackHoleVideo') // 获取videojs实例
+      let CenterPlayBtn = document.getElementsByClassName('BigPlayBtn')[0] // 获取中央播放按钮
+      let CenterPauseBtn = document.getElementsByClassName('BigPauseBtn')[0] // 获取中央暂停按钮
+      let ControlPlayBtn = document.getElementsByClassName('ControlPlayBtn')[0] // 获取控制条播放按钮
+      if (BlackHoleVideo.paused()) { // 视频处于暂停状态
+        BlackHoleVideo.play()
+        CenterPlayBtn.className = 'centerLabel BigPlayBtn'
+        CenterPauseBtn.className = 'centerLabel BigPauseBtn active'
+        ControlPlayBtn.className = 'ControlPlayBtn BtnIcon'
+      } else { // 视频处于播放状态
+        BlackHoleVideo.pause()
+        CenterPlayBtn.className = 'centerLabel BigPlayBtn active'
+        CenterPauseBtn.className = 'centerLabel BigPauseBtn'
+        ControlPlayBtn.className = 'ControlPlayBtn active BtnIcon'
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+.components {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  .videoContent {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    > div {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+  }
+}
+</style>

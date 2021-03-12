@@ -1,0 +1,204 @@
+#app {
+  background: #111;
+  .MainContainer {
+    padding-top: 88px;
+    width: 70%;
+    min-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    overflow: visible;
+    > .SheetCover {
+      > .Img {
+        width: 256px;
+        margin-right: 20px;
+        position: relative;
+        overflow: hidden;
+        > a {
+          display: block;
+          position: relative;
+          overflow: hidden;
+          padding-bottom: 56.25%;
+          background: #333;
+          > img {
+            z-index: 1;
+          }
+          > .RightLayer {
+            position: absolute;
+            z-index: 2;
+            width: 70px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            > span {
+              width: 100%;
+              > * {
+                color: #fff;
+                font-size: 14px;
+                display: block;
+                line-height: 20px;
+                width: 100%;
+                text-align: center;
+              }
+              > i {
+                font-size: 30px;
+              }
+            }
+          }
+        }
+      }
+      > .flex-item {
+        > .flex-item {
+          > span {
+            font-size: 14px;
+            color: #fff;
+            line-height: 20px;
+            word-break: break-all;
+            text-align: justify;
+            display: block;
+            margin-top: 10px;
+            &:first-child {
+              margin-top: 0;
+              font-weight: bold;
+            }
+            &:nth-child(3) {
+              color: #999;
+            }
+            > a {
+              color: #999;
+              &:hover {
+                color: #fff;
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+        > .Bottom {
+          font-size: 0;
+          white-space: nowrap;
+          > * {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 16px;
+            color: #fff;
+            margin-right: 30px;
+          }
+          > .PlayAll {
+            line-height: 32px;
+            padding: 0 25px;
+            background: #e2041b;
+            border-radius: 5px;
+          }
+          > .Like {
+            &.active {
+              > * {
+                color: #e2041b;
+              }
+            }
+          }
+          > .Like,
+          > .Share {
+            color: #999;
+            &:hover {
+              color: #fff;
+            }
+          }
+          > .Like {
+            > i {
+              color: #999;
+            }
+          }
+        }
+      }
+    }
+    > .Sort {
+      margin-top: 30px;
+      position: relative;
+      overflow: visible;
+      z-index: 10;
+      > a {
+        font-size: 0;
+        white-space: nowrap;
+        position: relative;
+        overflow: visible;
+        > * {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 16px;
+          line-height: 30px;
+          color: #999;
+        }
+        > i {
+          font-size: 25px;
+          margin-right: 10px;
+        }
+        &:hover {
+          text-decoration: none;
+          color: #e2041b;
+          > span,
+          > i {
+            color: #e2041b;
+          }
+          > .SortList {
+            display: block;
+          }
+        }
+        > .SortList {
+          width: 260px;
+          position: absolute;
+          left: 0;
+          top: 15px;
+          background: #222;
+          overflow: hidden;
+          z-index: 100;
+          display: none;
+          > li {
+            line-height: 40px;
+            font-size: 14px;
+            text-indent: 10px;
+            color: #fff;
+            border-top: 1px solid #333;
+            &:first-child {
+              border: none;
+            }
+            &:hover {
+              background: #333;
+            }
+            &.active {
+              background: #e2041b;
+              &:hover {
+                background: #e2041b;
+              }
+            }
+          }
+        }
+      }
+    }
+    > .List {
+      width: calc(100% + 20px);
+      margin-left: -10px;
+      margin-top: 20px;
+      font-size: 0;
+      > li {
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        overflow: visible;
+        width: calc((100% - 180px) / 5);
+        margin: 0 0 20px 10px;
+        padding: 10px;
+        &:nth-child(5n + 1) {
+          margin-left: 0;
+        }
+        &:hover {
+          background: #222;
+        }
+      }
+    }
+    > .Pagination {
+      text-align: center;
+      padding: 20px 0;
+    }
+  }
+}

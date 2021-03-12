@@ -1,0 +1,127 @@
+.components.IndexRecommedColumnList {
+  overflow: visible;
+  > .TitleContainer.flex-h {
+    align-items: center;
+    > .Title {
+      font-size: 20px;
+      line-height: 40px;
+      color: #fff;
+    }
+    > nav {
+      font-size: 0;
+      white-space: nowrap;
+      > a {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 12px;
+        line-height: 20px;
+        padding: 0 10px;
+        color: #999;
+        background: #222;
+        border-radius: 3px;
+        margin-left: 15px;
+        margin-top: 5px;
+        user-select: none;
+        &:hover,
+        &.active {
+          background: #e2041b;
+          color: #fff;
+        }
+      }
+    }
+    > a {
+      font-size: 14px;
+      line-height: 24px;
+      padding: 0 10px;
+      color: #999;
+      border-radius: 3px;
+      box-sizing: border-box;
+      border: 1px solid #fff;
+      border-color: transparent;
+      margin-left: 15px;
+      margin-top: 5px;
+      user-select: none;
+      font-weight: bold;
+      &:hover,
+      &.active {
+        color: #fff;
+        border-color: #999;
+      }
+    }
+  }
+  > .ListContainer {
+    > ul.LoadingList {
+      font-size: 0;
+      position: relative;
+      overflow: visible;
+      width: calc(100% - ((((100% - 40px) / 5) * 2) + 20px));
+      > li {
+        display: inline-block;
+        vertical-align: middle;
+        width: calc((100% - 20px) / 3);
+        position: relative;
+        overflow: visible;
+        margin-top: 20px;
+        margin-left: 10px;
+        &:nth-child(3n + 1) {
+          margin-left: 0;
+        }
+        > .Img {
+          width: 100%;
+          display: block;
+          padding-bottom: 56.25%;
+          position: relative;
+          overflow: hidden;
+          background: #1a1a1a;
+        }
+        > .LineContainer {
+          height: 90px;
+          position: relative;
+          overflow: visible;
+          > div {
+            height: 20px;
+            background: #1a1a1a;
+            margin-top: 3px;
+            &:nth-child(2) {
+              width: 50%;
+            }
+            &:nth-child(3) {
+              width: 25%;
+            }
+          }
+        }
+      }
+    }
+    > ul.List {
+      font-size: 0;
+      position: relative;
+      overflow: visible;
+      width: calc(100% - ((((100% - 40px) / 5) * 2) + 20px));
+      > li {
+        display: inline-block;
+        vertical-align: middle;
+        width: calc((100% - 20px) / 3);
+        position: relative;
+        overflow: visible;
+        margin-top: 20px;
+        margin-left: 10px;
+        &:nth-child(3n + 1) {
+          margin-left: 0;
+        }
+      }
+    }
+    > .flex-item {
+      position: relative;
+      overflow: hidden;
+      margin-left: 10px;
+      > div {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 20px;
+        bottom: 0;
+        overflow: hidden;
+      }
+    }
+  }
+}

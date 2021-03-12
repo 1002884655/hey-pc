@@ -1,0 +1,112 @@
+.components.NewVideoPlayerList {
+  position: relative;
+  overflow: hidden;
+  margin-top: 30px;
+  box-sizing: border-box;
+  border: 1px solid #333;
+  > .Title {
+    padding: 0 10px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 5px;
+    max-height: 40px;
+    min-height: 20px;
+    > span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      font-size: 16px;
+      color: #fff;
+      line-height: 20px;
+      word-break: break-all;
+    }
+  }
+  > .SubInfo {
+    font-size: 0;
+    white-space: nowrap;
+    margin-top: 5px;
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 14px;
+      color: #999;
+      line-height: 20px;
+      margin-left: 20px;
+      &:first-child {
+        margin-left: 10px;
+      }
+    }
+    > a {
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+  > .MoreSet {
+    align-items: center;
+    padding: 0 10px 5px;
+    margin-top: 5px;
+    > a {
+      color: #999;
+      font-size: 18px;
+      user-select: none;
+      margin-left: 10px;
+      line-height: 20px;
+      &:first-child {
+        margin-left: 0;
+      }
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+  > .ListContainer {
+    position: relative;
+    overflow: hidden;
+    > .HideListDom {
+      position: relative;
+      z-index: 1;
+      > div {
+        position: relative;
+        overflow: hidden;
+        padding: 5px 10px;
+        > div {
+          width: 145px;
+          position: relative;
+          overflow: hidden;
+          > div {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+          }
+        }
+      }
+    }
+    > .ShowListDom {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 2;
+    }
+    ul {
+      > li {
+        padding: 5px 10px 5px 0;
+        position: relative;
+        overflow: visible;
+        align-items: center;
+        &:hover {
+          background: #222;
+        }
+        > span {
+          font-size: 10px;
+          text-align: center;
+          width: 20px;
+          color: #999;
+        }
+      }
+    }
+  }
+}

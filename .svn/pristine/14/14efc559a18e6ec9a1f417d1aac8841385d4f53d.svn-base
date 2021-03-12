@@ -1,0 +1,149 @@
+<template>
+  <div class="components">
+    <!-- 二级分类nav -->
+    <nav class="ClassNavLevel2">
+      <a v-for="(item, index) in NavLevel2List" :key="index" :class="{'active': NavLevel2ActiveIndex === index}" @click="CutLevel2(item, index)">{{item.value}}</a>
+      <a class="Filter" @click="ShowMoreFilter = !ShowMoreFilter">
+        <i class="iconfont iconshaixuan1"></i>
+        <span>FILTER</span>
+      </a>
+    </nav>
+
+    <!-- 三级分类nav -->
+    <ul class="ClassNavLevel3" v-show="ShowMoreFilter">
+      <li class="flex-h" v-for="(item, index) in SearchFilterList" :key="index">
+        <span>{{item.Name}}:</span>
+        <div class="flex-item">
+          <nav>
+            <a v-for="(subItem, subIndex) in item.List" :key="subIndex" :class="{'active': item.ActiveIndex === subIndex}" @click="CutLevel3(item, index, subItem, subIndex)">{{subItem.name}}</a>
+          </nav>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+import { createNamespacedHelpers } from 'vuex'
+const { mapActions: mapSearchActions } = createNamespacedHelpers('search')
+
+export default {
+  name: 'SearchFilter',
+  props: ['UnLock', 'NoUpdate', 'FilterOptions'],
+  data () {
+    return {
+      NavLevel2ActiveIndex: 0, // 二级分类nav索引
+      InitOptionsArr: [], // 初始参数
+      NavLevel2List: [], // 二级分类nav
+      ShowMoreFilter: true, // 显隐三级分类
+      SearchFilterList: [], // 三级分类过滤器数据
+      EmitParams: { // 传出搜索过滤条件数据
+        OrderBy: null,
+        SearchParams: {
+          endTime: null,
+          startTime: null,
+          types: ''
+        }
+      },
+      TypeIdList: [] // 三级分类id选择记录
+    }
+  },
+  computed: {
+  },
+  components: {
+  },
+  created () {
+    this.GetSearchFilter().then((res) => { // 获取二三级过滤器
+      if (res.data.code - 0 === 0) {
+        this.NavLevel2List = []
+        this.SearchFilterList = []
+        for (let key in res.data.data) { // 构建过滤器数据
+          if (key !== 'orderByList') {
+            this.SearchFilterList.push({
+              Name: res.data.data[key][0].typeCode,
+              Type: res.data.data[key][1].remark === undefined || res.data.data[key][1].remark === '' ? 1 : 2, // 过滤类型：1-非区间值 2-区间值
+              ActiveIndex: 0,
+              List: [{ id: null, name: 'All', remark: '' }, ...res.data.data[key].slice(1)]
+            })
+            this.TypeIdList.push(res.data.data[key][1].remark === undefined || res.data.data[key][1].remark === '' ? '' : null) // 构建过滤器id数据
+          } else {
+            res.data.data[key].map((item, index) => {
+              if (index !== 0) {
+                this.NavLevel2List.push({ value: item.name, id: JSON.parse(item.remark).orderBy })
+              }
+            })
+          }
+        }
+        this.InitOptionsArr.map((pItem) => {
+          this.SearchFilterList.map((item) => {
+            item.List.map((subItem, subIndex) => {
+              if (subItem.id === pItem) {
+                item.ActiveIndex = subIndex
+              }
+            })
+          })
+        })
+      }
+    })
+  },
+  mounted () {
+    this.$nextTick(() => {
+      if (!this.NoUpdate) {
+        if (this.FilterOptions) {
+          if (this.FilterOptions.type !== null) {
+            this.InitOptionsArr.push(this.FilterOptions.type)
+          }
+          if (this.FilterOptions.tag !== null) {
+            this.InitOptionsArr.push(this.FilterOptions.tag)
+          }
+          this.EmitParams.SearchParams.types = this.InitOptionsArr.join(',')
+        }
+        this.$emit('Change', this.EmitParams)
+      }
+    })
+  },
+  methods: {
+    ...mapSearchActions([
+      'GetSearchFilter'
+    ]),
+    CutLevel2 (item, index) { // 切换2级过滤器
+      if (this.UnLock) {
+        if (this.NavLevel2ActiveIndex !== index) {
+          this.NavLevel2ActiveIndex = index
+          this.EmitParams.OrderBy = item.id
+          this.$emit('Change', this.EmitParams)
+        }
+      }
+    },
+    CutLevel3 (item, index, subItem, subIndex) { // 切换3级过滤器
+      if (this.UnLock) {
+        if (item.ActiveIndex !== subIndex) {
+          item.ActiveIndex = subIndex
+          if (item.Type - 0 === 1) { // 1-非区间值 2-区间值
+            this.TypeIdList[index] = subItem.id
+            let Arr = []
+            if (this.InitOptionsArr.length) {
+              Arr = Arr.concat(this.InitOptionsArr)
+            }
+            this.TypeIdList.map((item) => {
+              if (item !== null && item !== '') {
+                Arr.push(item)
+              }
+            })
+            this.EmitParams.SearchParams.types = Arr.join(',')
+          } else {
+            this.EmitParams.SearchParams.endTime = subItem.remark !== '' && subItem.remark !== undefined ? JSON.parse(subItem.remark).max * 60 * 1000 : null
+            this.EmitParams.SearchParams.startTime = subItem.remark !== '' && subItem.remark !== undefined ? JSON.parse(subItem.remark).min * 60 * 1000 : null
+          }
+          this.$emit('Change', this.EmitParams)
+        }
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

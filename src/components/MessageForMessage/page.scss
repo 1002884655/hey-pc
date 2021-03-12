@@ -1,0 +1,47 @@
+.components.MessageForMessage {
+  > span {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 40px;
+    text-indent: 10px;
+    background: #222;
+  }
+  > ul {
+    > li {
+      position: relative;
+      overflow: hidden;
+      background: #222;
+      margin-top: 10px;
+      padding: 15px 10px;
+      > .Top {
+        font-size: 0;
+        white-space: nowrap;
+        > span {
+          display: inline-block;
+          font-size: 14px;
+          color: #999;
+          line-height: 20px;
+          margin-left: 20px;
+          &:first-child {
+            font-weight: bold;
+            color: #fff;
+            margin-left: 0;
+          }
+        }
+      }
+      > span {
+        display: block;
+        font-size: 12px;
+        color: #999;
+        line-height: 20px;
+        margin-top: 5px;
+      }
+    }
+  }
+  > .NextPage {
+    padding: 20px 0;
+    text-align: center;
+  }
+}

@@ -1,0 +1,132 @@
+#app {
+  background: #111;
+  .MainContainer {
+    padding-top: 88px;
+    width: 70%;
+    min-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    overflow: visible;
+    > .Title {
+      font-size: 0;
+      white-space: nowrap;
+      > span {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 20px;
+        color: #999;
+        line-height: 40px;
+        &:first-child {
+          font-size: 28px;
+          color: #fff;
+          font-weight: bold;
+          margin-right: 10px;
+        }
+      }
+    }
+    > .NoDataContainer {
+      width: 100%;
+      text-align: center;
+      margin-top: 30px;
+      > i {
+        display: inline-block;
+        font-size: 100px;
+        color: #999;
+      }
+      > span {
+        display: block;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #999;
+        line-height: 30px;
+        margin-top: 30px;
+      }
+    }
+    > ul {
+      font-size: 0;
+      > li {
+        display: inline-block;
+        vertical-align: middle;
+        width: calc((100% - 60px) / 5);
+        position: relative;
+        overflow: hidden;
+        margin-top: 15px;
+        margin-left: 15px;
+        &:nth-child(5n + 1) {
+          margin-left: 0;
+        }
+        > a {
+          display: block;
+          width: 100%;
+          position: relative;
+          overflow: hidden;
+          padding-bottom: 100%;
+          background: #333;
+          > img {
+            z-index: 1;
+          }
+          > span {
+            display: inline-block;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 2;
+            font-size: 16px;
+            color: #fff;
+            background: #62e232;
+            line-height: 26px;
+            width: 48px;
+            text-align: center;
+            border-radius: 26px;
+            &.active {
+              background: #f24f2c;
+            }
+          }
+          > .Info {
+            width: 100%;
+            position: absolute;
+            z-index: 3;
+            left: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            > .flex-h {
+              align-items: center;
+              padding: 0 10px;
+              > span {
+                font-size: 16px;
+                color: #fff;
+                line-height: 30px;
+                &:first-child {
+                  font-weight: bold;
+                }
+              }
+              > i {
+                font-size: 20px;
+                color: #fff;
+                margin-left: 10px;
+                margin-right: 5px;
+              }
+            }
+            > .Desc {
+              padding: 0 10px;
+              position: relative;
+              overflow: hidden;
+              > span {
+                font-size: 16px;
+                line-height: 20px;
+                color: #fff;
+                display: block;
+              }
+            }
+          }
+        }
+      }
+    }
+    > .Pagination {
+      text-align: center;
+      padding: 20px 0;
+    }
+  }
+}

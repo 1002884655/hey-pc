@@ -1,0 +1,118 @@
+<template>
+  <div class="components SettingForPreferences">
+    <ul v-if="LikeTypes.length">
+      <li v-for="(item, index) in LikeTypes" :key="index">
+        <ul>
+          <li class="flex-h">
+            <span class="flex-item">{{item.TypeName}}</span>
+            <span class="flex-item">Like</span>
+            <span class="flex-item">Dislike</span>
+            <span class="flex-item">Don’t care</span>
+          </li>
+          <li class="flex-h" v-for="(SubItem, SubIndex) in item.List" :key="SubIndex">
+            <span class="flex-item">{{SubItem.name}}</span>
+            <span class="flex-item">
+              <a :class="[CalcSelect(SubItem) === 1 ? 'active' : '']" @click="SelectItem(SubItem, 1)">
+                <img src="../../assets/img/biaoqing1.png" alt="">
+                <img src="../../assets/img/biaoqing1-.png" alt="">
+              </a>
+            </span>
+            <span class="flex-item">
+              <a :class="[CalcSelect(SubItem) === 2 ? 'active' : '']" @click="SelectItem(SubItem, 2)">
+                <img src="../../assets/img/biaoqing2.png" alt="">
+                <img src="../../assets/img/biaoqing2-.png" alt="">
+              </a>
+            </span>
+            <span class="flex-item">
+              <a :class="[CalcSelect(SubItem) === 3 ? 'active' : '']" @click="SelectItem(SubItem, 3)">
+                <img src="../../assets/img/biaoqing3.png" alt="">
+                <img src="../../assets/img/biaoqing3-.png" alt="">
+              </a>
+            </span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+
+export default {
+  name: 'SettingForPreferences',
+  props: ['data'],
+  data () {
+    return {
+      UnLock: true
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo,
+      LikeTypes: x => x.LikeTypes,
+      UserLikes: x => x.UserLikes
+    })
+  },
+  components: {
+  },
+  created () {
+    this.GetLikeTypes()
+    this.GetUserLikes({ accountId: this.UserInfo.id })
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    ...mapUserActions(['GetLikeTypes', 'EditUserLikes', 'GetUserLikes']),
+    Init () { // 初始化
+    },
+    CalcSelect (item) { // 计算是否选中
+      let Bool = null
+      this.UserLikes.map((thisItem) => {
+        if (thisItem.workId === item.id) {
+          Bool = thisItem.status
+        }
+      })
+      return Bool - 0
+    },
+    SelectItem (item, status) { // 选择项
+      let Bool = true
+      this.UserLikes.map((thisItem) => {
+        if (thisItem.workId - 0 === item.id - 0 && thisItem.status - 0 === status - 0) {
+          Bool = false
+        }
+      })
+      if (!Bool) {
+        return false
+      }
+      if (this.UnLock) {
+        this.UnLock = false
+        this.EditUserLikes({
+          accountId: this.UserInfo.id,
+          likeType: 1,
+          status,
+          workId: item.id
+        }).then((res) => {
+          this.GetUserLikes({ accountId: this.UserInfo.id }).then(() => {
+            this.UnLock = true
+            console.log(this.UserLikes)
+          }).catch(() => {
+            this.UnLock = true
+          })
+        }).catch(() => {
+          this.UnLock = true
+        })
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

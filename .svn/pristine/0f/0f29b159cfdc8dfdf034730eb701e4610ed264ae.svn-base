@@ -1,0 +1,99 @@
+<template>
+  <div class="components MainPage">
+
+    <div class="TestLine"></div>
+
+    <!-- 页头 -->
+    <MainNav ref="MainNav" v-show="Show" :MainNavActiveIndex="MainNavActiveIndex" @Login="Login" @UserInfoChange="UserInfoChange" :MainNavBgActive="MainNavBgActive" :IsSearch="IsSearch"></MainNav>
+
+    <!-- 账号操作（登录、注册、设置密码、找回密码） -->
+    <AccountOperation ref="AccountOperation" @UserInfoChange="UserInfoChange"></AccountOperation>
+
+    <!-- 网速估算组件 -->
+    <NetSpeedTest @TestEnd="NetSpeedTestEnd"></NetSpeedTest>
+
+    <!-- 正文 -->
+    <div class="MainContainer">
+      <ScrollY>
+        <slot></slot>
+        <PageFooter></PageFooter>
+      </ScrollY>
+    </div>
+  </div>
+</template>
+
+<script>
+/*
+  页面名称：页面主框架（页头、页脚、内容slot）
+  创建人：许成祥
+  创建时间：2019/12/19
+  最近修改人：许成祥
+  最近修改日期：2020/03/13
+  备注： 无
+*/
+import MainNav from '../MainNav'
+import ScrollY from '../ScrollY'
+import AccountOperation from '../AccountOperation'
+import NetSpeedTest from '../NetSpeedTest'
+import PageFooter from '../PageFooter'
+export default {
+  name: 'MainPage',
+  props: {
+    MainNavActiveIndex: { // 主导航选中状态索引值
+      type: Number,
+      default: -1
+    },
+    MainNavBgActive: { // MainNav背景板透明开关：true-非透明 false-透明
+      type: Boolean,
+      default: true
+    },
+    IsSearch: { // 是否为搜索页
+      type: Boolean,
+      default: false
+    },
+    Show: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data () {
+    return {
+    }
+  },
+  computed: {
+  },
+  components: {
+    MainNav,
+    ScrollY,
+    AccountOperation,
+    PageFooter,
+    NetSpeedTest
+  },
+  created () {
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.Init()
+    })
+  },
+  methods: {
+    Init () { // 初始化
+    },
+    Login () { // 登录
+      this.$refs.AccountOperation.Show = true
+    },
+    UserInfoChange () { // 用户信息更新
+      this.$refs.MainNav.UserInfoChange()
+      this.$emit('UserInfoChange')
+    },
+    NetSpeedTestEnd (e) { // 网速估算结束回调
+      this.$emit('NetSpeedTestEnd', e)
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

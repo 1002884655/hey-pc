@@ -1,0 +1,72 @@
+<template>
+  <div id="app" class="WhitePage">
+    <!-- 页面主题框架 -->
+    <MainPage ref="MainPage" :ActiveIndex="null" :MenuActiveIndex="[null, null]">
+      <div class="Container">
+        <div class="flex-h Error">
+          <div class="flex-item">
+            <span>404</span>
+            <span>Sorry，This video is gone…</span>
+          </div>
+          <div class="RecommendVideo">
+            <span>Recommend Video</span>
+            <div class="Video">
+              <img src="" class="centerLabel cover" alt="">
+              <a class="iconfont iconbofang centerLabel"></a>
+            </div>
+            <div class="Bottom">
+              <a>Back homepage</a>
+              <a>Feedback</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="PopVideo">
+          <span>Pop Video</span>
+          <ul class="flex-h">
+            <li class="flex-item" v-for="(item, index) in 6" :key="index">
+              <a class="Img">
+                <img src="" class="centerLabel cover" alt="">
+                <a class="iconfont iconbofang centerLabel"></a>
+              </a>
+              <a class="Name">name</a>
+              <div class="flex-h">
+                <span class="flex-item">999views</span>
+                <span>9.9</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </MainPage>
+  </div>
+</template>
+
+<script>
+import MainPage from '../../components/MainPage'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState } = createNamespacedHelpers('user')
+
+export default {
+  components: {
+    MainPage
+  },
+  data () {
+    return {
+    }
+  },
+  created () {
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo
+    })
+  },
+  methods: {
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

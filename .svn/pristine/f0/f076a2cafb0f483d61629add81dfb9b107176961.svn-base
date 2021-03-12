@@ -1,0 +1,316 @@
+<template>
+  <div class="components MainNav flex-h" :class="{'active': MainNavBgActive}">
+
+    <!-- 主菜单显隐按钮 -->
+    <!-- <a class="iconfont iconfenlei MainMenuIcon"></a> -->
+
+    <!-- 主logo -->
+    <a class="MainLogo" href="./index.html"><img src="../../assets/img/logo3x.png" alt="Heyporn" title="Heyporn"></a>
+
+    <!-- 主导航 -->
+    <nav class="MainNavList">
+      <a v-for="(item, index) in MainNavList" :key="index" :href="item.Href" :class="{'active': MainNavActiveIndex === index}">{{item.Name}}</a>
+    </nav>
+
+    <!-- 主搜索 -->
+    <div class="MainSearch">
+
+      <!-- 搜索框 -->
+      <div class="MainSearchBorder flex-h">
+        <div class="flex-item">
+          <input type="search" v-model="MainSearchKey" :placeholder="SearchRandomKey" @focus="ShowSearchHistory = true" @blur="MainSearchBlur">
+        </div>
+        <a class="iconfont iconsousuo" @click="MainSearch"></a>
+      </div>
+
+      <!-- 搜索历史及推荐搜索 -->
+      <div class="MainSearchHistory" v-show="ShowSearchHistory">
+        <div class="flex-h" v-if="(UserInfo !== null && HistorySearchList.length) || (UserInfo === null && LocalSearchHistory.length)">
+          <span class="flex-item">HISTORY</span>
+          <a class="iconfont iconqingkong" v-if="UserInfo === null" @click="EmptySearchHistory"></a>
+        </div>
+
+        <!-- 搜索历史列表 -->
+        <ul class="MainSearchHistoryList">
+
+          <!-- 用户搜索历史 -->
+          <li v-for="(item, index) in HistorySearchList" :key="index" v-if="UserInfo !== null && index < 10" class="flex-h">
+            <a class="flex-item" :title="item.content" :href="`./search.html?key=${item.content}`">{{item.content}}</a>
+          </li>
+
+          <!-- 本地搜索历史 -->
+          <li v-for="(item, index) in LocalSearchHistory" :key="index" v-if="UserInfo === null && index < 10" class="flex-h">
+            <a class="flex-item" :title="item" :href="`./search.html?key=${item}`">{{item}}</a>
+          </li>
+        </ul>
+
+        <div class="flex-h">
+          <span class="flex-item">POPULAR SEARCH</span>
+        </div>
+
+        <!-- 推荐搜索列表 -->
+        <ul class="MainPopularSearchList">
+          <li v-for="(item, index) in SearchRankingList" :key="index" v-if="(UserInfo === null && index < 10 - LocalSearchHistory.length) || (UserInfo !== null && index < 10 - HistorySearchList.length)" class="flex-h">
+            <span>{{index + 1}}</span>
+            <a class="flex-item" :title="item.name" :href="`./search.html?key=${item.name}`">{{item.name}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flex-item"></div>
+
+    <!-- 观看历史 -->
+    <div class="WatchHistory">
+      <a class="iconfont iconlishijilu" @click="CheckHistory"></a>
+
+      <!-- 观看历史列表 -->
+      <div>
+        <ul class="WatchHistoryList">
+
+          <!-- 用户观看历史 -->
+          <li v-for="(item, index) in AllViewingHistory" v-if="UserInfo !== null && index < 6" :key="index" class="flex-h">
+            <i class="iconfont icondiannao"></i>
+            <a class="flex-item" :href="`./media.html?id=${item.VideoId}`" :title="item.Name">{{item.Name}}</a>
+            <a class="iconfont iconbofang Hide" title="play" :href="`./media.html?id=${item.VideoId}`"></a>
+            <a class="iconfont iconguanbi Hide" title="delete" @click="DeleteViewHistory(0, item, index)"></a>
+          </li>
+
+          <!-- 本地观看历史 -->
+          <li v-for="(item, index) in LocalViewHistory" v-if="UserInfo === null && index < 6" :key="index" class="flex-h">
+            <i class="iconfont icondiannao"></i>
+            <a class="flex-item" :href="`./media.html?id=${item.VideoId}`" :title="item.Name">{{item.Name}}</a>
+            <a class="iconfont iconbofang Hide" title="play" :href="`./media.html?id=${item.VideoId}`"></a>
+            <a class="iconfont iconguanbi Hide" title="delete" @click="DeleteViewHistory(1, item, index)"></a>
+          </li>
+        </ul>
+        <div v-if="UserInfo !== null">
+          <a href="./user.html?type=2">View More</a>
+        </div>
+        <div v-else>
+          <a @click="$emit('Login')">Login To View More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 用户选项 -->
+    <div class="MainUser">
+
+      <!-- 用户头像 -->
+      <a class="MainUserIcon">
+        <a><img v-if="UserInfo !== null" :src="UserInfo.picPath1" class="centerLabel cover" alt=""></a>
+        <i class="iconfont iconxiala"></i>
+      </a>
+
+      <!-- 用户选项板 -->
+      <div class="MainUserOptions">
+
+        <!-- 用户基本信息 -->
+        <div class="MainUserBasicInfo flex-h" v-if="UserInfo !== null">
+          <a><img :src="UserInfo.picPath2" class="centerLabel" alt=""></a>
+          <div class="flex-item">
+            <a>{{UserInfo.name}}</a>
+            <span>{{UserInfo.email}}</span>
+            <span>{{UserInfo.mobile || 'No mobile information'}}</span>
+          </div>
+        </div>
+
+        <!-- 用户个人中心选项 -->
+        <nav class="MainUserCenterOptions" v-if="UserInfo !== null">
+          <!-- <a href="./community.html">My Heyporn</a> -->
+          <a href="./user.html?type=3">My Collection</a>
+          <!-- <a>Paid Memberships</a> -->
+          <a @click="SighOut">Sigh Out</a>
+        </nav>
+
+        <!-- 登录 -->
+        <a @click="$emit('Login')" v-if="UserInfo === null">Sigh In</a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+/*
+  页面名称：页头组件
+  创建人：许成祥
+  创建时间：2019/12/19
+  最近修改人：许成祥
+  最近修改日期：2020/03/10
+  备注： 无
+*/
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
+const { mapState: mapSearchState, mapActions: mapSearchActions } = createNamespacedHelpers('search')
+export default {
+  name: 'demo',
+  props: {
+    MainNavActiveIndex: { // 主导航选中状态索引值
+      type: Number,
+      default: -1
+    },
+    MainNavBgActive: { // MainNav背景板透明开关：true-非透明 false-透明
+      type: Boolean,
+      default: true
+    },
+    IsSearch: { // 是否为搜索页
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      DataLock: false, // 数据锁定状态
+      MainNavList: [ // 主导航数据
+        { Name: 'HOME', Href: './index.html' },
+        { Name: 'VIDEO', Href: './class.html' },
+        { Name: 'COMMUNITY', Href: './community.html' }
+      ],
+      MainSearchKey: this.IsSearch ? this.ToolClass.GetUrlParams('key') === false ? '' : decodeURI(this.ToolClass.GetUrlParams('key')) : '', // 主搜索关键词
+      LocalSearchHistory: JSON.parse(this.$localStorage.get('heypornsearchhistory')) || [], // 本地搜索记录
+      LocalViewHistory: JSON.parse(this.$localStorage.get('heypornviewhistory')) || [], // 本地观看记录
+      ShowSearchHistory: false // 显隐搜索历史列表
+    }
+  },
+  computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo, // 用户信息
+      AllViewingHistory: x => x.AllViewingHistory, // 观看记录
+      HistorySearchList: x => x.HistorySearchList, // 历史搜索记录
+      SearchRankingList: x => x.SearchRankingList // 推荐搜索
+    }),
+    ...mapSearchState({
+      SearchRandomKey: x => x.SearchRandomKey // 随机搜索词
+    })
+  },
+  components: {
+  },
+  created () {
+    this.Init()
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.ToolClass.DocumentKeyDown((e) => { // 绑定回车键搜索功能
+        if (e.keyCode === 13) { // Enter键
+          if (this.ShowSearchHistory) { // 搜索
+            window.location.href = `./search.html?key=${this.MainSearchKey || this.SearchRandomKey}`
+          }
+        }
+      })
+    })
+  },
+  methods: {
+    ...mapUserActions([
+      'DeleteViewingHistory', // 删除用户观看历史
+      'GetAllViewingHistory', // 获取用户观看历史
+      'GetHistorySearchList', // 获取用户搜索历史
+      'Logout' // 登出
+    ]),
+    ...mapUserMutations([
+      'ClearAllViewingHistory', // 清空用户观看记录
+      'ClearHistorySearchList', // 清空用户搜索记录
+      'SetHistorySearchList', // 设置用户搜索记录
+      'SetUserInfo' // 设置用户信息
+    ]),
+    ...mapSearchActions([
+      'GetRandomSearchKey' // 获取随机搜索词
+    ]),
+    CheckHistory () { // 点击历史记录
+      if (this.UserInfo !== null) {
+        window.location.href = `./user.html?type=2`
+      } else {
+        this.$emit('Login')
+      }
+    },
+    MainSearch () { // 主搜索事件
+      let Tag = decodeURI(this.ToolClass.GetUrlParams('tag'))
+      if (Tag === 'false' || Tag === '') {
+        window.location.href = `./search.html?key=${this.MainSearchKey || this.SearchRandomKey}`
+      } else {
+        window.location.href = `./search.html?tag=${this.ToolClass.GetUrlParams('tag')}&key=${this.MainSearchKey || this.SearchRandomKey}`
+      }
+    },
+    Init () { // 初始化
+      this.GetRandomSearchKey()
+    },
+    EmptySearchHistory () { // 清空本地搜索历史
+      if (!this.DataLock) {
+        this.DataLock = true // 数据锁定（防多次触发）
+        this.LocalSearchHistory = []
+        this.$localStorage.set('heypornsearchhistory', JSON.stringify(this.LocalSearchHistory))
+        this.DataLock = false // 数据解锁
+      }
+    },
+    DeleteViewHistory (type, item, index) { // 删除观看历史
+      if (!this.DataLock) {
+        this.DataLock = true // 数据锁定（防多次触发）
+        if (type - 0 === 0) { // 删除用户观看历史
+          this.DeleteViewingHistory({ ids: item.Id, Index: index }).then(() => {
+            this.DataLock = false // 数据解锁
+          }).catch(() => {
+            this.DataLock = false // 数据解锁
+          })
+        } else { // 删除本地观看历史
+          this.LocalViewHistory.splice(index, 1)
+          this.$localStorage.set('heypornviewhistory', JSON.stringify(this.LocalViewHistory))
+          this.DataLock = false // 数据解锁
+        }
+      }
+    },
+    UserInfoChange () { // 用户信息更新
+      if (this.UserInfo !== null) { // 用户登录（获取用户搜索历史、观看历史）
+        if (!this.DataLock) {
+          this.DataLock = true // 数据锁定（防多次触发）
+          this.GetHistorySearchList({ params: { accountId: this.UserInfo.id } }).then(() => { // 获取用户搜索历史
+            this.GetAllViewingHistory({ pageNum: 1, pageSize: 6, accountId: this.UserInfo.id }).then(() => { // 获取用户观看历史
+              this.DataLock = false // 数据解锁
+            }).catch(() => {
+              this.DataLock = false // 数据解锁
+            })
+          }).catch(() => {
+            this.GetAllViewingHistory({ pageNum: 1, pageSize: 6, accountId: this.UserInfo.id }).then(() => { // 获取用户观看历史
+              this.DataLock = false // 数据解锁
+            }).catch(() => {
+              this.DataLock = false // 数据解锁
+            })
+          })
+        }
+      } else { // 用户登出（删除用户搜索历史、观看历史）
+        this.ClearAllViewingHistory() // 清空用户观看记录
+        this.ClearHistorySearchList() // 清空用户搜索记录
+        if (!this.DataLock) {
+          this.DataLock = true // 数据锁定（防多次触发）
+          this.GetHistorySearchList().then(() => { // 获取推荐搜索
+            this.DataLock = false // 数据解锁
+          }).catch(() => {
+            this.DataLock = false // 数据解锁
+          })
+        }
+      }
+    },
+    MainSearchBlur () { // 主搜索框失去焦点
+      window.setTimeout(() => {
+        this.ShowSearchHistory = false
+      }, 100)
+    },
+    SighOut () { // 登出
+      if (!this.DataLock) {
+        this.DataLock = true // 数据锁定（防多次触发）
+        this.Logout({ token: this.$localStorage.get('heypornid') }).then(() => {
+          this.DataLock = false // 数据解锁
+          this.SetUserInfo(null) // store用户信息清空
+          this.$localStorage.set('heypornid', null) // 移除localStorage中token信息
+          this.$emit('UserInfoChange')
+        }).catch(() => {
+          this.DataLock = false // 数据解锁
+        })
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import 'page.scss';
+</style>

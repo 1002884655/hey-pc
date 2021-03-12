@@ -1,0 +1,35 @@
+.el-input__inner {
+  height: 34px;
+  line-height: 34px;
+  border-color: #ccc;
+  font-size: 13px;
+}
+.SelectListItem {
+  margin-right: 20px;
+  .el-input__inner {
+    width: 160px;
+  }
+}
+.OnlySelect {
+  .el-input__inner {
+    width: 340px;
+  }
+}
+.LabelSelect {
+  width: 100%;
+  .el-input__suffix {
+    display: none;
+  }
+}
+.el-select {
+  .el-tag {
+    background-color: #e2041b;
+    span {
+      color: #fff;
+    }
+    i.el-tag__close.el-icon-close {
+      background-color: #fff;
+      color: #e2041b;
+    }
+  }
+}

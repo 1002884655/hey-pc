@@ -1,0 +1,151 @@
+.components.UserSettingForSecurityCenter {
+  .BindList {
+    > li {
+      align-items: center;
+      margin-top: 20px;
+      > span {
+        white-space: nowrap;
+        font-size: 0;
+        width: 150px;
+        text-indent: 30px;
+        display: inline-block;
+        > * {
+          font-size: 14px;
+          line-height: 30px;
+          display: inline-block;
+          vertical-align: middle;
+          text-align: left;
+          text-indent: 0;
+        }
+        i {
+          font-size: 20px;
+          margin-right: 10px;
+          min-width: 30px;
+        }
+      }
+      > div {
+        span {
+          width: 100%;
+          display: block;
+          text-align: center;
+          font-size: 14px;
+          color: #999;
+        }
+      }
+      > a {
+        width: 112px;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+        background: #e2041b;
+        border-radius: 5px;
+        font-size: 12px;
+        &:hover {
+          background: #f3041d;
+        }
+      }
+    }
+  }
+  .BindItem {
+    margin: 20px auto 0;
+    > span {
+      width: 100%;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 30px;
+      display: block;
+    }
+    &.BindItem {
+      > div {
+        position: relative;
+        overflow: hidden;
+        margin: 20px auto 0;
+        > span.Title {
+          width: 390px;
+          display: block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 12px;
+          line-height: 30px;
+          height: 30px;
+          color: #888;
+          margin: 0 auto;
+        }
+        > input {
+          width: 390px;
+          line-height: 20px;
+          padding: 5px 0;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 12px;
+          text-indent: 10px;
+          display: block;
+          margin: 0 auto;
+          box-sizing: border-box;
+        }
+        > span.Tips {
+          width: 390px;
+          display: block;
+          margin: 0 auto;
+          line-height: 20px;
+          height: 20px;
+          font-size: 10px;
+          color: #e2041b;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        > span.Resend {
+          width: 390px;
+          display: block;
+          margin: 0 auto;
+          white-space: nowrap;
+          font-size: 12px;
+          line-height: 30px;
+          a {
+            display: inline-block;
+            width: 50px;
+            text-decoration: underline;
+            color: #e2041b;
+            &:hover {
+              font-weight: bold;
+            }
+          }
+        }
+        > span.Success {
+          display: block;
+          margin: 0 auto;
+          text-align: center;
+          i {
+            font-size: 40px;
+            color: #0ecf1b;
+          }
+        }
+        > span.Status {
+          display: block;
+          text-align: center;
+          font-size: 16px;
+          line-height: 30px;
+          margin: 20px auto 0;
+          color: #e2041b;
+          padding-bottom: 20px;
+        }
+      }
+      .Next {
+        width: 148px;
+        display: block;
+        margin: 20px auto 0;
+        text-align: center;
+        font-size: 12px;
+        color: #fff;
+        background: #e2041b;
+        border-radius: 5px;
+        line-height: 30px;
+        &:hover {
+          background: #f3041d;
+        }
+      }
+    }
+  }
+}

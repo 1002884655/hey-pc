@@ -1,0 +1,123 @@
+.components.VideoCollectFolderMove {
+  .MoveFolderPopupContent {
+    height: 400px;
+    > .flex-item {
+      position: relative;
+      overflow: hidden;
+      > div {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        overflow: hidden;
+        ul {
+          > li {
+            align-items: center;
+            padding: 5px 0;
+            &:hover {
+              background: #333;
+              cursor: pointer;
+            }
+            &.active {
+              > * {
+                color: #e2041b;
+              }
+            }
+            > * {
+              font-size: 14px;
+              color: #999;
+              margin-left: 10px;
+              line-height: 20px;
+              &:last-child {
+                margin-right: 10px;
+              }
+            }
+            > span.flex-item {
+              font-weight: bold;
+            }
+            > a {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+    > .AddFolder {
+      margin-top: 20px;
+      font-size: 0;
+      white-space: nowrap;
+      border: 1px solid #999;
+      border-radius: 5px;
+      &:hover {
+        cursor: pointer;
+        border-color: #ccc;
+        > * {
+          color: #ccc;
+        }
+      }
+      > * {
+        display: inline-block;
+        font-size: 14px;
+        color: #999;
+        vertical-align: middle;
+        line-height: 40px;
+        margin-left: 10px;
+      }
+    }
+  }
+  .AddNew {
+    > .Title {
+      font-size: 0;
+      white-space: nowrap;
+      margin-top: 10px;
+      &:first-child {
+        margin-top: 0;
+      }
+      > span {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 14px;
+        color: #999;
+        line-height: 40px;
+        margin-left: 10px;
+        &:first-child {
+          color: #fff;
+          margin-left: 0;
+          font-weight: bold;
+        }
+      }
+    }
+    > .Form {
+      > * {
+        width: 100%;
+        display: block;
+        border: 1px solid #999;
+        box-sizing: border-box;
+        padding: 5px;
+        line-height: 20px;
+        font-size: 14px;
+        color: #999;
+        background: none;
+        border-radius: 5px;
+      }
+    }
+    > .Bottom {
+      margin-top: 30px;
+      align-items: center;
+      > a {
+        margin-left: 20px;
+        font-size: 16px;
+        color: #fff;
+        line-height: 40px;
+        text-align: center;
+        background: #e2041b;
+        border-radius: 5px;
+        &:first-child {
+          margin-left: 0;
+          background: #999;
+        }
+      }
+    }
+  }
+}

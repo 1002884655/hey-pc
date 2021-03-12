@@ -1,0 +1,121 @@
+.ImageCapture {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  .ImageCaptureBox {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    overflow: hidden;
+    > div {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.6);
+      &.CaptureMoveArea {
+        background: none;
+        box-sizing: border-box;
+        // border: 1px solid #fff;
+        a {
+          display: block;
+          width: 15px;
+          height: 15px;
+          box-sizing: border-box;
+          position: absolute;
+          overflow: visible;
+          z-index: 3;
+          &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border: 3px solid #fff;
+          }
+          &:nth-child(1) {
+            left: -7px;
+            top: -7px;
+            &::after {
+              left: 9px;
+              top: 9px;
+              border-right: none;
+              border-bottom: none;
+            }
+            &:hover {
+              cursor: nw-resize;
+            }
+          }
+          &:nth-child(2) {
+            right: 0;
+            top: 0;
+            &::after {
+              right: 2px;
+              top: 2px;
+              border-left: none;
+              border-bottom: none;
+            }
+            &:hover {
+              cursor: ne-resize;
+            }
+          }
+          &:nth-child(3) {
+            right: 0;
+            bottom: 0;
+            &::after {
+              bottom: 2px;
+              right: 2px;
+              border-top: none;
+              border-left: none;
+            }
+            &:hover {
+              cursor: se-resize;
+            }
+          }
+          &:nth-child(4) {
+            bottom: 0;
+            left: 0;
+            &::after {
+              bottom: 2px;
+              left: 2px;
+              border-top: none;
+              border-right: none;
+            }
+            &:hover {
+              cursor: sw-resize;
+            }
+          }
+          &:nth-child(5) {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            &::after {
+              display: none;
+            }
+            &:hover {
+              cursor: move;
+            }
+          }
+        }
+      }
+      &.CaptureTop,
+      &.CaptureBottom {
+        width: 100%;
+      }
+      &.CaptureTop {
+        top: 0;
+        left: 0;
+      }
+      &.CaptureBottom {
+        bottom: 0;
+        left: 0;
+      }
+      &.CaptureLeft {
+        left: 0;
+      }
+      &.CaptureRight {
+        right: 0;
+      }
+    }
+  }
+}
