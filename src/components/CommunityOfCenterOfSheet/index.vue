@@ -98,7 +98,7 @@ export default {
     ToGetPieceGroup () { // 获取用户片单
       if (!this.DataLock) {
         this.DataLock = true
-        if (this.UserInfo === null || (this.UserInfo !== null && this.ToolClass.GetUrlParams('key') - 0 !== this.UserInfo.id - 0)) {
+        if (this.UserInfo === null || (this.UserInfo !== null && this.ToolClass.GetUrlParams('key') !== false && this.ToolClass.GetUrlParams('key') - 0 !== this.UserInfo.id - 0)) {
           this.GetOtherUserPlaylist({
             params: { accountId: this.ToolClass.GetUrlParams('key'), ...this.PageData }
           }).then((res) => {
@@ -113,7 +113,7 @@ export default {
           })
         } else {
           this.GetPieceGroup({
-            params: { accountId: this.ToolClass.GetUrlParams('key') || this.UserInfo.id, ...this.PageData }
+            params: { accountId: this.ToolClass.GetUrlParams('key') !== false ? this.ToolClass.GetUrlParams('key') : this.UserInfo.id, ...this.PageData }
           }).then((res) => {
             // this.MyPieceGroupList = res.data.data.list
             this.PageList = res.data.data.list || []

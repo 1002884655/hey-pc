@@ -79,7 +79,11 @@
             <div>
               <a :href="`./userspace.html?key=${item.userId}`" target="_self">{{item.userName}}</a>
             </div>
-            <span>{{ToolClass.ReturnViews(item.playNum)}} views</span>
+            <div>
+              <span>{{ToolClass.ReturnViews(item.playNum)}} views</span>
+              <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
+              <span v-if="item.payVideo - 0 === 1">${{item.price}}</span>
+            </div>
           </div>
           <div class="More" v-if="!IsListEdit">
             <div class="centerLabel">

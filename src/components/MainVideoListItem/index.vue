@@ -20,10 +20,10 @@
             <i class="iconfont iconshaohouguankan"></i>
             <span>Save to Watch later</span>
           </a>
-          <a class="flex-h" @click="$emit('SaveToFavorite')">
+          <!-- <a class="flex-h" @click="$emit('SaveToFavorite')">
             <i class="iconfont iconshoucang-"></i>
             <span>Save to favorite</span>
-          </a>
+          </a> -->
           <a class="flex-h" @click="$emit('SaveToPlaylist')">
             <i class="iconfont iconyemian"></i>
             <span>Save to playlist</span>

@@ -132,6 +132,27 @@
                 }
               }
             }
+            > div {
+              font-size: 0;
+              > * {
+                display: inline-block;
+                vertical-align: middle;
+              }
+              > span {
+                font-size: 14px;
+                color: #fff;
+                line-height: 20px;
+                white-space: nowrap;
+                &:first-child {
+                  color: #999;
+                }
+              }
+              > img {
+                height: 20px;
+                margin-right: 5px;
+                margin-left: 10px;
+              }
+            }
             > span {
               font-size: 14px;
               color: #999;

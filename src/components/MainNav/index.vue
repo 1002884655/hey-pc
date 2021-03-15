@@ -96,6 +96,10 @@
                         <a :href="`./video.html?key=${item.VideoM}`" target="_self" :title="item.Name">{{item.Name}}</a>
                       </div>
                       <span><a :href="`./userspace.html?key=${item.UpId}`" target="_self">{{item.UpName}}</a> {{item.ViewingDate | changeTime}}</span>
+                      <div>
+                        <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
+                        <span v-if="item.payVideo - 0 === 1">${{item.price}}</span>
+                      </div>
                     </div>
                   </li>
                 </ul>
@@ -113,6 +117,10 @@
                         <a :href="`./video.html?key=${item.VideoM}`" target="_self" :title="item.Name">{{item.Name}}</a>
                       </div>
                       <span><a :href="`./userspace.html?key=${item.UpId}`" target="_self">{{item.UpName}}</a> {{item.ViewingDate | changeTime}}</span>
+                      <div>
+                        <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
+                        <span v-if="item.payVideo - 0 === 1">${{item.price}}</span>
+                      </div>
                     </div>
                   </li>
                 </ul>
@@ -175,10 +183,10 @@
             </a>
           </div>
           <div>
-            <a href="./users.html?type=3" class="flex-h">
+            <!-- <a href="./users.html?type=3" class="flex-h">
               <i class="iconfont iconshoucang-"></i>
               <span class="flex-item">Favorite</span>
-            </a>
+            </a> -->
             <a href="./users.html?type=4" class="flex-h">
               <i class="iconfont iconlishijilu1"></i>
               <span class="flex-item">History</span>
@@ -191,10 +199,10 @@
               <i class="iconfont icondanye"></i>
               <span class="flex-item">Playlist</span>
             </a>
-            <a href="./users.html?type=7" class="flex-h">
+            <!-- <a href="./users.html?type=7" class="flex-h">
               <i class="iconfont iconzhuanji"></i>
               <span class="flex-item">Album</span>
-            </a>
+            </a> -->
           </div>
           <div>
             <a href="./users.html?type=8" class="flex-h">

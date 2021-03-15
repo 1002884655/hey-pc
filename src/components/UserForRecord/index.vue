@@ -28,7 +28,11 @@
                   <a :href="`./video.html?key=${subItem.videoM}`" target="_self">{{subItem.title}}</a>
                 </div>
                 <span><a :href="`./userspace.html?key=${subItem.upId}`" target="_self">{{subItem.upName}}</a></span>
-                <span>{{ToolClass.ReturnViews(subItem.displayNum)}} views</span>
+                <div style="margin-top: 10px">
+                  <span>{{ToolClass.ReturnViews(subItem.displayNum)}} views</span>
+                  <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
+                  <span v-if="item.payVideo - 0 === 1">${{item.price}}</span>
+                </div>
               </div>
               <div class="Delete">
                 <a class="iconfont iconqingkong centerLabel" @click="ToDeleteViewingHistory(subItem.id, index, subIndex)"></a>

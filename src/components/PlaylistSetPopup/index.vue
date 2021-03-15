@@ -9,8 +9,16 @@
       </div>
 
       <!-- 内容 -->
-      <div class="Content" v-if="Ids.length || AddFromGroup !== null" v-show="!IsAdd">
-        <ScrollY Size="small">
+      <div class="Content" :style="{height: PageList.length <= 7 ? 'auto' : '300px'}" v-if="Ids.length || AddFromGroup !== null" v-show="!IsAdd">
+        <ul class="List" v-if="PageList.length <= 7">
+          <li v-for="(item, index) in PageList" :key="index" class="flex-h" @click="Cut(item, index)">
+            <a class="iconfont" :class="[item.exist - 0 === 1 ? 'iconyitianjia active' : 'iconyuan']"></a>
+            <span class="flex-item" :class="{'active': item.exist - 0 === 1}">{{item.name}}</span>
+            <span>({{item.videoNum}}/{{item.maxCount}})</span>
+            <i class="iconfont" :class="[item.visible - 0 === 1 ? 'iconicon_huabanfuben' : 'icongongkai']"></i>
+          </li>
+        </ul>
+        <ScrollY Size="small" v-else>
           <ul class="List">
             <li v-for="(item, index) in PageList" :key="index" class="flex-h" @click="Cut(item, index)">
               <a class="iconfont" :class="[item.exist - 0 === 1 ? 'iconyitianjia active' : 'iconyuan']"></a>

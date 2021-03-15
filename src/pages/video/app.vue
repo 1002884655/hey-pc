@@ -64,10 +64,10 @@
                 <a :class="{'active': HasLiked}" @click="GaveLikeForVideo"><i class="iconfont icondianzan"></i><span>{{LikeNum}}</span></a>
                 <a :class="{'active': HasCollected}" @click="AddTo" class="Collect"><i class="iconfont iconshoucang-"></i><span>{{CollectNum}}</span></a>
                 <a @click="ShareVideo"><i class="iconfont iconfenxiang"></i><span>Share</span></a>
-                <!-- <a class="AddTo" @click="AddTo">
+                <a class="AddTo" @click="SaveTo">
                   <i class="iconfont iconyemian"></i>
                   <span>Save to</span>
-                </a> -->
+                </a>
                 <div class="flex-item"></div>
                 <a href="#CommentMarkId"><i class="iconfont iconpinglun-"></i><span>Comment</span></a>
               </div>
@@ -167,7 +167,7 @@
       </div>
 
       <!-- 片单操作弹窗 -->
-      <PlaylistSetPopup ref="PlaylistSetPopup" v-if="UserInfo !== null && ShowPlaylistSetPopup" :Ids="VideoIds" @Close="ShowPlaylistSetPopup = false"></PlaylistSetPopup>
+      <PlaylistSetPopup ref="PlaylistSetPopup" v-if="UserInfo !== null && ShowPlaylistSetPopup" :Ids="[CollectId]" @Close="ShowPlaylistSetPopup = false"></PlaylistSetPopup>
 
       <SaveToFavorites ref="SaveToFavorites" :Ids="CollectId" v-if="ShowSaveToFavorites && UserInfo !== null" @Close="ShowSaveToFavorites = false" @Change="FavoriteChange"></SaveToFavorites>
 
@@ -451,6 +451,10 @@ export default {
       } else { // 用户未登录
         this.$refs.MainPage.Login()
       }
+    },
+    SaveTo () {
+      this.CollectId = this.MediaInfo.video.videoId
+      this.ShowPlaylistSetPopup = true
     },
     EditFolderPopupSure () { // 编辑片单确认操作
       if (!this.DataLock) {

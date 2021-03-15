@@ -57,9 +57,12 @@
           <el-pagination background :page-size="PageData.pageSize" :current-page="PageData.pageNum" layout="prev, pager, next, jumper" :total="TotalNum" @current-change="PageChange"></el-pagination>
         </div> -->
 
+        <!-- 片单操作弹窗 -->
+        <PlaylistSetPopup ref="PlaylistSetPopup" v-if="UserInfo !== null && ShowSaveToPlaylist" :Ids="[CollectId]" @Close="ShowSaveToPlaylist = false"></PlaylistSetPopup>
+
         <SaveToFavorites ref="SaveToFavorites" :Ids="CollectId" v-if="ShowSaveToFavorites && UserInfo !== null" @Close="ShowSaveToFavorites = false"></SaveToFavorites>
 
-        <SaveToPlaylist ref="SaveToPlaylist" :Ids="[CollectId]" v-if="ShowSaveToPlaylist && UserInfo !== null" @Close="ShowSaveToPlaylist = false"></SaveToPlaylist>
+        <!-- <SaveToPlaylist ref="SaveToPlaylist" :Ids="[CollectId]" v-if="ShowSaveToPlaylist && UserInfo !== null" @Close="ShowSaveToPlaylist = false"></SaveToPlaylist> -->
 
         <div style="width: 100%; height: 50px"></div>
 
@@ -85,6 +88,7 @@ import IndexBanner from '../../components/IndexBanner'
 import IndexClassNav from '../../components/IndexClassNav'
 import IndexColumnList from '../../components/IndexColumnList'
 import IndexRecommedColumnList from '../../components/IndexRecommedColumnList'
+import PlaylistSetPopup from '../../components/PlaylistSetPopup'
 import IndexLivePlayer from '../../components/IndexLivePlayer'
 import IndexChannel from '../../components/IndexChannel'
 import IndexPlayList from '../../components/IndexPlayList'
@@ -110,7 +114,8 @@ export default {
     SaveToFavorites,
     SaveToPlaylist,
     IndexRecommedColumnList,
-    IndexLivePlayer
+    IndexLivePlayer,
+    PlaylistSetPopup
   },
   data () {
     return {

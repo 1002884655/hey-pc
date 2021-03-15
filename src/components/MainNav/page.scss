@@ -303,6 +303,7 @@
                 }
                 > .flex-item {
                   > div {
+                    font-size: 0;
                     > a {
                       width: 100%;
                       font-size: 16px;
@@ -314,6 +315,22 @@
                       display: -webkit-box;
                       -webkit-box-orient: vertical;
                       -webkit-line-clamp: 2;
+                    }
+                    > img {
+                      display: inline-block;
+                      vertical-align: middle;
+                      height: 20px;
+                      margin-right: 5px;
+                    }
+                    > span {
+                      display: inline-block;
+                      vertical-align: middle;
+                      font-size: 14px;
+                      color: #fff;
+                      line-height: 20px;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
                     }
                   }
                   > span {

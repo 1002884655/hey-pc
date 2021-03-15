@@ -195,11 +195,11 @@ export default {
       UserTabList: [ // 用户选项列表
         { Value: 'Profile', Id: '1', Icon: 'icontouxiang', Child: [], Show: true },
         { Value: 'Promotion', Id: '2', Icon: 'icontuiguang', Child: [], Show: false },
-        { Value: 'Favorite', Id: '3', Icon: 'iconshoucang-', Child: [], Show: true },
+        // { Value: 'Favorite', Id: '3', Icon: 'iconshoucang-', Child: [], Show: true },
         { Value: 'History', Id: '4', Icon: 'iconlishijilu1', Child: [], Show: true },
         { Value: 'Watch later', Id: '5', Icon: 'iconshaohouguankan', Child: [], Show: true },
-        { Value: 'Playlist', Id: '6', Icon: 'icondanye', Child: [], Show: true },
-        { Value: 'Album', Id: '7', Icon: 'iconzhuanji', Child: [], Show: true },
+        // { Value: 'Playlist', Id: '6', Icon: 'icondanye', Child: [], Show: true },
+        // { Value: 'Album', Id: '7', Icon: 'iconzhuanji', Child: [], Show: true },
         { Value: 'Wallet', Id: '16', Icon: 'iconwodeqianbao', Child: [], Show: true, Url: './wallet.html' },
         { Value: 'Fansclub Center', Id: '15', Icon: 'iconjihuo', Child: [], Show: false }
       ],

@@ -15,9 +15,12 @@
       </li>
     </ul>
 
+    <!-- 片单操作弹窗 -->
+    <PlaylistSetPopup ref="PlaylistSetPopup" v-if="UserInfo !== null && ShowSaveToPlaylist" :Ids="[CurrentId]" @Close="ShowSaveToPlaylist = false"></PlaylistSetPopup>
+
     <SaveToFavorites ref="SaveToFavorites" :Ids="CurrentId" v-if="ShowSaveToFavorites && UserInfo !== null" @Close="ShowSaveToFavorites = false"></SaveToFavorites>
 
-    <SaveToPlaylist ref="SaveToPlaylist" :Ids="[CurrentId]" v-if="ShowSaveToPlaylist && UserInfo !== null" @Close="ShowSaveToPlaylist = false"></SaveToPlaylist>
+    <!-- <SaveToPlaylist ref="SaveToPlaylist" :Ids="[CurrentId]" v-if="ShowSaveToPlaylist && UserInfo !== null" @Close="ShowSaveToPlaylist = false"></SaveToPlaylist> -->
 
     <!-- 无数据状态 -->
     <span class="NoData" v-if="IsSearch && !HasNextPage && !SearchVideoList.length">No search results available</span>
@@ -46,6 +49,7 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import { createNamespacedHelpers } from 'vuex'
 import MainVideoListItem from '../MainVideoListItem'
+import PlaylistSetPopup from '../PlaylistSetPopup'
 import SaveToFavorites from '../SaveToFavorites'
 import SaveToPlaylist from '../SaveToPlaylist'
 Vue.prototype.$notify = Notification
@@ -89,7 +93,8 @@ export default {
     'el-pagination': Pagination,
     MainVideoListItem,
     SaveToFavorites,
-    SaveToPlaylist
+    SaveToPlaylist,
+    PlaylistSetPopup
   },
   created () {
   },

@@ -332,6 +332,7 @@
         > .flex-item {
           > div {
             margin-top: 10px;
+            font-size: 0;
             &:first-child {
               margin-top: 0;
               > a {
@@ -340,8 +341,11 @@
                 font-size: 16px;
               }
             }
-            > a {
+            > * {
               display: inline-block;
+              vertical-align: middle;
+            }
+            > a {
               max-width: 100%;
               font-size: 14px;
               color: #999;
@@ -350,13 +354,20 @@
                 color: #fff;
               }
             }
-          }
-          > span {
-            display: block;
-            font-size: 14px;
-            color: #999;
-            line-height: 20px;
-            margin-top: 10px;
+            > span {
+              display: inline-block;
+              font-size: 14px;
+              color: #fff;
+              line-height: 20px;
+              &:first-child {
+                color: #999;
+              }
+            }
+            > img {
+              height: 20px;
+              margin-left: 10px;
+              margin-right: 5px;
+            }
           }
         }
         > .More {
