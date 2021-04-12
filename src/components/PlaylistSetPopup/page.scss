@@ -17,7 +17,7 @@
         font-size: 16px;
         color: #fff;
         font-weight: bold;
-        line-height: 42px;
+        line-height: 50px;
       }
       > a {
         font-size: 18px;
@@ -55,7 +55,7 @@
             font-size: 14px;
             color: #999;
             font-weight: bold;
-            margin-left: 5px;
+            margin-left: 15px;
             line-height: 40px;
             white-space: nowrap;
             overflow: hidden;
@@ -71,7 +71,7 @@
             color: #999;
             margin-left: 5px;
             &:last-child {
-              margin-right: 10px;
+              margin-right: 20px;
             }
           }
         }
@@ -181,10 +181,12 @@
           border-radius: 2px;
           text-align: center;
           user-select: none;
-          background: #e2041b;
+          background: #999;
           &:first-child {
-            background: #999;
             margin-right: 20px;
+          }
+          &.active {
+            background: #e2041b;
           }
         }
       }

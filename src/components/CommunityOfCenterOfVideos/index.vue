@@ -7,9 +7,12 @@
       </li>
     </ul>
 
+    <!-- 片单操作弹窗 -->
+    <PlaylistSetPopup ref="PlaylistSetPopup" v-if="UserInfo !== null && ShowSaveToPlaylist" :Ids="[CurrentId]" @Close="ShowSaveToPlaylist = false"></PlaylistSetPopup>
+
     <SaveToFavorites ref="SaveToFavorites" :Ids="CurrentId" v-if="ShowSaveToFavorites && UserInfo !== null" @Close="ShowSaveToFavorites = false"></SaveToFavorites>
 
-    <SaveToPlaylist ref="SaveToPlaylist" :Ids="[CurrentId]" v-if="ShowSaveToPlaylist && UserInfo !== null" @Close="ShowSaveToPlaylist = false"></SaveToPlaylist>
+    <!-- <SaveToPlaylist ref="SaveToPlaylist" :Ids="[CurrentId]" v-if="ShowSaveToPlaylist && UserInfo !== null" @Close="ShowSaveToPlaylist = false"></SaveToPlaylist> -->
 
     <!-- 分页器 -->
     <div class="Pagination" v-if="ClassVideoList.length">
@@ -32,6 +35,7 @@ import { Pagination, Notification } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import MainVideoListItem from '../MainVideoListItem'
+import PlaylistSetPopup from '../PlaylistSetPopup'
 import SaveToFavorites from '../SaveToFavorites'
 import SaveToPlaylist from '../SaveToPlaylist'
 import { createNamespacedHelpers } from 'vuex'
@@ -73,7 +77,8 @@ export default {
     'el-pagination': Pagination,
     MainVideoListItem,
     SaveToFavorites,
-    SaveToPlaylist
+    SaveToPlaylist,
+    PlaylistSetPopup
   },
   created () {
     this.EmptyClassVideoList()
@@ -130,11 +135,11 @@ export default {
       if (e.type === 'Add') {
         this.ClassVideoList[e.index].WatchLater = true
         // this.EditClassVideoList({ index: e.index, name: 'WatchLater', value: true })
-        this.$notify.success({ title: 'success', message: 'has been added' })
+        this.$notify.success({ title: 'success', message: 'Saved to watch later' })
       } else {
         this.ClassVideoList[e.index].WatchLater = false
         // this.EditClassVideoList({ index: e.index, name: 'WatchLater', value: false })
-        this.$notify.success({ title: 'success', message: 'has been removed' })
+        this.$notify.success({ title: 'success', message: 'Removed from watch later' })
       }
     },
     ShowGifIndex (e) {

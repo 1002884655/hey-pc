@@ -6,13 +6,19 @@
     align-items: flex-start;
     margin: 78px auto 10px;
     > .Left {
-      width: 330px;
+      width: 260px;
       position: relative;
       overflow: visible;
       background: #222;
       margin-right: 10px;
-      min-height: 700px;
+      min-height: 900px;
       margin-right: 10px;
+      > .Line {
+        width: 100%;
+        height: 1px;
+        background: #333;
+        margin: 10px 0 0;
+      }
       > .CreateBtn {
         font-size: 0;
         white-space: nowrap;

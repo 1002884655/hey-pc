@@ -13,28 +13,27 @@
           <div class="Layer">
             <div class="centerLabel">
               <span>{{item.videoNum}}</span>
-              <i class="iconfont iconshipinliebiao"></i>
+              <i class="iconfont iconpiandan"></i>
             </div>
           </div>
           <div class="PlayAll">
-            <a class="Bg" :href="`./sheet.html?key=${item.upId}&sheet=${item.id}`" target="_self"></a>
+            <a class="Bg" :href="`./video.html?type=4&sheet=${item.id}`" target="_self"></a>
             <a class="centerLabel" :href="`./video.html?type=4&sheet=${item.id}`" target="_self">
               <i class="iconfont iconbofang"></i>
-              <span>Play All</span>
+              <span>PLAY ALL</span>
             </a>
           </div>
         </a>
         <div>
           <div class="Title flex-h">
-            <a class="flex-item" :href="`./sheet.html?key=${item.upId}&sheet=${item.id}`" target="_self">{{item.name}}</a>
-            <a class="iconfont iconsandian1">
-              <div class="Tips" :class="{'Left': (index + 1) % 5 === 0}">
-                <a class="flex-h" @click="AddToMyFavorite(item)">
-                  <i class="iconfont iconshoucang-"></i>
-                  <span>Save to favorite</span>
-                </a>
-              </div>
-            </a>
+            <a class="flex-item" :href="`./video.html?type=4&sheet=${item.id}`" target="_self">{{item.name}}</a>
+            <a class="iconfont iconsandian1" @click.stop="ShowMore(index)"></a>
+            <div class="Tips IndexPlaylistItem" :class="{'Left': (index + 1) % 5 === 0}">
+              <a class="flex-h" @click="AddToMyFavorite(item)">
+                <i class="iconfont iconshoucang-"></i>
+                <span>Save playlist</span>
+              </a>
+            </div>
             <span></span>
           </div>
           <a :href="`./userspace.html?key=${item.upId}`" target="_self">{{item.upName}}</a>
@@ -97,11 +96,20 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      this.ToolClass.WindowClick(() => {
+        let ItemArr = document.getElementsByClassName('IndexPlaylistItem')
+        for (let n = 0; n < ItemArr.length; n++) {
+          ItemArr[n].style.display = 'none'
+        }
+      })
     })
   },
   methods: {
     ...mapUserActions([
     ]),
+    ShowMore (index) {
+      document.getElementsByClassName('IndexPlaylistItem')[index].style.display = 'block'
+    },
     AddToMyFavorite (item) { // 添加到收藏
       this.CheckLogin(() => {
         this.$emit('AddToMyFavorite', item.id)

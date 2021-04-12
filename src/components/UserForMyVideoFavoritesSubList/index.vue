@@ -11,7 +11,7 @@
       <div class="flex-item flex-v">
         <span class="flex-item">{{FavoritesIndex !== null ? VideoCollectCategoryList[FavoritesIndex].name : ''}}</span>
         <div>
-          <a @click="PlayAll" :style="{backgroundColor: VideoCollectList.length ? '#e2041b' : '#ccc'}">Play all</a>
+          <a @click="PlayAll" :style="{backgroundColor: VideoCollectList.length ? '#e2041b' : '#ccc'}">PLAY ALL</a>
         </div>
       </div>
     </div>

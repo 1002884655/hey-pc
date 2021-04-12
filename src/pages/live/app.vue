@@ -59,7 +59,7 @@
             <!-- <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :Token="Token" :Appkey="'bmdehs6pbahqs'" :ChatRoomId="`${UserId}`" @GetOut="GetOut" @Stop="Stop"></LiveChat> -->
 
             <!-- 线上 -->
-            <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :Token="Token" :Appkey="'qd46yzrfqxyxf'" :ChatRoomId="`${UserId}`" @GetOut="GetOut" @Stop="Stop"></LiveChat>
+            <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :Token="Token" :Appkey="'25wehl3u20h0w'" :ChatRoomId="`${UserId}`" @GetOut="GetOut" @Stop="Stop"></LiveChat>
           </div>
         </div>
 

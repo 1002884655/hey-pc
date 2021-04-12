@@ -27,6 +27,16 @@ export default {
     }
   },
   actions: {
+    GetPlaylistMaxNum (context, payload) { // 获取片单数量上限
+      return new Promise((resolve, reject) => {
+        ToolClass.Axios(resolve, reject, Api.Playlist.GetPlaylistMaxNum, context, payload, 0)
+      })
+    },
+    GetUserPlaylistIncludeFavorite (context, payload) { // 获取用户片单（包括默认收藏片单）
+      return new Promise((resolve, reject) => {
+        ToolClass.Axios(resolve, reject, Api.Playlist.GetUserPlaylistIncludeFavorite, context, payload, 0)
+      })
+    },
     RemoveFromDefaultPlaylist (context, payload) { // 从默认片单中移除视频
       return new Promise((resolve, reject) => {
         ToolClass.Axios(resolve, reject, Api.Playlist.RemoveFromDefaultPlaylist, context, payload, 0)

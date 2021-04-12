@@ -370,29 +370,32 @@ export default {
         this.$refs.MainPage.Login()
         return false
       }
-      this.$notify.error({
-        title: 'error',
-        message: 'The payment function has not yet been opened, so stay tuned'
-      })
-      // if (this.PayLock) return
-      // this.PayLock = true
-      // this.CreateOrder({
-      //   params: {
-      //     accountId: this.UserInfo.id,
-      //     productId: this.MediaInfo.video.videoId,
-      //     orderMoney: this.MediaInfo.video.price,
-      //     productType: 2
-      //   }
-      // }).then((res) => {
-      //   this.PayLock = false
-      //   window.location.href = `./order.html?orderId=${res.data.data.orderNo}`
-      // }).then((res) => {
-      //   this.$notify.error({
-      //     title: 'error',
-      //     message: res.data.msg
-      //   })
-      //   this.PayLock = false
+      // this.$notify.error({
+      //   title: 'error',
+      //   message: 'The payment function has not yet been opened, so stay tuned'
       // })
+      if (this.PayLock) return
+      this.PayLock = true
+      this.CreateOrder({
+        params: {
+          accountId: this.UserInfo.id,
+          productId: this.MediaInfo.video.videoId,
+          orderMoney: this.MediaInfo.video.price,
+          productType: 2
+        }
+      }).then((res) => {
+        this.PayLock = false
+        // window.location.href = `./order.html?orderId=${res.data.data.orderNo}`
+        window.localStorage.OrderBackUrl = window.location.href
+        window.localStorage.OrderType = 'pay'
+        window.location.href = res.data.data.payUrl
+      }).then((res) => {
+        this.$notify.error({
+          title: 'error',
+          message: res.data.msg
+        })
+        this.PayLock = false
+      })
     },
     ToPayForVideo () {
       if (this.UserInfo === null) {
@@ -422,6 +425,7 @@ export default {
                 title: 'success',
                 message: 'removed video'
               })
+              this.CollectNum--
               this.HasCollected = false
               this.DataLock = false
             }).catch((res) => {
@@ -432,11 +436,12 @@ export default {
               this.DataLock = false
             })
           } else {
-            this.SaveToDefaultPlaylist({ params: { accountId: this.UserInfo.id, videoId: this.MediaInfo.video.videoId } }).then(() => {
+            this.SaveToDefaultPlaylist({ params: { accountId: this.UserInfo.id, videoId: this.MediaInfo.video.videoId } }).then((res) => {
               this.$notify.success({
                 title: 'success',
                 message: 'saved video'
               })
+              this.CollectNum++
               this.HasCollected = true
               this.DataLock = false
             }).catch((res) => {
@@ -453,8 +458,12 @@ export default {
       }
     },
     SaveTo () {
-      this.CollectId = this.MediaInfo.video.videoId
-      this.ShowPlaylistSetPopup = true
+      if (this.UserInfo !== null) {
+        this.CollectId = this.MediaInfo.video.videoId
+        this.ShowPlaylistSetPopup = true
+      } else {
+        this.$refs.MainPage.Login()
+      }
     },
     EditFolderPopupSure () { // 编辑片单确认操作
       if (!this.DataLock) {
@@ -728,7 +737,8 @@ export default {
                 this.$refs.NewVideoPlayerList.UserInfoChange()
               }
             })
-            this.IsFree = this.MediaInfo.payVideo - 0 === 0 || (this.MediaInfo.payVideo - 0 === 1 && this.MediaInfo.payStatus - 0 === 1)
+            // this.IsFree = this.MediaInfo.payVideo - 0 === 0 || (this.MediaInfo.payVideo - 0 === 1 && this.MediaInfo.payStatus - 0 === 1)
+            this.IsFree = this.MediaInfo.video.playName !== '' && this.MediaInfo.video.playName !== null
             if (this.IsFree) {
               if (this.UserInfo === null) { // 游客状态下记录本地播放历史
                 if (!this.$localStorage.get('heypornplayhistory')) {

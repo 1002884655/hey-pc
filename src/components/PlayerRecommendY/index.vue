@@ -88,7 +88,7 @@ export default {
             }).then((res) => {
               this.$notify.success({
                 title: 'success',
-                message: 'has been removed'
+                message: 'Removed from watch later'
               })
               item.WatchLater = false
               this.DataLock = false // 数据解锁

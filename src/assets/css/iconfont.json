@@ -6,6 +6,174 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "9046140",
+      "name": "邮箱",
+      "font_class": "youxiang",
+      "unicode": "e6c8",
+      "unicode_decimal": 59080
+    },
+    {
+      "icon_id": "1092168",
+      "name": "设置",
+      "font_class": "shezhi2",
+      "unicode": "e6ce",
+      "unicode_decimal": 59086
+    },
+    {
+      "icon_id": "2154755",
+      "name": "稍后观看_44",
+      "font_class": "shaohouguankan2",
+      "unicode": "e6c7",
+      "unicode_decimal": 59079
+    },
+    {
+      "icon_id": "3764182",
+      "name": "钱包",
+      "font_class": "weibiaoti-",
+      "unicode": "e6d0",
+      "unicode_decimal": 59088
+    },
+    {
+      "icon_id": "5506804",
+      "name": "推广",
+      "font_class": "tuiguang2",
+      "unicode": "e6d4",
+      "unicode_decimal": 59092
+    },
+    {
+      "icon_id": "8689954",
+      "name": "视频",
+      "font_class": "shipin2",
+      "unicode": "e6d2",
+      "unicode_decimal": 59090
+    },
+    {
+      "icon_id": "10155646",
+      "name": "历史记录",
+      "font_class": "lishijilu-copy",
+      "unicode": "e6d5",
+      "unicode_decimal": 59093
+    },
+    {
+      "icon_id": "20436197",
+      "name": "piandan",
+      "font_class": "piandan",
+      "unicode": "e6d3",
+      "unicode_decimal": 59091
+    },
+    {
+      "icon_id": "3635886",
+      "name": "女性icon-播放列表",
+      "font_class": "bofangliebiao",
+      "unicode": "e772",
+      "unicode_decimal": 59250
+    },
+    {
+      "icon_id": "4867362",
+      "name": "排序",
+      "font_class": "paixu1",
+      "unicode": "e6c6",
+      "unicode_decimal": 59078
+    },
+    {
+      "icon_id": "20388060",
+      "name": "shangchuanzhong",
+      "font_class": "shangchuanzhong",
+      "unicode": "e6ca",
+      "unicode_decimal": 59082
+    },
+    {
+      "icon_id": "20388061",
+      "name": "weitongguo",
+      "font_class": "weitongguo",
+      "unicode": "e6cb",
+      "unicode_decimal": 59083
+    },
+    {
+      "icon_id": "20388063",
+      "name": "shibai",
+      "font_class": "shibai",
+      "unicode": "e6c5",
+      "unicode_decimal": 59077
+    },
+    {
+      "icon_id": "20388062",
+      "name": "tongguo",
+      "font_class": "tongguo",
+      "unicode": "e6c4",
+      "unicode_decimal": 59076
+    },
+    {
+      "icon_id": "15668768",
+      "name": "问号",
+      "font_class": "wenhao",
+      "unicode": "e6bf",
+      "unicode_decimal": 59071
+    },
+    {
+      "icon_id": "16181817",
+      "name": "model91",
+      "font_class": "model91",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "17358125",
+      "name": "明星",
+      "font_class": "mingxing1",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
+      "icon_id": "17426965",
+      "name": "机构管理",
+      "font_class": "jigouguanli",
+      "unicode": "e6c1",
+      "unicode_decimal": 59073
+    },
+    {
+      "icon_id": "20315719",
+      "name": "accountbook",
+      "font_class": "accountbook",
+      "unicode": "e6be",
+      "unicode_decimal": 59070
+    },
+    {
+      "icon_id": "915624",
+      "name": "邀请好友",
+      "font_class": "yaoqinghaoyou",
+      "unicode": "e6b8",
+      "unicode_decimal": 59064
+    },
+    {
+      "icon_id": "1133840",
+      "name": "钻石",
+      "font_class": "zuanshi",
+      "unicode": "e6b9",
+      "unicode_decimal": 59065
+    },
+    {
+      "icon_id": "10997846",
+      "name": "俱乐部审核",
+      "font_class": "julebushenhe",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "18619209",
+      "name": "激励-01",
+      "font_class": "jili-01",
+      "unicode": "e6bc",
+      "unicode_decimal": 59068
+    },
+    {
+      "icon_id": "20093715",
+      "name": "美元",
+      "font_class": "meiyuan",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
       "icon_id": "15278221",
       "name": "无权限",
       "font_class": "img_empty2x",

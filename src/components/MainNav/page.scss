@@ -454,17 +454,17 @@
         -webkit-transition: all 0.1s linear;
       }
     }
-    &:hover {
-      .MainUserIcon {
-        i {
-          transform: rotateZ(180deg);
-          -webkit-transform: rotateZ(180deg);
-        }
-      }
-      .MainUserOptions {
-        display: block;
-      }
-    }
+    // &:hover {
+    //   .MainUserIcon {
+    //     i {
+    //       transform: rotateZ(180deg);
+    //       -webkit-transform: rotateZ(180deg);
+    //     }
+    //   }
+    //   .MainUserOptions {
+    //     display: block;
+    //   }
+    // }
     .MainUserOptions {
       width: 270px;
       position: absolute;

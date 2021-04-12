@@ -25,7 +25,7 @@
               <span>Creator：<a :href="`./userspace.html?key=${OtherUserSheetInfo.userId}`" target="_self">{{OtherUserSheetInfo.userName}}</a></span>
             </div>
             <div class="Bottom" v-if="MyPieceGroupSubList.length">
-              <a class="PlayAll" @click="PlayAll">Play all</a>
+              <a class="PlayAll" @click="PlayAll">PLAY ALL</a>
               <a class="Like" :class="{'active': OtherUserSheetInfo.collectStatus}" @click="ToCollectPieceGroup">
                 <i class="iconfont iconshoucang-"></i>
                 <span> {{OtherUserSheetInfo.collectNum}}</span>
@@ -144,10 +144,10 @@ export default {
     TriggerWatchLater (e) {
       if (e.type === 'Add') {
         this.EditPieceGroupSubList({ index: e.index, name: 'WatchLater', value: true })
-        this.$notify.success({ title: 'success', message: 'has been added' })
+        this.$notify.success({ title: 'success', message: 'Saved to watch later' })
       } else {
         this.EditPieceGroupSubList({ index: e.index, name: 'WatchLater', value: false })
-        this.$notify.success({ title: 'success', message: 'has been removed' })
+        this.$notify.success({ title: 'success', message: 'Removed from watch later' })
       }
     },
     OpenSaveToFavorite (item) {
@@ -199,7 +199,7 @@ export default {
             }).then(() => {
               this.$notify.success({
                 title: 'success',
-                message: `Saved ${this.OtherUserSheetInfo.name}`
+                message: `Saved ${this.OtherUserSheetInfo.name.length > 20 ? `${this.OtherUserSheetInfo.name.substring(0, 20)}...` : this.OtherUserSheetInfo.name}`
               })
               this.EditOtherUserSheetInfo({ collectStatus: 1, collectNum: this.OtherUserSheetInfo.collectNum + 1 })
               this.DataLock = false

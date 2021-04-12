@@ -1,0 +1,77 @@
+.components.SgsStatusPopup {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+  > div {
+    width: 500px;
+    min-height: 30px;
+    border-radius: 6px;
+    background: #222;
+    overflow: hidden;
+    padding-bottom: 30px;
+    > div {
+      position: relative;
+      overflow: hidden;
+      > .Close {
+        font-size: 0;
+        white-space: nowrap;
+        text-align: right;
+        > a {
+          display: inline-block;
+          font-size: 20px;
+          line-height: 26px;
+          user-select: none;
+          color: #666;
+          margin-top: 10px;
+          margin-right: 10px;
+          &:hover {
+            color: #fff;
+          }
+        }
+      }
+      > i {
+        display: block;
+        text-align: center;
+        font-size: 50px;
+        line-height: 60px;
+        margin-top: 50px;
+      }
+      > span {
+        display: block;
+        width: 80%;
+        margin: 20px auto 0;
+        font-size: 16px;
+        color: #fff;
+        line-height: 20px;
+        word-break: break-all;
+        &.Bold {
+          font-weight: bold;
+          font-size: 18px;
+          text-align: center;
+        }
+      }
+      > div.flex-h {
+        padding: 20px 20px 0;
+        position: relative;
+        overflow: hidden;
+        > a {
+          line-height: 40px;
+          user-select: none;
+          font-size: 16px;
+          color: #fff;
+          background: #e2041b;
+          border-radius: 20px;
+          margin-left: 20px;
+          text-align: center;
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+}

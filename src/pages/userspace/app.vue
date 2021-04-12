@@ -26,7 +26,7 @@
                     <i class="iconfont iconnv" v-if="PageUserInfo.sex - 0 === 2"></i>
                     <a class="EditUserName iconfont iconbianji2" v-if="ShowEditBgImg" href="./users.html" target="_self"></a>
                     <div class="flex-item"></div>
-                    <a class="Subscribers" v-if="(UserInfo === null && PageUserInfo.fanClubAllow === 1) || (UserInfo !== null && UserInfo.userType - 0 === 1 && UserInfo.id !== PageUserInfo.id && PageUserInfo.fanClubAllow === 1 && JoinClubStatus - 0 !== 1)" @click="TriggerFansClub" :class="{'active': JoinClubStatus !== 1}">{{JoinClubStatus === 1 ? 'Quit the fans club' : 'Become a Fan'}}</a>
+                    <a class="Subscribers" v-if="(UserInfo === null && PageUserInfo.fanClubAllow === 1) || (UserInfo !== null && PageUserInfo.userType - 0 !== 1 && UserInfo.id !== PageUserInfo.id && PageUserInfo.fanClubAllow === 1 && JoinClubStatus - 0 !== 1)" @click="TriggerFansClub" :class="{'active': JoinClubStatus !== 1}">{{JoinClubStatus === 1 ? 'Quit the fans club' : 'Become a Fan'}}</a>
                     <a class="Subscribers" v-if="!ShowEditBgImg" :class="{'active': UserInfo === null || !HasSubscribe}" @click="ToSubscribe">{{UserInfo === null ? 'Follow' : HasSubscribe ? 'Unfollow' : 'Follow'}}</a>
                   </div>
                 </div>
@@ -99,7 +99,7 @@
           </ul>
 
           <!-- 视频 -->
-          <div v-if="CurrentNavId - 0 === 2">
+          <div v-if="CurrentNavId - 0 === 1 || CurrentNavId - 0 === 2">
             <CommunityOfCenterOfVideos :data="PageUserInfo" @NeedLogin="$refs.MainPage.Login()"></CommunityOfCenterOfVideos>
           </div>
 
@@ -291,13 +291,16 @@ export default {
     ToExitFansClub () { // 退出粉丝团
       if (this.DataLock) return
       this.DataLock = true
-      this.ExitFansClub({ params: { accountId: this.UserInfo.id, subId: this.PageUserInfo.id } }).then(() => {
-        this.$notify.success({
-          title: 'success',
-          message: 'Exit of success!'
-        })
+      this.ExitFansClub({ params: { accountId: this.UserInfo.id, subId: this.PageUserInfo.id } }).then((res) => {
+        // this.$notify.success({
+        //   title: 'success',
+        //   message: 'Exit of success!'
+        // })
         this.JoinClubStatus = 2
         this.DataLock = false
+        window.localStorage.OrderBackUrl = window.location.href
+        window.localStorage.OrderType = 'exit'
+        window.location.href = res.data.data.cancelUrl
       }).catch((res) => {
         this.$notify.error({
           title: 'error',
@@ -312,7 +315,8 @@ export default {
       } else if (this.JoinClubStatus === 1) { // 已加入粉丝团
         this.ToExitFansClub()
       } else if (this.JoinClubStatus === 2) { // 已退出粉丝团
-        this.ToRevokeExitFansClub()
+        // this.ToRevokeExitFansClub()
+        this.ShowPayForFansClubPopup = true
       }
     },
     ToSubscribe () { // 去订阅

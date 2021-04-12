@@ -159,10 +159,10 @@ export default {
     TriggerWatchLater (e) {
       if (e.type === 'Add') {
         this.PageList[e.index].WatchLater = true
-        this.$notify.success({ title: 'success', message: 'has been added' })
+        this.$notify.success({ title: 'success', message: 'Saved to watch later' })
       } else {
         this.PageList[e.index].WatchLater = false
-        this.$notify.success({ title: 'success', message: 'has been removed' })
+        this.$notify.success({ title: 'success', message: 'Removed from watch later' })
       }
     },
     ToShowGifIndex (e) {
@@ -181,7 +181,7 @@ export default {
             }).then((res) => {
               this.$notify.success({
                 title: 'success',
-                message: 'has been removed'
+                message: 'Removed from watch later'
               })
               if (this.IsSearch) {
                 this.EditSearchVideoList({ index, name: 'WatchLater', value: false })

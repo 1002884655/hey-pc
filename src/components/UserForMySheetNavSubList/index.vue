@@ -12,7 +12,7 @@
         <span>{{FavoritesIndex !== null ? MyPieceGroupList[FavoritesIndex].name : ''}}</span>
         <span class="flex-item">{{FavoritesIndex !== null ? MyPieceGroupList[FavoritesIndex].description : ''}}</span>
         <div>
-          <a @click="PlayAll" :style="{backgroundColor: MyPieceGroupSubList.length ? '#e2041b' : '#ccc'}">Play all</a>
+          <a @click="PlayAll" :style="{backgroundColor: MyPieceGroupSubList.length ? '#e2041b' : '#ccc'}">PLAY ALL</a>
         </div>
       </div>
     </div>

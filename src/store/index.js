@@ -18,6 +18,7 @@ export const modules = {
   search: () => require('./search/index').default,
   media: () => require('./media/index').default,
   playlist: () => require('./playlist/index').default,
+  sgs: () => require('./sgs/index').default,
   watchlater: () => require('./watchlater/index').default
 }
 

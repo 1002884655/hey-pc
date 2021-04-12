@@ -838,8 +838,8 @@ export default {
           canvas.style.left = '-100000px'
           document.getElementById('CoverTest').appendChild(canvas)
           canvas.width = 400
-          canvas.height = 225
-          canvas.getContext('2d').drawImage(video, 0, 0, 400, 225) // 绘制canvas
+          canvas.height = 400 * video.videoHeight / video.videoWidth
+          canvas.getContext('2d').drawImage(video, 0, 0, 400, 400 * video.videoHeight / video.videoWidth) // 绘制canvas
           if (index !== 0) {
             this[`CoverList${index}`] = canvas.toDataURL('image/jpeg')
             if (index === 1) {
@@ -854,7 +854,7 @@ export default {
       let video = document.createElement('video')
       video.style.display = 'none'
       video.style.width = '400px'
-      video.style.height = '225px'
+      video.style.height = `${400 * video.videoHeight / video.videoWidth}px`
       video.style.objectFit = 'contain'
       video.setAttribute('crossOrigin', 'anonymous') // 处理跨域
       document.getElementById('CoverTest').appendChild(video)

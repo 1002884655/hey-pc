@@ -9,24 +9,30 @@
             <img :src="PlaylistInfo.cover" class="centerLabel cover" alt="">
             <a v-if="PageList.length" :href="`./video.html?key=${PageList[0].videoM}&type=4&sheet=${ToolClass.GetUrlParams('id')}`">
               <i class="iconfont iconbofang"></i>
-              <span>Play all</span>
+              <span>PLAY ALL</span>
             </a>
           </div>
         </div>
         <div class="flex-item">
           <div class="NameInfo">
-            <span>{{PlaylistInfo.name}}</span>
-            <div>{{PlaylistInfo.name}}</div>
+            <div class="Title">
+              <span :title="PlaylistInfo.name">{{PlaylistInfo.name}}</span>
+            </div>
+            <!-- <div class="Tips">{{PlaylistInfo.name}}</div> -->
           </div>
-          <div>
-            <span>{{PlaylistInfo.description}}</span>
-            <i class="iconfont iconjiantoudown" v-if="PlaylistInfo.description !== '' && PlaylistInfo.description !== null"></i>
-            <div class="DescInfo">{{PlaylistInfo.description}}</div>
-          </div>
-          <span>{{PlaylistInfo.videoNum}} videos · {{ToolClass.ReturnViews(PlaylistInfo.playNum)}} views · {{ToolClass.DateFormatYear(PlaylistInfo.updateTime, 'YY:MM:DD')}}</span>
-          <span>Teuginmarting In the {{ToolClass.DateFormatYear(PlaylistInfo.createTime, 'YY:MM:DD')}} created</span>
           <div class="flex-h">
-            <span>{{PlaylistInfo.visible - 0 === 1 ? 'Public' : 'Privacy'}}</span>
+            <div class="flex-item">
+              <div>
+                <span :title="PlaylistInfo.description">{{PlaylistInfo.description}}</span>
+              </div>
+            </div>
+            <!-- <i class="iconfont iconjiantoudown" :title="PlaylistInfo.description" v-if="PlaylistInfo.description !== '' && PlaylistInfo.description !== null"></i> -->
+            <!-- <div class="DescInfo">{{PlaylistInfo.description}}</div> -->
+          </div>
+          <span>{{PlaylistInfo.videoNum}} videos · {{ToolClass.ReturnViews(PlaylistInfo.playNum === undefined ? PlaylistInfo.displayNum : PlaylistInfo.playNum)}} views · {{ToolClass.DateFormatYear(PlaylistInfo.updateTime, 'English')}}</span>
+          <span>{{PlaylistInfo.username}} In the {{ToolClass.DateFormatYear(PlaylistInfo.createTime, 'YY:MM:DD')}} created</span>
+          <div class="flex-h">
+            <span>{{PlaylistInfo.visible - 0 === 1 ? 'Private' : 'Public'}}</span>
             <span v-if="PlaylistInfo.fee - 0 === 1">Price: $ {{PlaylistInfo.price}}</span>
             <div class="flex-item"></div>
             <a class="iconfont iconbianji" v-if="Type === 'created'" @click="$emit('EditPlaylist', PlaylistInfo)"></a>
@@ -41,7 +47,7 @@
       <!-- 操作栏 -->
       <div class="flex-h ListSet">
         <a class="Sort">
-          <i class="iconfont iconpaixu"></i>
+          <i class="iconfont iconpaixu1"></i>
           <span>Sort</span>
           <ul>
             <li :class="{'active': PageData.sort - 0 === 1}" @click="CutSort(1)">Date added (newest)</li>
@@ -50,20 +56,19 @@
           </ul>
         </a>
         <div class="flex-item"></div>
-        <a class="Cancel" v-if="Type === 'created' && !IsListEdit" @click="IsListEdit = true">
+        <a class="Cancel" v-if="!IsListEdit" @click="IsListEdit = true">
           <span>Edit</span>
         </a>
-        <a class="Cancel" v-if="Type === 'created' && IsListEdit" @click="CancelEdit">
+        <a class="Cancel" v-if="IsListEdit" @click="CancelEdit">
           <span>Cancel</span>
-          <i class="iconfont iconjiantouright"></i>
         </a>
       </div>
 
       <!-- 列表栏 -->
       <ul class="List">
         <li v-for="(item, index) in PageList" :key="index" class="flex-h" :style="{zIndex: PageList.length - index}">
-          <div class="Select" v-if="Type === 'created' && IsListEdit">
-            <a class="iconfont iconyitianjia centerLabel" :class="{'active': item.active}" @click="SelectItem(item)"></a>
+          <div class="Select" v-if="IsListEdit">
+            <a class="iconfont centerLabel" :class="[item.active ? 'iconyitianjia active' : 'iconyuan']" @click="SelectItem(item)"></a>
           </div>
           <div class="Img">
             <a :href="`./video.html?type=4&key=${item.videoM}&sheet=${PlaylistInfo.id}`" target="_self">
@@ -80,7 +85,7 @@
               <a :href="`./userspace.html?key=${item.userId}`" target="_self">{{item.userName}}</a>
             </div>
             <div>
-              <span>{{ToolClass.ReturnViews(item.playNum)}} views</span>
+              <span>{{ToolClass.ReturnViews(item.displayNum)}} views</span>
               <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
               <span v-if="item.payVideo - 0 === 1">${{item.price}}</span>
             </div>
@@ -93,7 +98,7 @@
                   <i class="iconfont iconshaohouguankan" style="font-size: 16px"></i>
                   <span class="flex-item">Save to Watch later</span>
                 </li>
-                <li class="flex-h" @click="$emit('AllAddTo', [item])">
+                <li class="flex-h" @click="$emit('ItemAddTo', item)">
                   <i class="iconfont iconyewumokuailiebiao"></i>
                   <span class="flex-item">Save to playlist</span>
                 </li>
@@ -109,7 +114,7 @@
 
       <div class="NextPage">
         <a v-if="HasNextPage" @click="GetPageList">Load more</a>
-        <span v-else>Load all</span>
+        <span v-if="!HasNextPage && PageList.length">Load all</span>
       </div>
 
       <!-- 占位元素 -->
@@ -118,17 +123,17 @@
     </div>
 
     <!-- 底部操作栏 -->
-    <div class="BottomSet" v-if="Type === 'created' && IsListEdit">
+    <div class="BottomSet" v-if="IsListEdit" :style="{position: BottomFixed ? 'fixed' : 'absolute', left: BottomFixed ? `${BottomLeft}px` : `0`, width: `${BottomWidth}px`}">
       <div class="flex-h">
         <a class="Select" @click="SelectAll">
-          <i class="iconfont iconyitianjia" :class="{'active': IsSelectAll}"></i>
+          <i class="iconfont" :class="[IsSelectAll ? 'iconyitianjia active' : 'iconyuan']"></i>
           <span>All</span>
         </a>
         <a class="AddTo" @click="AllAddTo">
           <i class="iconfont icontianjia"></i>
           <span>Add to</span>
         </a>
-        <a class="Remove" @click="AllRemoveFromPlaylist">
+        <a class="Remove" @click="AllRemoveFromPlaylist" v-if="Type === 'created' || (Type === 'save' && PlaylistInfo.defaults - 0 === 1)">
           <i class="iconfont iconshanchu1"></i>
           <span>Remove from playlist</span>
         </a>
@@ -151,6 +156,10 @@ export default {
   },
   data () {
     return {
+      FixedHeight: 0,
+      BottomWidth: 0,
+      BottomLeft: 0,
+      BottomFixed: true,
       PlaylistInfo: {}, // 片单信息
       PageData: {
         pageNum: 1,
@@ -179,10 +188,15 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      this.BottomInit()
+      this.ToolClass.WindowResize(() => {
+        this.BottomInit()
+      })
     })
   },
   methods: {
     ...mapPlaylistActions([
+      'GetPlaylistInfoById',
       'GetPlaylistChildList',
       'RemoveFromPlaylist'
     ]),
@@ -199,6 +213,20 @@ export default {
       this.IsListEdit = false
       this.GetPageList() // 获取列表
     },
+    PageScroll (top) { // 页面滚动事件
+      this.BottomFixed = top <= this.FixedHeight
+    },
+    PageScrollInit () { // 页面滚动初始化
+      if (document.getElementById('PageContainer')) {
+        this.FixedHeight = document.getElementById('PageContainer').getBoundingClientRect().height + 78 + 10 - window.innerHeight
+      }
+    },
+    BottomInit () { // 底部操作栏初始化
+      if (document.getElementsByClassName('PlaylistContent')[0]) {
+        this.BottomWidth = document.getElementsByClassName('PlaylistContent')[0].getBoundingClientRect().width
+        this.BottomLeft = document.getElementsByClassName('PlaylistContent')[0].getBoundingClientRect().left
+      }
+    },
     CutSort (type) { // 切换排序
       this.PageData.sort = type || 1
       this.PageData.pageNum = 1
@@ -214,7 +242,7 @@ export default {
       this.AddWatchLater({ params: { videoId: item.videoId, accountId: this.UserInfo.id } }).then(() => {
         this.$notify.success({
           title: 'success',
-          message: 'add successfully!'
+          message: 'Saved to Watch later'
         })
         this.DataLock = false
       }).catch(() => {
@@ -224,16 +252,15 @@ export default {
     RemoveItemFromPlaylist (item, index) { // 移除单个视频
       if (this.DataLock) return
       this.DataLock = true
-      this.ToolClass.Confirm('Confirm', `Are you sure to remove this video?`, () => { this.DataLock = false }, (close) => {
-        this.RemoveFromPlaylist({ params: { videoIds: item.videoId, accountId: this.UserInfo.id, groupId: this.PlaylistInfo.id } }).then(() => {
-          this.$notify.success({
-            title: 'success',
-            message: 'remove successfully!'
-          })
-          this.PageList.splice(index, 1)
-          this.DataLock = false
-          close()
+      this.RemoveFromPlaylist({ params: { videoIds: item.videoId, accountId: this.UserInfo.id, groupId: this.PlaylistInfo.id } }).then((res) => {
+        this.$notify.success({
+          title: 'success',
+          message: res.data.msg
         })
+        this.PageList.splice(index, 1)
+        this.UpdatePlayNum()
+        this.$emit('VideoRemove', 1)
+        this.DataLock = false
       })
     },
     AllRemoveFromPlaylist () { // 批量移除视频
@@ -246,21 +273,21 @@ export default {
         }
       })
       if (Arr.length) {
-        this.ToolClass.Confirm('Confirm', `Are you sure to remove these video?`, () => { this.DataLock = false }, (close) => {
-          this.RemoveFromPlaylist({ params: { videoIds: Arr.join(','), accountId: this.UserInfo.id, groupId: this.PlaylistInfo.id } }).then(() => {
-            this.$notify.success({
-              title: 'success',
-              message: 'remove successfully!'
-            })
-            this.PageList.map((item, index) => {
-              if (item.active) {
-                this.PageList.splice(index, 1)
-              }
-            })
-            this.DataLock = false
-            this.CancelEdit()
-            close()
+        this.RemoveFromPlaylist({ params: { videoIds: Arr.join(','), accountId: this.UserInfo.id, groupId: this.PlaylistInfo.id } }).then((res) => {
+          this.$notify.success({
+            title: 'success',
+            message: res.data.msg
           })
+          let aArr = []
+          this.PageList.map((item) => {
+            if (!item.active) {
+              aArr.push({ ...item })
+            }
+          })
+          this.PageList = aArr
+          this.UpdatePlayNum()
+          this.DataLock = false
+          this.$emit('VideoRemove', { counts: Arr.length, type: this.PlaylistInfo.defaults - 0 === 1 ? 'save' : 'create' })
         })
       } else {
         this.$notify.error({
@@ -269,6 +296,9 @@ export default {
         })
         this.DataLock = false
       }
+    },
+    ItemAddTo (item) {
+      this.$emit('ItemAddTo', item)
     },
     AllAddTo () { // 批量添加至片单
       let Arr = []
@@ -287,18 +317,26 @@ export default {
       }
     },
     UpdatePlaylistInfo (target = null) { // 更新当前片单信息
-      if (this.PlaylistInfo.cover !== undefined) {
-        this.PlaylistInfo.cover = null
+      if (target !== null) {
+        if (this.PlaylistInfo.cover !== undefined) {
+          this.PlaylistInfo.cover = null
+        }
+        if (this.ToolClass.GetUrlParams('type') === 'created') {
+          this.MyCreatedPlaylist.map((item) => {
+            if (item.id - 0 === this.ToolClass.GetUrlParams('id') - 0) {
+              this.PlaylistInfo = { ...item }
+            }
+          })
+        } else {
+          this.PlaylistInfo = { ...target }
+        }
       }
-      if (this.ToolClass.GetUrlParams('type') === 'created') {
-        this.MyCreatedPlaylist.map((item) => {
-          if (item.id - 0 === this.ToolClass.GetUrlParams('id') - 0) {
-            this.PlaylistInfo = { ...item }
-          }
-        })
-      } else {
-        this.PlaylistInfo = { ...target }
-      }
+      this.UpdatePlayNum()
+    },
+    UpdatePlayNum () { // 更新播放量
+      this.GetPlaylistInfoById({ params: { id: this.PlaylistInfo.id } }).then((res) => {
+        this.PlaylistInfo.playNum = res.data.data.totalDisplayNum
+      })
     },
     CancelEdit () {
       this.IsListEdit = false
@@ -335,6 +373,7 @@ export default {
     GetPageList () { // 获取列表
       if (!this.DataLock && this.HasNextPage) {
         this.DataLock = true
+        this.BottomFixed = true
         this.GetPlaylistChildList({ params: { ...this.PageData, groupId: this.ToolClass.GetUrlParams('id') } }).then((res) => {
           let Arr = res.data.data.list || []
           Arr.map((item) => {
@@ -344,6 +383,9 @@ export default {
           this.HasNextPage = res.data.data.hasNextPage
           this.PageData.pageNum += 1
           this.DataLock = false
+          this.$nextTick(() => {
+            this.PageScrollInit()
+          })
         }).catch((res) => {
           this.DataLock = false
         })

@@ -3,7 +3,7 @@
 
     <div class="flex-h Title">
       <span class="flex-item">Watch later ({{WatchLaterVideoList.length}}/100)</span>
-      <a v-if="WatchLaterVideoList.length" :href="`./video.html?key=${WatchLaterVideoList[0].videoM}&type=2`" target="_self">Play all</a>
+      <a v-if="WatchLaterVideoList.length" :href="`./video.html?key=${WatchLaterVideoList[0].videoM}&type=2`" target="_self">PLAY ALL</a>
       <a v-if="WatchLaterVideoList.length" @click="RemoveVideo('watched')">Remove watched video</a>
       <a v-if="WatchLaterVideoList.length" @click="RemoveVideo('all')">Remove all video</a>
     </div>
@@ -26,6 +26,8 @@
               </div>
               <div class="flex-h">
                 <a :href="`./userspace.html?key=${item.userId}`" target="_self">{{item.userName}}</a>
+                <img v-if="item.payVideo - 0 === 1" style="margin-left: 10px;" src="../../assets/img/price.png" height="20" alt="">
+                <span v-if="item.payVideo - 0 === 1" style="margin-left: 5px;">${{item.price}}</span>
                 <div class="flex-item"></div>
                 <span>{{item.status - 0 === 0 ? '' : item.status - 0 === 1 ? 'Watched' : 'Finished'}}</span>
               </div>

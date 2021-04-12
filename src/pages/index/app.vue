@@ -243,10 +243,10 @@ export default {
         this.DataLock = true
         this.CollectPieceGroup({
           params: { groupId: e, accountId: this.UserInfo.id }
-        }).then(() => {
+        }).then((res) => {
           this.$notify.success({
             title: 'success',
-            message: 'Collect of success!'
+            message: res.data.msg.length > 36 ? `${res.data.msg.substring(0, 36)}...` : res.data.msg
           })
           this.DataLock = false
         }).catch((res) => {

@@ -2,7 +2,61 @@
 const prefix = process.env.NODE_ENV === 'production' ? '/api' : '/api'
 
 const $api = {
+  Sgs: {
+    GetSgsDictList: { // 获取认证相关字典列表
+      method: 'post',
+      url: `${prefix}/sys/dictList`
+    },
+    GetSgsInfo: { // 获取认证信息
+      method: 'post',
+      url: `${prefix}/accountAuth/get`
+    },
+    SendEmailCode: { // 发送邮箱验证码
+      method: 'post',
+      url: `${prefix}/accountAuth/sendCode`
+    },
+    CheckEmailCode: { // 校验邮箱验证码
+      method: 'post',
+      url: `${prefix}/accountAuth/checkCode`
+    },
+    ChangeEmail: { // 修改邮箱
+      method: 'post',
+      url: `${prefix}/accountAuth/changeEmail`
+    },
+    SecondSgs: { // 第二步认证
+      method: 'post',
+      url: `${prefix}/accountAuth/secondStep`
+    },
+    GetCountryList: { // 获取国家列表
+      method: 'post',
+      url: `${prefix}/order/getCountryCode`
+    },
+    ThirdSgs: { // 第三步认证
+      method: 'post',
+      url: `${prefix}/accountAuth/thirdStep`
+    },
+    ConfirmSgs: { // 确认认证
+      method: 'post',
+      url: `${prefix}/accountAuth/confirm`
+    },
+    StopSgs: { // 终止认证
+      method: 'post',
+      url: `${prefix}/accountAuth/stop`
+    },
+    ResetSgs: { // 重置认证（第三步）
+      method: 'post',
+      url: `${prefix}/accountAuth/reset`
+    }
+  },
   Playlist: { // 片单相关
+    GetPlaylistMaxNum: { // 获取片单数量上限
+      method: 'get',
+      url: `${prefix}/pieceGroup/getUpperNum`
+    },
+    GetUserPlaylistIncludeFavorite: { // 获取用户片单（包括默认收藏片单）
+      method: 'get',
+      url: `${prefix}/pieceGroup/listNameGroup`
+    },
     GetPlaylist: { // 获取用户片单列表
       method: 'get',
       url: `${prefix}/pieceGroup/listGroup`

@@ -14,15 +14,17 @@
       <div style="margin-bottom: 3px;" :title="Item.title">
         <a @click="LinkTo(`./video.html?key=${Item.videoM}`)" class="Title" target="_self">{{Item.title}}</a>
       </div>
-      <a @click="LinkTo(`./userspace.html?key=${Item.upId}`)" class="UpName" target="_self">{{Item.upName}}</a>
-      <div class="Bottom flex-h">
+      <a :href="`./userspace.html?key=${Item.userId}`" class="UpName" target="_self">{{Item.userName}}</a>
+      <div class="Bottom">
         <span>{{ToolClass.ReturnViews(Item.displayNum)}} views</span>
+        <img v-if="Item.payVideo !== undefined && Item.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
+        <span v-if="Item.payVideo !== undefined && Item.payVideo - 0 === 1">${{Item.price}}</span>
       </div>
       <div class="flex-item"></div>
-      <div class="Price" v-if="Item.payVideo !== undefined && Item.payVideo - 0 === 1">
+      <!-- <div class="Price" v-if="Item.payVideo !== undefined && Item.payVideo - 0 === 1">
         <img src="../../assets/img/price.png" alt="">
         <span>${{Item.price}}</span>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

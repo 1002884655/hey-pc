@@ -2,23 +2,25 @@
   <div class="components MyCreatePlaylist">
     <div class="Title">
       <div class="flex-h">
-        <span class="flex-item">The playlists you created</span>
+        <span class="flex-item">Playlists you created</span>
         <span>({{MyCreatedPlaylist.length}}/200)</span>
-        <i class="iconfont" :class="[ShowList ? 'iconjiantoudown' : 'iconjiantouright']" @click="ShowList = !ShowList"></i>
+        <i class="iconfont" :class="[ShowList ? 'iconjiantoudown' : 'iconjiantouright']" @click="ShowList = !ShowList; $emit('TriggerClose', ShowList)"></i>
       </div>
     </div>
     <div class="ListContainer" v-show="ShowList">
       <div class="DragItem" v-show="ShowDragItem" @mouseup="DragEnd">
         <div class="flex-h">
-          <i class="iconfont" :class="[DragItem.fee - 0 === 1 ? 'iconshoufeipiandan' : 'iconyewumokuailiebiao']"></i>
+          <i class="iconfont" :class="[DragItem.fee - 0 === 1 ? 'iconshoufeipiandan' : 'iconpiandan']"></i>
           <span class="flex-item">{{DragItem.name}}</span>
           <span class="Num">{{DragItem.videonum}}</span>
         </div>
       </div>
-      <ul v-if="MyCreatedPlaylist.length <= 6" class="List">
+      <ul v-if="MyCreatedPlaylist.length <= 8" class="List">
         <li v-for="(item, index) in MyCreatedPlaylist" :key="index" class="flex-h" :class="{'active': CurrentId === item.id - 0}" :style="{zIndex: MyCreatedPlaylist.length - index}">
-          <i class="iconfont" :class="[item.fee - 0 === 1 ? 'iconshoufeipiandan' : 'iconyewumokuailiebiao']"></i>
-          <span class="flex-item PlaylistDragItem" @click="CutList(item)">{{item.name}}</span>
+          <i class="iconfont" :class="[item.fee - 0 === 1 ? 'iconshoufeipiandan' : 'iconpiandan']"></i>
+          <div class="flex-item flex-h" @click="CutList(item)">
+            <span class="flex-item PlaylistDragItem" @mousedown="DragStart" :data-name="item.name" :data-fee="item.fee" :data-videonum="item.videoNum">{{item.name}}</span>
+          </div>
           <span class="Num">{{item.videoNum}}</span>
           <a class="iconfont iconsandian" v-if="item.defaults - 0 === 0" :class="`CreateMorePoint-${index}`" @mouseover="MoreOver(`CreateMorePoint-${index}`, `CreateMore-${index}`)"></a>
           <ul :class="`CreateMore-${index}`">
@@ -41,8 +43,10 @@
         <ScrollY Size='small'>
           <ul class="List">
             <li v-for="(item, index) in MyCreatedPlaylist" :key="index" class="flex-h" :class="{'active': CurrentId === item.id - 0}" :style="{zIndex: MyCreatedPlaylist.length - index}">
-              <i class="iconfont" :class="[item.fee - 0 === 1 ? 'iconshoufeipiandan' : 'iconyewumokuailiebiao']"></i>
-              <span class="flex-item PlaylistDragItem" @click="CutList(item)" @mousedown="DragStart" @mouseup="DragEnd" :data-fee="item.fee" :data-name="item.name" :data-videoNum="item.videoNum" :index="index">{{item.name}}</span>
+              <i class="iconfont" :class="[item.fee - 0 === 1 ? 'iconshoufeipiandan' : 'iconpiandan']"></i>
+              <div class="flex-item flex-h" @click="CutList(item)">
+                <span class="flex-item PlaylistDragItem" @mousedown="DragStart" :data-name="item.name" :data-fee="item.fee" :data-videonum="item.videoNum">{{item.name}}</span>
+              </div>
               <span class="Num">{{item.videoNum}}</span>
               <a class="iconfont iconsandian" :class="`CreateMorePoint-${index}`" @mouseover="MoreOver(`CreateMorePoint-${index}`, `CreateMore-${index}`)"></a>
               <ul :class="`CreateMore-${index}`">
@@ -81,6 +85,7 @@ export default {
   },
   data () {
     return {
+      MaxNum: 0,
       ShowDragItem: false,
       DragItem: {},
       ShowList: true,
@@ -115,48 +120,67 @@ export default {
       'EditMyCreatedPlaylist'
     ]),
     Init () { // 初始化
-      this.GetPlaylist({ params: { accountId: this.UserInfo.id, pageNum: 1, pageSize: 200 } }).then((res) => {
-        if (this.ToolClass.GetUrlParams('type') !== 'save') { // 判断是否选中创建片单列表选项
-          this.ToolClass.ChangeUrlParams([{ name: 'type', value: 'created' }])
-          let ListId = this.ToolClass.GetUrlParams('id') - 0
-          if (ListId) { // 判断选中列表索引值
-            this.MyCreatedPlaylist.map((item) => {
-              if (item.id - 0 === ListId) {
-                this.CurrentId = ListId
-                this.$emit('Cut', { ...item })
+      this.GetPlaylist({ params: { accountId: this.UserInfo.id, pageNum: 1, pageSize: 20000 } }).then((res) => {
+        if (this.ToolClass.GetUrlParams('type') === 'created') { // 判断是否选中创建片单列表选项
+          if (this.MyCreatedPlaylist.length) {
+            let ListId = this.ToolClass.GetUrlParams('id') - 0
+            if (ListId) { // 判断选中列表索引值
+              this.MyCreatedPlaylist.map((item) => {
+                if (item.id - 0 === ListId) {
+                  this.CurrentId = ListId
+                  this.$emit('Cut', { ...item })
+                }
+              })
+              if (this.CurrentId === null && this.MyCreatedPlaylist.length) {
+                this.ToolClass.ChangeUrlParams([{ name: 'id', value: this.MyCreatedPlaylist[0].id }])
+                this.CurrentId = this.MyCreatedPlaylist[0].id
+                this.$emit('Cut', { ...this.MyCreatedPlaylist[0] })
               }
-            })
-            if (this.CurrentId === null && this.MyCreatedPlaylist.length) {
-              this.ToolClass.ChangeUrlParams([{ name: 'id', value: this.MyCreatedPlaylist[0].id }])
-              this.CurrentId = this.MyCreatedPlaylist[0].id
-              this.$emit('Cut', { ...this.MyCreatedPlaylist[0] })
+            } else {
+              if (this.MyCreatedPlaylist.length) {
+                this.ToolClass.ChangeUrlParams([{ name: 'id', value: this.MyCreatedPlaylist[0].id }])
+                this.CurrentId = this.MyCreatedPlaylist[0].id
+                this.$emit('Cut', { ...this.MyCreatedPlaylist[0] })
+              }
             }
           } else {
-            if (this.MyCreatedPlaylist.length) {
-              this.ToolClass.ChangeUrlParams([{ name: 'id', value: this.MyCreatedPlaylist[0].id }])
-              this.CurrentId = this.MyCreatedPlaylist[0].id
-              this.$emit('Cut', { ...this.MyCreatedPlaylist[0] })
-            }
+            this.$emit('NoData')
+          }
+        } else if (this.ToolClass.GetUrlParams('type') === false) {
+          if (this.MyCreatedPlaylist.length) {
+            this.ToolClass.ChangeUrlParams([{ name: 'type', value: 'created' }, { name: 'id', value: this.MyCreatedPlaylist[0].id }])
+            this.CurrentId = this.MyCreatedPlaylist[0].id
+            this.$emit('Cut', { ...this.MyCreatedPlaylist[0] })
+          } else {
+            this.$emit('NoData')
           }
         }
       })
     },
-    DragStart (e) {
-      this.DragItem = { ...e.target.dataset }
-      document.getElementsByClassName('DragItem')[0].style.left = `${document.getElementsByClassName('MyCreatePlaylist')[0].getBoundingClientRect().left}px`
-      document.getElementsByClassName('DragItem')[0].style.top = `${e.pageY - 21}px`
-      let StartY = e.pageY
-      document.onmousemove = (moveE) => {
-        document.getElementsByClassName('DragItem')[0].style.top = `${moveE.pageY - 21}px`
-        this.ShowDragItem = true
-        document.onmouseup = (endE) => {
-          // console.log(document.getElementsByClassName('PlaylistDragItem')[0].getBoundingClientRect().top)
-          this.CheckDragIndex(endE.pageY, StartY)
-          document.onmousemove = null
-          this.ShowDragItem = false
-          this.DragItem = {}
+    VideoRemove (num) {
+      console.log(num)
+      this.MyCreatedPlaylist.map((item, index) => {
+        if (item.id - 0 === this.CurrentId - 0) {
+          this.EditMyCreatedPlaylist({ index, name: 'videoNum', value: item.videoNum - num })
         }
-      }
+      })
+    },
+    DragStart (e) {
+      // this.ShowDragItem = false
+      // this.DragItem = { ...e.target.dataset }
+      // document.getElementsByClassName('DragItem')[0].style.left = `${document.getElementsByClassName('MyCreatePlaylist')[0].getBoundingClientRect().left}px`
+      // document.getElementsByClassName('DragItem')[0].style.top = `${e.pageY - 21}px`
+      // let StartY = e.pageY
+      // document.onmousemove = (moveE) => {
+      //   document.getElementsByClassName('DragItem')[0].style.top = `${moveE.pageY - 21}px`
+      //   this.ShowDragItem = true
+      //   document.onmouseup = (endE) => {
+      //     this.CheckDragIndex(endE.pageY, StartY)
+      //     document.onmousemove = null
+      //     this.ShowDragItem = false
+      //     this.DragItem = {}
+      //   }
+      // }
     },
     DragEnd () {
       document.onmousemove = null
@@ -192,7 +216,7 @@ export default {
       }
     },
     Delete (item, index) { // 删除片单
-      this.ToolClass.Confirm('Delete playlist', [`Are you sure you want to delete "${item.name}"?`, `note:Deleting playlist is a permanent action and cannot be undone.`, `And the videos in the playlist will be removed together.`], () => { }, (close) => {
+      this.ToolClass.Confirm('Delete playlist', [`Are you sure you want to delete "${item.name.length > 20 ? `${item.name.substring(0, 20)}...` : item.name}"?`, `note:Deleting playlist is a permanent action and cannot be undone.`, `And the videos in the playlist will be removed together.`], () => { }, (close) => {
         if (!this.DataLock) {
           this.DataLock = true
           this.DeletePlaylist({ params: { accountId: this.UserInfo.id, id: item.id } }).then(() => {
@@ -226,8 +250,8 @@ export default {
       }
     },
     MoreOver (pointname, classname) {
-      let Top = document.getElementsByClassName(pointname)[0].getBoundingClientRect().top + 42 - 10
-      let Left = document.getElementsByClassName(pointname)[0].getBoundingClientRect().left - 115
+      let Top = document.getElementsByClassName(pointname)[0].getBoundingClientRect().top + 42 - 20
+      let Left = document.getElementsByClassName(pointname)[0].getBoundingClientRect().left - 140
       document.getElementsByClassName(classname)[0].style.top = `${Top}px`
       document.getElementsByClassName(classname)[0].style.left = `${Left}px`
     }

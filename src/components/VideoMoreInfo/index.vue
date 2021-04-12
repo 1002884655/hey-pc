@@ -100,8 +100,8 @@
           <a @click="ShowMoreDesc = !ShowMoreDesc"><span>{{ShowMoreDesc ? 'Show Less' : 'Show More'}}</span><i class="iconfont" :class="[ShowMoreDesc ? 'iconjiantouup' : 'iconjiantoudown']"></i></a>
         </div>
       </div>
-      <a v-if="(UserInfo === null || UserInfo.userType - 0 === 1) && (OtherUserInfo.id !== UserInfo.id && OtherUserInfo.fanClubAllow - 0 === 1 && JoinClubStatus !== 1)" :class="{'active': UserInfo === null || (OtherUserInfo.fanClubAllow - 0 === 1 && JoinClubStatus - 0 !== 1)}" @click="TriggerBecomeFans">{{UserInfo === null ? 'Become a Fan' : JoinClubStatus - 0 === 1 ? 'Quit the fans club' : 'Become a Fan'}}</a>
-      <a v-if="OtherUserInfo.id !== UserInfo.id" :class="{'active': UserInfo === null || !HasSubscribe}" @click="ToSubscribe">{{UserInfo === null ? 'Follow' : HasSubscribe ? 'Unfollow' : 'Follow'}}</a>
+      <a v-if="(UserInfo === null || UserInfo.userType - 0 === 1) && (UserInfo !== null && OtherUserInfo.id !== UserInfo.id && OtherUserInfo.fanClubAllow - 0 === 1 && JoinClubStatus !== 1)" :class="{'active': UserInfo === null || (OtherUserInfo.fanClubAllow - 0 === 1 && JoinClubStatus - 0 !== 1)}" @click="TriggerBecomeFans">{{UserInfo === null ? 'Become a Fan' : JoinClubStatus - 0 === 1 ? 'Quit the fans club' : 'Become a Fan'}}</a>
+      <a v-if="UserInfo === null || OtherUserInfo.id !== UserInfo.id" :class="{'active': UserInfo === null || !HasSubscribe}" @click="ToSubscribe">{{UserInfo === null ? 'Follow' : HasSubscribe ? 'Unfollow' : 'Follow'}}</a>
     </div>
 
     <!-- 上传者相关视频 -->
@@ -113,7 +113,7 @@
 
     <SaveToFavorites ref="SaveToFavorites" :Ids="CurrentId" v-if="ShowSaveToFavorites && UserInfo !== null" @Close="ShowSaveToFavorites = false"></SaveToFavorites>
 
-    <SaveToPlaylist ref="SaveToPlaylist" :Ids="[CurrentId]" v-if="ShowSaveToPlaylist && UserInfo !== null" @Close="ShowSaveToPlaylist = false"></SaveToPlaylist>
+    <PlaylistSetPopup ref="PlaylistSetPopup" v-if="UserInfo !== null && ShowSaveToPlaylist" :Ids="[CurrentId]" @Close="ShowSaveToPlaylist = false"></PlaylistSetPopup>
 
     <!-- <PayForFansClubPopup :PageUserInfo="OtherUserInfo" v-if="ShowPayForFansClubPopup" @Close="ShowPayForFansClubPopup = false" @Join="JoinClubStatus = 1"></PayForFansClubPopup> -->
 
@@ -137,7 +137,7 @@ import MainVideoListItem from '../MainVideoListItem'
 import VideoCollectFolderMove from '../VideoCollectFolderMove'
 import UserForMySheetVideosCopy from '../UserForMySheetVideosCopy'
 import SaveToFavorites from '../SaveToFavorites'
-import SaveToPlaylist from '../SaveToPlaylist'
+import PlaylistSetPopup from '../PlaylistSetPopup'
 Vue.prototype.$notify = Notification
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 const { mapState: mapMediaState, mapActions: mapMediaActions, mapMutations: mapMediaMutations } = createNamespacedHelpers('media')
@@ -183,7 +183,7 @@ export default {
     VideoCollectFolderMove,
     UserForMySheetVideosCopy,
     SaveToFavorites,
-    SaveToPlaylist
+    PlaylistSetPopup
   },
   created () {
     this.GetAccountBasicInfo({ params: { id: this.MediaInfo.video.upId } }).then(() => {
@@ -253,13 +253,16 @@ export default {
       }
     },
     ToExitFansClub () { // 退出粉丝团
-      this.ExitFansClub({ params: { accountId: this.UserInfo.id, subId: this.OtherUserInfo.id } }).then(() => {
-        this.$notify.success({
-          title: 'success',
-          message: 'Exit of success!'
-        })
-        this.JoinClubStatus = 2
+      this.ExitFansClub({ params: { accountId: this.UserInfo.id, subId: this.OtherUserInfo.id } }).then((res) => {
+        // this.$notify.success({
+        //   title: 'success',
+        //   message: 'Exit of success!'
+        // })
+        // this.JoinClubStatus = 2
         this.DataLock = false
+        window.localStorage.OrderBackUrl = window.location.href
+        window.localStorage.OrderType = 'exit'
+        window.location.href = res.data.data.cancelUrl
       }).catch((res) => {
         this.$notify.error({
           title: 'error',
@@ -398,10 +401,10 @@ export default {
     TriggerWatchLater (e) {
       if (e.type === 'Add') {
         this.EditAccountVideoCollection({ index: e.index, name: 'WatchLater', value: true })
-        this.$notify.success({ title: 'success', message: 'has been added' })
+        this.$notify.success({ title: 'success', message: 'Saved to watch later' })
       } else {
         this.EditAccountVideoCollection({ index: e.index, name: 'WatchLater', value: false })
-        this.$notify.success({ title: 'success', message: 'has been removed' })
+        this.$notify.success({ title: 'success', message: 'Removed from watch later' })
       }
     },
     ToShowGifIndex (e) {
@@ -417,7 +420,7 @@ export default {
             }).then((res) => {
               this.$notify.success({
                 title: 'success',
-                message: 'has been removed'
+                message: 'Removed from watch later'
               })
               this.EditAccountVideoCollection({ index, name: 'WatchLater', value: false })
               this.DataLock = false // 数据解锁

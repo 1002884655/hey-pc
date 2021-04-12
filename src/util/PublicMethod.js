@@ -137,6 +137,50 @@ const ToolClass = {
       if (format === 'hh:mm:ss') {
         return `${hh > 9 ? hh : `0${hh}`}:${mm > 9 ? mm : `0${mm}`}:${ss > 9 ? ss : `0${ss}`}`
       }
+      if (format === 'English') {
+        let Month = ''
+        switch (MM) {
+          case 1:
+            Month = 'Jan'
+            break
+          case 2:
+            Month = 'Feb'
+            break
+          case 3:
+            Month = 'Mar'
+            break
+          case 4:
+            Month = 'Apr'
+            break
+          case 5:
+            Month = 'May'
+            break
+          case 6:
+            Month = 'Jun'
+            break
+          case 7:
+            Month = 'Jul'
+            break
+          case 8:
+            Month = 'Aug'
+            break
+          case 9:
+            Month = 'Sept'
+            break
+          case 10:
+            Month = 'Oct'
+            break
+          case 11:
+            Month = 'Nov'
+            break
+          case 12:
+            Month = 'Dec'
+            break
+          default:
+            Month = ''
+        }
+        return `${Month} ${DD},${YY}`
+      }
       return `${YY}-${MM > 9 ? MM : `0${MM}`}-${DD > 9 ? DD : `0${DD}`} ${hh > 9 ? hh : `0${hh}`}:${mm > 9 ? mm : `0${mm}`}:${ss > 9 ? ss : `0${ss}`}`
     } else {
       return ''
@@ -154,6 +198,15 @@ const ToolClass = {
     window.onclick = () => {
       if (WindowClickFn) {
         WindowClickFn()
+      }
+      callback()
+    }
+  },
+  WindowResize (callback) { // window尺寸变化
+    let WindowResize = window.onresize
+    window.onresize = () => {
+      if (WindowResize) {
+        WindowResize()
       }
       callback()
     }
@@ -303,7 +356,6 @@ const ToolClass = {
         return url + '?' + replaceText
       }
     }
-    return url + '\n' + arg + '\n' + val
   },
   MatchingCapacity (target, speed) { // 匹配清晰度
     let CurrentCapacity = 4 // 默认 720p

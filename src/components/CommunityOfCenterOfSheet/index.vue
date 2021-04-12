@@ -8,13 +8,13 @@
           <div class="RightLayer" @click="ToSheetDetail(item)">
             <span class="centerLabel">
               <span>{{item.videoNum}}</span>
-              <i class="iconfont iconshipinliebiao"></i>
+              <i class="iconfont iconpiandan"></i>
             </span>
           </div>
           <div class="Layer" v-if="item.videoNum">
             <span class="centerLabel" @click="PlayAll(item)">
               <i class="iconfont iconbofang2"></i>
-              <span>Play all</span>
+              <span>PLAY ALL</span>
             </span>
           </div>
         </a>
@@ -82,7 +82,7 @@ export default {
       'GetOtherUserPlaylist'
     ]),
     ToSheetDetail (item) { // 去片单详情页
-      window.open(`./sheet.html?key=${this.ToolClass.GetUrlParams('key') || this.UserInfo.id}&sheet=${item.id}`, '_self')
+      window.open(`./video.html?type=4&sheet=${item.id}`, '_self')
     },
     PlayAll (item) { // 播放全部
       if (item.videoNum) {
@@ -98,33 +98,42 @@ export default {
     ToGetPieceGroup () { // 获取用户片单
       if (!this.DataLock) {
         this.DataLock = true
-        if (this.UserInfo === null || (this.UserInfo !== null && this.ToolClass.GetUrlParams('key') !== false && this.ToolClass.GetUrlParams('key') - 0 !== this.UserInfo.id - 0)) {
-          this.GetOtherUserPlaylist({
-            params: { accountId: this.ToolClass.GetUrlParams('key'), ...this.PageData }
-          }).then((res) => {
-            // this.MyPieceGroupList = res.data.data.list
-            this.PageList = res.data.data.list || []
-            this.Total = res.data.data.total
-            this.PageData.pageNum = res.data.data.pageNum
-            this.ToolClass.ChangeUrlParams([{ name: 'pages', value: res.data.data.pageNum }])
-            this.DataLock = false
-          }).catch(() => {
-            this.DataLock = false
-          })
-        } else {
-          this.GetPieceGroup({
-            params: { accountId: this.ToolClass.GetUrlParams('key') !== false ? this.ToolClass.GetUrlParams('key') : this.UserInfo.id, ...this.PageData }
-          }).then((res) => {
-            // this.MyPieceGroupList = res.data.data.list
-            this.PageList = res.data.data.list || []
-            this.Total = res.data.data.total
-            this.PageData.pageNum = res.data.data.pageNum
-            this.ToolClass.ChangeUrlParams([{ name: 'pages', value: res.data.data.pageNum }])
-            this.DataLock = false
-          }).catch(() => {
-            this.DataLock = false
-          })
-        }
+        this.GetOtherUserPlaylist({
+          params: { accountId: this.UserInfo !== null ? this.UserInfo.id : null, userId: this.ToolClass.GetUrlParams('key') !== false ? this.ToolClass.GetUrlParams('key') : this.UserInfo !== null ? this.UserInfo.id : null, ...this.PageData }
+        }).then((res) => {
+          this.PageList = res.data.data.list || []
+          this.Total = res.data.data.total
+          this.PageData.pageNum = res.data.data.pageNum
+          this.ToolClass.ChangeUrlParams([{ name: 'pages', value: res.data.data.pageNum }])
+          this.DataLock = false
+        }).catch(() => {
+          this.DataLock = false
+        })
+        // if (this.UserInfo === null || (this.UserInfo !== null && this.ToolClass.GetUrlParams('key') !== false && this.ToolClass.GetUrlParams('key') - 0 !== this.UserInfo.id - 0)) {
+        //   this.GetOtherUserPlaylist({
+        //     params: { accountId: this.ToolClass.GetUrlParams('key'), ...this.PageData }
+        //   }).then((res) => {
+        //     this.PageList = res.data.data.list || []
+        //     this.Total = res.data.data.total
+        //     this.PageData.pageNum = res.data.data.pageNum
+        //     this.ToolClass.ChangeUrlParams([{ name: 'pages', value: res.data.data.pageNum }])
+        //     this.DataLock = false
+        //   }).catch(() => {
+        //     this.DataLock = false
+        //   })
+        // } else {
+        //   this.GetPieceGroup({
+        //     params: { accountId: this.ToolClass.GetUrlParams('key') !== false ? this.ToolClass.GetUrlParams('key') : this.UserInfo.id, ...this.PageData }
+        //   }).then((res) => {
+        //     this.PageList = res.data.data.list || []
+        //     this.Total = res.data.data.total
+        //     this.PageData.pageNum = res.data.data.pageNum
+        //     this.ToolClass.ChangeUrlParams([{ name: 'pages', value: res.data.data.pageNum }])
+        //     this.DataLock = false
+        //   }).catch(() => {
+        //     this.DataLock = false
+        //   })
+        // }
       }
     }
   }

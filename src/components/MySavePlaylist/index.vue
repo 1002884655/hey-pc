@@ -2,19 +2,21 @@
   <div class="components MySavePlaylist">
     <div class="Title">
       <div class="flex-h">
-        <span class="flex-item">The playlists you saved</span>
+        <span class="flex-item">Playlists you saved</span>
         <span>({{PageList.length}}/200)</span>
         <i class="iconfont" :class="[ShowList ? 'iconjiantoudown' : 'iconjiantouright']" @click="ShowList = !ShowList"></i>
       </div>
     </div>
     <div class="ListContainer" v-show="ShowList">
-      <ul v-if="PageList.length <= 6" class="List">
+      <ul v-if="PageList.length <= 8" class="List">
         <li v-for="(item, index) in PageList" :key="index" class="flex-h" :class="{'active': CurrentId === item.id - 0}" :style="{zIndex: PageList.length - index}">
-          <i class="iconfont iconyewumokuailiebiao"></i>
-          <span class="flex-item" @click="CutList(item)">{{item.name}}</span>
+          <i class="iconfont" :class="[item.fee - 0 === 1 ? 'iconshoufeipiandan' : 'iconpiandan']"></i>
+          <div class="flex-item flex-h" @click="CutList(item)">
+            <span class="flex-item PlaylistDragItem" :data-name="item.name" :data-fee="item.fee" :data-videonum="item.videoNum">{{item.name}}</span>
+          </div>
           <span class="Num">{{item.videoNum}}</span>
-          <a class="iconfont iconsandian" :class="`SaveMorePoint-${index}`" @mouseover="MoreOver(`SaveMorePoint-${index}`, `SaveMore-${index}`)"></a>
-          <ul :class="`SaveMore-${index}`">
+          <a class="iconfont iconsandian" v-if="item.defaults - 0 === 0" :class="`SaveMorePoint-${index}`" @mouseover="MoreOver(`SaveMorePoint-${index}`, `SaveMore-${index}`)"></a>
+          <ul :class="`SaveMore-${index}`" v-if="item.defaults - 0 === 0">
             <li class="flex-h" @click="$emit('AllTo', item)">
               <i class="iconfont iconpiliangtianjia"></i>
               <span class="flex-item">Add all to</span>
@@ -30,18 +32,20 @@
         <ScrollY Size='small' OverflowX='visible'>
           <ul class="List">
             <li v-for="(item, index) in PageList" :key="index" class="flex-h" :class="{'active': CurrentId === item.id - 0}" :style="{zIndex: PageList.length - index}">
-              <i class="iconfont iconyewumokuailiebiao"></i>
-              <span class="flex-item" @click="CutList(item)">{{item.name}}</span>
+              <i class="iconfont" :class="[item.fee - 0 === 1 ? 'iconshoufeipiandan' : 'iconpiandan']"></i>
+              <div class="flex-item flex-h" @click="CutList(item)">
+                <span class="flex-item PlaylistDragItem" :data-name="item.name" :data-fee="item.fee" :data-videonum="item.videoNum">{{item.name}}</span>
+              </div>
               <span class="Num">{{item.videoNum}}</span>
-              <a class="iconfont iconsandian" :class="`SaveMorePoint-${index}`" @mouseover="MoreOver(`SaveMorePoint-${index}`, `SaveMore-${index}`)"></a>
-              <ul :class="`SaveMore-${index}`">
+              <a class="iconfont iconsandian" v-if="item.defaults - 0 === 0" :class="`SaveMorePoint-${index}`" @mouseover="MoreOver(`SaveMorePoint-${index}`, `SaveMore-${index}`)"></a>
+              <ul :class="`SaveMore-${index}`" v-if="item.defaults - 0 === 0">
                 <li class="flex-h" @click="$emit('AllTo', item)">
                   <i class="iconfont iconpiliangtianjia"></i>
                   <span class="flex-item">Add all to</span>
                 </li>
                 <li class="flex-h" @click="Delete(item, index)">
                   <i class="iconfont iconshanchu"></i>
-                  <span class="flex-item">Remove playlist</span>
+                  <span class="flex-item">Remove from list</span>
                 </li>
               </ul>
             </li>
@@ -118,30 +122,30 @@ export default {
         }
       })
     },
+    VideoRemove (num) {
+      this.PageList[0].videoNum -= num
+    },
     Delete (item, index) { // 移除收藏的片单
-      this.ToolClass.Confirm('Confirm', `Are you sure to remove this playlist called ${item.name}?`, () => { }, (close) => {
-        if (!this.DataLock) {
-          this.DataLock = true
-          this.RemoveSavePlaylist({ params: { accountId: this.UserInfo.id, groupId: item.id } }).then(() => {
-            this.$notify.success({
-              title: 'success',
-              message: 'remove successfully!'
-            })
-            this.PageList.splice(index, 1)
-            if (item.id - 0 === this.ToolClass.GetUrlParams('id') - 0) {
-              if (this.PageList.length) {
-                this.CutList(this.PageList[index - 1 > 0 ? index - 1 : 0])
-              } else {
-                this.$emit('NoData')
-              }
-            }
-            this.DataLock = false
-            close()
-          }).catch(() => {
-            this.DataLock = false
+      if (!this.DataLock) {
+        this.DataLock = true
+        this.RemoveSavePlaylist({ params: { accountId: this.UserInfo.id, groupId: item.id } }).then(() => {
+          this.$notify.success({
+            title: 'success',
+            message: 'Removed from list'
           })
-        }
-      })
+          this.PageList.splice(index, 1)
+          if (item.id - 0 === this.ToolClass.GetUrlParams('id') - 0) {
+            if (this.PageList.length) {
+              this.CutList(this.PageList[index - 1 > 0 ? index - 1 : 0])
+            } else {
+              this.$emit('NoData')
+            }
+          }
+          this.DataLock = false
+        }).catch(() => {
+          this.DataLock = false
+        })
+      }
     },
     OtherNoData () { // 创建片单无数据时，自动切换至收藏片单
       if (this.PageList.length) {
@@ -161,8 +165,8 @@ export default {
       }
     },
     MoreOver (pointname, classname) {
-      let Top = document.getElementsByClassName(pointname)[0].getBoundingClientRect().top + 42 - 10
-      let Left = document.getElementsByClassName(pointname)[0].getBoundingClientRect().left - 115
+      let Top = document.getElementsByClassName(pointname)[0].getBoundingClientRect().top + 42 - 20
+      let Left = document.getElementsByClassName(pointname)[0].getBoundingClientRect().left - 140
       document.getElementsByClassName(classname)[0].style.top = `${Top}px`
       document.getElementsByClassName(classname)[0].style.left = `${Left}px`
     }

@@ -101,7 +101,9 @@ export default {
           UpName: item.upName,
           UpId: item.upId,
           Gif: item.videoPath === null ? null : item.videoPath + 'Image1/index.gif',
-          Capacity: item.capacity
+          Capacity: item.capacity,
+          payVideo: item.payVideo,
+          price: item.price
         })
       })
     },

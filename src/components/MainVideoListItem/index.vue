@@ -14,17 +14,13 @@
           <a @click="LinkToPlayer" :title="data.title">{{data.title}}</a>
         </div>
         <span></span>
-        <a class="iconfont iconsandian1"></a>
-        <div class="More" :class="{'Left': MoreTipsAlign === 'left'}">
+        <a class="iconfont iconsandian1" @click.stop="ShowMore = true"></a>
+        <div class="More" :class="{'Left': MoreTipsAlign === 'left'}" :style="{display: ShowMore ? 'block' : 'none'}">
           <a class="flex-h" @click="ToWatchLater">
             <i class="iconfont iconshaohouguankan"></i>
             <span>Save to Watch later</span>
           </a>
-          <!-- <a class="flex-h" @click="$emit('SaveToFavorite')">
-            <i class="iconfont iconshoucang-"></i>
-            <span>Save to favorite</span>
-          </a> -->
-          <a class="flex-h" @click="$emit('SaveToPlaylist')">
+          <a class="flex-h" @click="SaveToPlaylist">
             <i class="iconfont iconyemian"></i>
             <span>Save to playlist</span>
           </a>
@@ -86,7 +82,8 @@ export default {
   },
   data () {
     return {
-      DataLock: false
+      DataLock: false,
+      ShowMore: false
     }
   },
   computed: {
@@ -100,6 +97,9 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      this.ToolClass.WindowClick(() => {
+        this.ShowMore = false
+      })
     })
   },
   methods: {
@@ -112,6 +112,13 @@ export default {
         window.open(`./video.html?key=${this.data.videoM}&type=4&sheet=${this.PlaylistId}`, '_self')
       } else {
         window.open(`./video.html?key=${this.data.videoM}`, '_self')
+      }
+    },
+    SaveToPlaylist () {
+      if (this.UserInfo !== null) {
+        this.$emit('SaveToPlaylist')
+      } else {
+        this.$emit('NeedLogin')
       }
     },
     ToWatchLater () {

@@ -26,6 +26,8 @@
       </li>
     </ul>
 
+    <PayForFansClubPopup :PageUserInfo="PageUserInfo" v-if="ShowPayForFansClubPopup" @Close="ShowPayForFansClubPopup = false" @Join="JoinClub"></PayForFansClubPopup>
+
     <!-- 分页器 -->
     <div class="Pagination" v-if="Total">
       <el-pagination background :page-size="PageData.pageSize" :current-page="PageData.pageNum" layout="prev, pager, next, jumper" :total="Total" @current-change="PageChange"></el-pagination>
@@ -39,12 +41,15 @@
 */
 import { Pagination } from 'element-ui'
 import { createNamespacedHelpers } from 'vuex'
+import PayForFansClubPopup from '../../components/PayForFansClubPopup'
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {
   name: 'CommunityOfCenterOfFollowingClubs',
   props: ['data'],
   data () {
     return {
+      PageUserInfo: null,
+      ShowPayForFansClubPopup: false,
       PageList: [],
       PageData: {
         pageNum: 1,
@@ -60,7 +65,8 @@ export default {
     })
   },
   components: {
-    'el-pagination': Pagination
+    'el-pagination': Pagination,
+    PayForFansClubPopup
   },
   created () {
     this.Init()
@@ -78,13 +84,21 @@ export default {
     Init () {
       this.ToGetUserFollowingClubs()
     },
+    JoinClub () {
+      this.PageList.map((item) => {
+        if (item.id - 0 === this.PageUserInfo.id - 0) {
+          item.status = 1
+        }
+      })
+    },
     TriggerFansClub (item, index) {
       if (item.status - 0 === 1) { // 已加入粉丝团
         this.ToolClass.Confirm('Exit the club', `After revoking the current logout, the fan club remaining in the ${item.userName} will continue to be automatically renewed after the end of the month.`, () => { }, (close) => {
           this.ToExitFansClub(item, index, close)
         })
       } else if (item.status - 0 === 2) { // 已退出粉丝团
-        this.ToRevokeExitFansClub(item, index)
+        this.PageUserInfo = { ...item }
+        this.ShowPayForFansClubPopup = true
       }
     },
     ToRevokeExitFansClub (item, index) { // 撤销退出粉丝团
@@ -105,17 +119,20 @@ export default {
         this.DataLock = false
       })
     },
-    ToExitFansClub (item, index, callback = () => {}) { // 退出粉丝团
+    ToExitFansClub (item, index, callback = () => { }) { // 退出粉丝团
       if (this.DataLock) return
       this.DataLock = true
-      this.ExitFansClub({ params: { accountId: this.UserInfo.id, subId: item.accountId } }).then(() => {
+      this.ExitFansClub({ params: { accountId: this.UserInfo.id, subId: item.accountId } }).then((res) => {
         callback()
-        this.$notify.success({
-          title: 'success',
-          message: 'Exit of success!'
-        })
+        // this.$notify.success({
+        //   title: 'success',
+        //   message: 'Exit of success!'
+        // })
         item.status = 2
         this.DataLock = false
+        window.localStorage.OrderBackUrl = window.location.href
+        window.localStorage.OrderType = 'exit'
+        window.location.href = res.data.data.cancelUrl
       }).catch((res) => {
         this.$notify.error({
           title: 'error',

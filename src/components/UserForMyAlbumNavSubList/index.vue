@@ -12,7 +12,7 @@
         <span>{{FavoritesIndex !== null ? VideoAlbumList[FavoritesIndex].name : ''}}</span>
         <span class="flex-item">{{FavoritesIndex !== null ? VideoAlbumList[FavoritesIndex].description : ''}}</span>
         <div>
-          <a @click="PlayAll" :style="{backgroundColor: VideoAlbumSubList.length ? '#e2041b' : '#ccc'}">Play all</a>
+          <a @click="PlayAll" :style="{backgroundColor: VideoAlbumSubList.length ? '#e2041b' : '#ccc'}">PLAY ALL</a>
         </div>
       </div>
     </div>

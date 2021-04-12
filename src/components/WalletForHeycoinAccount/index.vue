@@ -73,28 +73,31 @@ export default {
       })
     },
     ToCashHeyCoin () { // 充值
-      this.$notify.error({
-        title: 'error',
-        message: 'The payment function has not yet been opened, so stay tuned'
-      })
-      // if (this.DataLock) return
-      // this.DataLock = true
-      // this.CreateOrder({
-      //   params: {
-      //     accountId: this.UserInfo.id,
-      //     productId: this.PageList[this.CurrentIndex].id,
-      //     productType: 4
-      //   }
-      // }).then((res) => {
-      //   window.location.href = `./order.html?orderId=${res.data.data.orderNo}`
-      //   this.DataLock = false
-      // }).then((res) => {
-      //   this.$notify.error({
-      //     title: 'error',
-      //     message: res.data.msg
-      //   })
-      //   this.DataLock = false
+      // this.$notify.error({
+      //   title: 'error',
+      //   message: 'The payment function has not yet been opened, so stay tuned'
       // })
+      if (this.DataLock) return
+      this.DataLock = true
+      this.CreateOrder({
+        params: {
+          accountId: this.UserInfo.id,
+          productId: this.PageList[this.CurrentIndex].id,
+          productType: 4
+        }
+      }).then((res) => {
+        // window.location.href = `./order.html?orderId=${res.data.data.orderNo}`
+        window.localStorage.OrderBackUrl = window.location.href
+        window.localStorage.OrderType = 'pay'
+        window.location.href = res.data.data.payUrl
+        this.DataLock = false
+      }).then((res) => {
+        this.$notify.error({
+          title: 'error',
+          message: res.data.msg
+        })
+        this.DataLock = false
+      })
     }
   }
 }

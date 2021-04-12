@@ -25,7 +25,7 @@
               <span>Creator：<a :href="`./userspace.html?key=${OtherUserAlbumInfo.accountId}`" target="_self">{{OtherUserAlbumInfo.upName}}</a></span>
             </div>
             <div class="Bottom" v-if="VideoAlbumSubList.length">
-              <a class="PlayAll" @click="PlayAll">Play all</a>
+              <a class="PlayAll" @click="PlayAll">PLAY ALL</a>
               <a class="Like" :class="{'active': OtherUserAlbumInfo.collectStatus}" @click="ToCollectPieceGroup">
                 <i class="iconfont iconshoucang-"></i>
                 <span> {{OtherUserAlbumInfo.collectNum}}</span>
@@ -146,10 +146,10 @@ export default {
     TriggerWatchLater (e) {
       if (e.type === 'Add') {
         this.EditVideoAlbumSubList({ index: e.index, name: 'WatchLater', value: true })
-        this.$notify.success({ title: 'success', message: 'has been added' })
+        this.$notify.success({ title: 'success', message: 'Saved to watch later' })
       } else {
         this.EditVideoAlbumSubList({ index: e.index, name: 'WatchLater', value: false })
-        this.$notify.success({ title: 'success', message: 'has been removed' })
+        this.$notify.success({ title: 'success', message: 'Removed from watch later' })
       }
     },
     OpenSaveToFavorite (item) {

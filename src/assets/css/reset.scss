@@ -304,14 +304,39 @@ body {
       padding-left: 0;
     }
   }
+  .SgsHeightAutoInput {
+    .el-textarea__inner {
+      border: none;
+      padding: 5px 10px;
+    }
+  }
+  .el-select-dropdown {
+    .el-scrollbar__bar.is-vertical {
+      background: rgba(0, 0, 0, 0.2);
+      .el-scrollbar__thumb {
+        background: rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+  .el-select.SgsSelect {
+    width: 100%;
+    .el-input__inner {
+      border: none;
+      padding: 5px 10px;
+      height: 30px;
+    }
+    .el-select__caret {
+      line-height: 20px;
+    }
+  }
   .el-scrollbar__wrap {
     overflow-x: auto;
   }
   .el-scrollbar__thumb {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     &:hover {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.5);
     }
   }
   .el-scrollbar__bar.is-vertical {
@@ -325,10 +350,10 @@ body {
   }
   .SmallScroll {
     .el-scrollbar__thumb {
-      border-radius: 4px;
+      border-radius: 0;
     }
     .el-scrollbar__bar.is-vertical {
-      width: 4px;
+      width: 8px;
     }
   }
   .LiveChatScroll {

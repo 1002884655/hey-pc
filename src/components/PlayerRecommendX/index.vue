@@ -10,11 +10,14 @@
       </li>
     </ul>
 
+    <!-- 片单操作弹窗 -->
+    <PlaylistSetPopup ref="PlaylistSetPopup" v-if="UserInfo !== null && ShowMoveFolderPopup" :Ids="[CurrentId]" @Close="ShowMoveFolderPopup = false"></PlaylistSetPopup>
+
     <!-- 收藏夹弹窗 -->
     <VideoCollectFolderMove v-if="ShowAddFolderPopup" :CollectId="CurrentId" @Close="ShowAddFolderPopup = false"></VideoCollectFolderMove>
 
     <!-- 片单弹窗 -->
-    <UserForMySheetVideosCopy v-if="ShowMoveFolderPopup" Title="Copy to other playlist" @Change="MoveToSheet" @Close="ShowMoveFolderPopup = false"></UserForMySheetVideosCopy>
+    <!-- <UserForMySheetVideosCopy v-if="ShowMoveFolderPopup" Title="Copy to other playlist" @Change="MoveToSheet" @Close="ShowMoveFolderPopup = false"></UserForMySheetVideosCopy> -->
   </div>
 </template>
 
@@ -33,6 +36,7 @@ import { createNamespacedHelpers } from 'vuex'
 import MainVideoListItem from '../MainVideoListItem'
 import VideoCollectFolderMove from '../VideoCollectFolderMove'
 import UserForMySheetVideosCopy from '../UserForMySheetVideosCopy'
+import PlaylistSetPopup from '../PlaylistSetPopup'
 Vue.prototype.$notify = Notification
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {
@@ -57,7 +61,8 @@ export default {
   components: {
     MainVideoListItem,
     VideoCollectFolderMove,
-    UserForMySheetVideosCopy
+    UserForMySheetVideosCopy,
+    PlaylistSetPopup
   },
   created () {
     this.PageList = []
@@ -108,10 +113,10 @@ export default {
     TriggerWatchLater (e) {
       if (e.type === 'Add') {
         this.PageList[e.index].WatchLater = true
-        this.$notify.success({ title: 'success', message: 'has been added' })
+        this.$notify.success({ title: 'success', message: 'Saved to watch later' })
       } else {
         this.PageList[e.index].WatchLater = false
-        this.$notify.success({ title: 'success', message: 'has been removed' })
+        this.$notify.success({ title: 'success', message: 'Removed from watch later' })
       }
     },
     ToShowGifIndex (e) {
@@ -127,7 +132,7 @@ export default {
             }).then((res) => {
               this.$notify.success({
                 title: 'success',
-                message: 'has been removed'
+                message: 'Removed from watch later'
               })
               item.WatchLater = false
               this.DataLock = false // 数据解锁

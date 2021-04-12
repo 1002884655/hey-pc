@@ -164,10 +164,10 @@ export default {
     ToAddWatchLater (e) { // 添加稍后观看（可取消）
       if (e.type === 'Add') {
         this.PageList[e.index].WatchLater = true
-        this.$notify.success({ title: 'success', message: 'has been added' })
+        this.$notify.success({ title: 'success', message: 'Saved to watch later' })
       } else {
         this.PageList[e.index].WatchLater = false
-        this.$notify.success({ title: 'success', message: 'has been removed' })
+        this.$notify.success({ title: 'success', message: 'Removed from watch later' })
       }
     },
     CutItem (item, index) {

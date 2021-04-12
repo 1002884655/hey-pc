@@ -12,7 +12,7 @@
     <div class="flex-h">
       <div class="flex-item"><a href="./creatorpromote.html">HeyPorn for Creators</a></div>
       <div class="flex-item"><a href="./userpromote.html">HeyPorn for Users</a></div>
-      <div class="flex-item"></div>
+      <div class="flex-item"><a href="./auth.html">Model Program</a></div>
       <div class="flex-item"></div>
       <div class="flex-item"></div>
     </div>

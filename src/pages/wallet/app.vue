@@ -30,7 +30,7 @@
           <!-- My bill -->
           <div v-if="CurrentNavId - 0 === 3" class="MyBill">
             <nav>
-              <a v-for="(item, index) in BillNav" :key="index" :class="{'active': CurrentBillId === item.id}" @click="CurrentBillId = item.id">{{item.name}}</a>
+              <a v-for="(item, index) in BillNav" :key="index" v-if="(item.id === 1 || item.id === 4) && (UserInfo.userType - 0 === 1) || (item.id === 2 || item.id === 3) && (UserInfo.userType - 0 !== 1)" :class="{'active': CurrentBillId === item.id}" @click="CurrentBillId = item.id">{{item.name}}</a>
             </nav>
 
             <!-- Expenses record -->

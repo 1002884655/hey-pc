@@ -1,0 +1,126 @@
+.components.SgsStep1 {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  > i {
+    font-size: 76px;
+    color: #fff;
+    display: block;
+    margin: 25px auto 0;
+    text-align: center;
+  }
+  > span {
+    display: block;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    line-height: 20px;
+    &:nth-child(2) {
+      font-size: 24px;
+      line-height: 30px;
+      margin-top: 20px;
+    }
+    &:nth-child(3) {
+      margin-top: 15px;
+    }
+    &:nth-child(5) {
+      margin-top: 20px;
+      font-size: 24px;
+    }
+    > a {
+      text-decoration: underline;
+      user-select: none;
+      &:hover {
+        color: #4cc7e3;
+      }
+    }
+  }
+  > .Form {
+    width: 380px;
+    position: relative;
+    overflow: hidden;
+    margin: 20px auto 0;
+    > * {
+      margin-top: 10px;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+    > input {
+      width: 100%;
+      display: block;
+      box-sizing: border-box;
+      font-size: 14px;
+      line-height: 40px;
+      text-indent: 10px;
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #333;
+      &::placeholder {
+        color: #ccc;
+      }
+    }
+    > div {
+      font-size: 0;
+      white-space: nowrap;
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      > input {
+        width: 210px;
+        box-sizing: border-box;
+        font-size: 14px;
+        line-height: 40px;
+        text-indent: 10px;
+        border: 1px solid #ccc;
+        background: #fff;
+        color: #333;
+      }
+      > span {
+        font-size: 14px;
+        color: #fff;
+        line-height: 20px;
+        margin-left: 20px;
+      }
+      > a {
+        font-size: 14px;
+        color: #fff;
+        line-height: 20px;
+        margin-left: 20px;
+        user-select: none;
+        &:hover {
+          color: #4cc7e3;
+        }
+      }
+    }
+    > a {
+      width: 210px;
+      font-size: 14px;
+      color: #fff;
+      line-height: 40px;
+      background: #ccc;
+      user-select: none;
+      border-radius: 2px;
+      display: block;
+      text-align: center;
+      &.active {
+        background: #e2041b;
+      }
+    }
+    > span {
+      display: block;
+      color: #fff;
+      font-size: 16px;
+      line-height: 20px;
+      margin-top: 20px;
+      > a {
+        text-decoration: underline;
+        user-select: none;
+        &:hover {
+          color: #4cc7e3;
+        }
+      }
+    }
+  }
+}

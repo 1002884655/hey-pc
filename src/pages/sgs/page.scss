@@ -1,0 +1,116 @@
+#app {
+  background: #111;
+  .MainContainer {
+    width: 700px;
+    position: relative;
+    overflow: hidden;
+    margin: 68px auto 0;
+    > .StepStatus {
+      margin-top: 30px;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      font-size: 0;
+      white-space: nowrap;
+      height: 55px;
+      > .StepItem {
+        display: inline-block;
+        vertical-align: middle;
+        position: absolute;
+        top: 0;
+        left: 0;
+        &.active {
+          > span {
+            color: #4cc7e3;
+            &:first-child {
+              background: #4cc7e3;
+            }
+          }
+        }
+        &:nth-child(3) {
+          left: 50%;
+          transform: translateX(-50%);
+          -webkit-transform: translateX(-50%);
+        }
+        &:nth-child(5) {
+          left: auto;
+          right: 0;
+        }
+        > span {
+          display: block;
+          text-align: center;
+          font-size: 14px;
+          color: #999;
+          line-height: 20px;
+          width: 120px;
+          &:first-child {
+            width: 30px;
+            line-height: 30px;
+            border-radius: 100%;
+            background: #999;
+            color: #fff;
+            margin: 0 auto 5px;
+          }
+        }
+      }
+      > .StepLine {
+        width: 240px;
+        height: 4px;
+        background: #999;
+        position: absolute;
+        top: 14px;
+        left: 85px;
+        &.active {
+          background: #4cc7e3;
+        }
+        &:nth-child(4) {
+          left: 375px;
+        }
+      }
+    }
+    > .SgsContainer {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      > div {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        > .SgsStatus {
+          position: relative;
+          overflow: hidden;
+          > i {
+            display: block;
+            text-align: center;
+            font-size: 50px;
+            color: #fff;
+            line-height: 60px;
+            margin-top: 300px;
+          }
+          > span {
+            display: block;
+            text-align: center;
+            font-size: 18px;
+            line-height: 30px;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 20px;
+            margin-bottom: 40px;
+          }
+          > a {
+            display: block;
+            width: 210px;
+            font-size: 16px;
+            color: #fff;
+            line-height: 40px;
+            border-radius: 20px;
+            background: #e2041b;
+            user-select: none;
+            text-align: center;
+            margin: 0 auto 20px;
+          }
+        }
+      }
+    }
+  }
+}

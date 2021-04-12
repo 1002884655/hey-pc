@@ -142,9 +142,9 @@
     <div class="MainUser" v-if="UserInfo !== null">
 
       <!-- 用户头像 -->
-      <a class="MainUserIcon" href="./users.html?type=3">
+      <a class="MainUserIcon" @click.stop="UserIconClick">
         <a><img :src="UserInfo.picPath1" class="centerLabel cover" alt=""></a>
-        <i class="iconfont iconxiala"></i>
+        <!-- <i class="iconfont iconxiala"></i> -->
       </a>
 
       <!-- 用户选项板 -->
@@ -161,7 +161,7 @@
         </div>
 
         <!-- 用户个人中心选项 -->
-        <nav class="MainUserCenterOptions">
+        <nav class="MainUserCenterOptions" @click.stop="UserIconClick">
           <div>
             <a href="./wallet.html" class="flex-h">
               <i class="iconfont iconwodeqianbao"></i>
@@ -317,6 +317,11 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      this.ToolClass.WindowClick(() => {
+        if (document.getElementsByClassName('MainUserOptions')[0]) {
+          document.getElementsByClassName('MainUserOptions')[0].style.display = 'none'
+        }
+      })
       this.ToolClass.DocumentKeyDown((e) => { // 绑定回车键搜索功能
         if (e.keyCode === 13) { // Enter键
           if (this.ShowSearchHistory) { // 搜索
@@ -343,6 +348,9 @@ export default {
     ...mapSearchActions([
       'GetRandomSearchKey' // 获取随机搜索词
     ]),
+    UserIconClick () {
+      document.getElementsByClassName('MainUserOptions')[0].style.display = 'block'
+    },
     MsgReaded () { // 消息已读
       this.MainMsgType = null
     },

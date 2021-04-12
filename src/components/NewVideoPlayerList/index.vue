@@ -1,7 +1,7 @@
 <template>
   <div class="components NewVideoPlayerList flex-v" :style="{maxHeight: `${MaxHeight + 42}px`}">
     <div class="Title">
-      <span>{{PlaylistInfo.name}}</span>
+      <span :title="PlaylistInfo.name">{{PlaylistInfo.name}}</span>
     </div>
     <div class="SubInfo">
       <a>{{PlaylistInfo.userName}}</a>
@@ -22,18 +22,9 @@
         </div>
       </div>
       <div class="ShowListDom">
-        <ul v-if="PageList.length <= MaxListNum">
-          <li v-for="(item, index) in PageList" :key="index" class="flex-h">
-            <span class="iconfont iconbofang" v-if="ActiveId === item.videoM"></span>
-            <span v-else>{{index + 1}}</span>
-            <div class="flex-item">
-              <VideoListItemH :Item="item" :SelfLink="false" @LinkClick="CutList(item)"></VideoListItemH>
-            </div>
-          </li>
-        </ul>
-        <ScrollY Size="small" v-else ref="PlaylistScroll">
-          <ul>
-            <li v-for="(item, index) in PageList" :key="index" class="flex-h" :class="`Playlist-${item.videoM}`">
+        <div>
+          <ul v-if="PageList.length <= MaxListNum">
+            <li v-for="(item, index) in PageList" :key="index" class="flex-h" :class="{'active': ActiveId === item.videoM}">
               <span class="iconfont iconbofang" v-if="ActiveId === item.videoM"></span>
               <span v-else>{{index + 1}}</span>
               <div class="flex-item">
@@ -41,7 +32,18 @@
               </div>
             </li>
           </ul>
-        </ScrollY>
+          <ScrollY Size="small" v-else ref="PlaylistScroll">
+            <ul>
+              <li v-for="(item, index) in PageList" :key="index" class="flex-h" :class="[ActiveId === item.videoM ? `active Playlist-${item.videoM}` : `Playlist-${item.videoM}`]">
+                <span class="iconfont iconbofang" v-if="ActiveId === item.videoM"></span>
+                <span v-else>{{index + 1}}</span>
+                <div class="flex-item">
+                  <VideoListItemH :Item="item" :SelfLink="false" @LinkClick="CutList(item)"></VideoListItemH>
+                </div>
+              </li>
+            </ul>
+          </ScrollY>
+        </div>
       </div>
     </div>
   </div>
@@ -113,11 +115,15 @@ export default {
         this.SavePlaylist({ params: { groupId: this.PlaylistInfo.id, accountId: this.UserInfo.id } }).then(() => {
           this.$notify.success({
             title: 'success',
-            message: 'add successfully!'
+            message: `Saved ${this.PlaylistInfo.name.length > 20 ? `${this.PlaylistInfo.name.substring(0, 20)}...` : this.PlaylistInfo.name}`
           })
           this.PlaylistInfo.collectStatus = 1
           this.DataLock = false
-        }).catch(() => {
+        }).catch((res) => {
+          this.$notify.error({
+            title: 'error',
+            message: res.data.msg
+          })
           this.DataLock = false
         })
       } else {
@@ -130,12 +136,15 @@ export default {
       this.RemoveSavePlaylist({ params: { accountId: this.UserInfo.id, groupId: this.PlaylistInfo.id } }).then(() => {
         this.$notify.success({
           title: 'success',
-          message: 'remove successfully!'
+          message: 'Removed from list'
         })
         this.PlaylistInfo.collectStatus = 0
         this.DataLock = false
-        close()
-      }).catch(() => {
+      }).catch((res) => {
+        this.$notify.error({
+          title: 'error',
+          message: res.data.msg
+        })
         this.DataLock = false
       })
     },

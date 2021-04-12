@@ -136,17 +136,17 @@
         color: #999;
         &:hover {
           color: #fff;
-          + div.More {
-            display: block;
-          }
+          // + div.More {
+          //   display: block;
+          // }
         }
       }
       > .More {
         width: 180px;
         position: absolute;
         background: #222;
-        right: -172px;
-        top: 26px;
+        right: -170px;
+        top: 20px;
         overflow: visible;
         padding: 5px 0;
         display: none;
@@ -156,32 +156,32 @@
         }
         &.Left {
           right: -10px;
-          &::after {
-            content: "";
-            width: 0;
-            height: 0;
-            border-width: 8px;
-            border-color: transparent transparent #222 transparent;
-            border-style: solid solid dashed solid;
-            display: block;
-            position: absolute;
-            left: auto;
-            right: 5px;
-            top: -15px;
-          }
+          // &::after {
+          //   content: "";
+          //   width: 0;
+          //   height: 0;
+          //   border-width: 8px;
+          //   border-color: transparent transparent #222 transparent;
+          //   border-style: solid solid dashed solid;
+          //   display: block;
+          //   position: absolute;
+          //   left: auto;
+          //   right: 5px;
+          //   top: -15px;
+          // }
         }
-        &::after {
-          content: "";
-          width: 0;
-          height: 0;
-          border-width: 8px;
-          border-color: transparent transparent #222 transparent;
-          border-style: solid solid dashed solid;
-          display: block;
-          position: absolute;
-          left: 0;
-          top: -15px;
-        }
+        // &::after {
+        //   content: "";
+        //   width: 0;
+        //   height: 0;
+        //   border-width: 8px;
+        //   border-color: transparent transparent #222 transparent;
+        //   border-style: solid solid dashed solid;
+        //   display: block;
+        //   position: absolute;
+        //   left: 0;
+        //   top: -15px;
+        // }
         > a {
           align-items: center;
           text-align: left;

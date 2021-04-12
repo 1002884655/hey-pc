@@ -5,28 +5,27 @@
   box-sizing: border-box;
   border: 1px solid #333;
   > .Title {
-    padding: 0 10px;
+    padding: 5px 10px 0;
     position: relative;
     overflow: hidden;
-    margin-top: 5px;
-    max-height: 40px;
+    background: #333;
+    max-height: 20px;
     min-height: 20px;
     > span {
       overflow: hidden;
+      white-space: nowrap;
+      display: block;
       text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
       font-size: 16px;
       color: #fff;
       line-height: 20px;
-      word-break: break-all;
     }
   }
   > .SubInfo {
     font-size: 0;
     white-space: nowrap;
-    margin-top: 5px;
+    padding-top: 5px;
+    background: #333;
     > * {
       display: inline-block;
       vertical-align: middle;
@@ -46,14 +45,15 @@
   }
   > .MoreSet {
     align-items: center;
-    padding: 0 10px 5px;
-    margin-top: 5px;
+    padding: 5px 10px;
+    background: #333;
+    min-height: 26px;
     > a {
       color: #999;
-      font-size: 18px;
+      font-size: 22px;
       user-select: none;
       margin-left: 10px;
-      line-height: 20px;
+      line-height: 26px;
       &:first-child {
         margin-left: 0;
       }
@@ -90,6 +90,13 @@
       top: 0;
       bottom: 0;
       z-index: 2;
+      overflow: hidden;
+      > div {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
     }
     ul {
       > li {
@@ -98,10 +105,13 @@
         overflow: visible;
         align-items: center;
         &:hover {
+          background: #191919;
+        }
+        &.active {
           background: #222;
         }
         > span {
-          font-size: 10px;
+          font-size: 14px;
           text-align: center;
           width: 20px;
           color: #999;

@@ -14,7 +14,7 @@
           <div class="Layer" v-if="item.videoNum">
             <span class="centerLabel" @click="PlayAll(item)">
               <i class="iconfont iconbofang2"></i>
-              <span>Play all</span>
+              <span>PLAY ALL</span>
             </span>
           </div>
         </a>

@@ -43,24 +43,30 @@
 
           <ul class="List2" v-if="Type === 'playlist' && PageList.length">
             <li v-for="(item, index) in PageList" :key="index">
-              <a class="Img" :href="`./sheet.html?key=${item.upId}&sheet=${item.id}`" target="_self">
+              <a class="Img" :href="`./video.html?type=4&sheet=${item.id}`" target="_self">
                 <img :src="item.cover" class="centerLabel cover" alt="">
                 <div class="Layer">
                   <div class="centerLabel">
                     <span>{{item.videoNum}}</span>
-                    <i class="iconfont iconshipinliebiao"></i>
+                    <i class="iconfont iconpiandan"></i>
                   </div>
+                </div>
+                <div class="PlayAll">
+                  <a class="Bg" :href="`./video.html?type=4&sheet=${item.id}`" target="_self"></a>
+                  <a class="centerLabel" :href="`./video.html?type=4&sheet=${item.id}`" target="_self">
+                    <i class="iconfont iconbofang"></i>
+                    <span>PLAY ALL</span>
+                  </a>
                 </div>
               </a>
               <div>
                 <div class="Title flex-h">
-                  <a class="flex-item" :href="`./sheet.html?key=${item.upId}&sheet=${item.id}`" target="_self">{{item.name}}</a>
-                  <a class="iconfont iconsandian1">
-                    <div class="Tips">
-                      <a @click="AddToMyFavoriteSheet(item.id)">Save to my favorite</a>
-                    </div>
-                  </a>
-                  <span></span>
+                  <a class="flex-item" :href="`./video.html?type=4&sheet=${item.id}`" target="_self">{{item.name}}</a>
+                  <a class="iconfont iconsandian1" @click.stop="PlaylistItemClick(index)"></a>
+                  <div class="Tips PlaylistItem">
+                    <a @click="AddToMyFavoriteSheet(item)">Save playlist</a>
+                  </div>
+                  <!-- <span></span> -->
                 </div>
                 <a :href="`./userspace.html?key=${item.upId}`" target="_self">{{item.upName}}</a>
                 <span>{{ToolClass.ReturnViews(item.displayNum)}} views</span>
@@ -73,6 +79,9 @@
             <el-pagination background :page-size="PageData.pageSize" :current-page="PageData.pageNum" layout="prev, pager, next, jumper" :total="Total" @current-change="PageChange"></el-pagination>
           </div>
 
+          <!-- 片单操作弹窗 -->
+          <PlaylistSetPopup ref="PlaylistSetPopup" v-if="UserInfo !== null && ShowSaveToPlaylist" :Ids="[CollectId]" @Close="ShowSaveToPlaylist = false"></PlaylistSetPopup>
+
           <!-- 收藏夹弹窗 -->
           <VideoCollectFolderMove v-if="ShowAddFolderPopup" :CollectId="CollectId" @Close="ShowAddFolderPopup = false"></VideoCollectFolderMove>
 
@@ -81,7 +90,7 @@
 
           <SaveToFavorites ref="SaveToFavorites" :Ids="CollectId" v-if="ShowSaveToFavorites && UserInfo !== null" @Close="ShowSaveToFavorites = false"></SaveToFavorites>
 
-          <SaveToPlaylist ref="SaveToPlaylist" :Ids="[CollectId]" v-if="ShowSaveToPlaylist && UserInfo !== null" @Close="ShowSaveToPlaylist = false"></SaveToPlaylist>
+          <!-- <SaveToPlaylist ref="SaveToPlaylist" :Ids="[CollectId]" v-if="ShowSaveToPlaylist && UserInfo !== null" @Close="ShowSaveToPlaylist = false"></SaveToPlaylist> -->
 
         </div>
       </div>
@@ -105,6 +114,7 @@ import UserForMySheetVideosCopy from '../../components/UserForMySheetVideosCopy'
 import MainVideoListItem from '../../components/MainVideoListItem'
 import SaveToFavorites from '../../components/SaveToFavorites'
 import SaveToPlaylist from '../../components/SaveToPlaylist'
+import PlaylistSetPopup from '../../components/PlaylistSetPopup'
 locale.use(lang)
 Vue.prototype.$notify = Notification
 const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
@@ -119,7 +129,8 @@ export default {
     UserForMySheetVideosCopy,
     MainVideoListItem,
     SaveToFavorites,
-    SaveToPlaylist
+    SaveToPlaylist,
+    PlaylistSetPopup
   },
   data () {
     return {
@@ -167,6 +178,12 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.$refs.MainPage.ShowLeftMenu = true
+      this.ToolClass.WindowClick(() => {
+        let ItemArr = document.getElementsByClassName('PlaylistItem')
+        for (let n = 0; n < ItemArr.length; n++) {
+          ItemArr[n].style.display = 'none'
+        }
+      })
     })
   },
   methods: {
@@ -201,27 +218,30 @@ export default {
     ...mapSearchActions([
       'GetClassVideoList'
     ]),
+    PlaylistItemClick (index) {
+      document.getElementsByClassName('PlaylistItem')[index].style.display = 'block'
+    },
     ToAddWatchLater (e) { // 添加稍后观看（可取消）
       if (e.type === 'Add') {
         this.PageList[e.index].WatchLater = true
-        this.$notify.success({ title: 'success', message: 'has been added' })
+        this.$notify.success({ title: 'success', message: 'Saved to watch later' })
       } else {
         this.PageList[e.index].WatchLater = false
-        this.$notify.success({ title: 'success', message: 'has been removed' })
+        this.$notify.success({ title: 'success', message: 'Removed from watch later' })
       }
     },
     ShowGifIndex (e) {
       this.ShowIndex = e
     },
-    AddToMyFavoriteSheet (id) { // 播单添加到收藏
+    AddToMyFavoriteSheet (item) { // 播单添加到收藏
       if (!this.DataLock) {
         this.DataLock = true
         this.CollectPieceGroup({
-          params: { groupId: id, accountId: this.UserInfo.id }
+          params: { groupId: item.id, accountId: this.UserInfo.id }
         }).then(() => {
           this.$notify.success({
             title: 'success',
-            message: 'Collect of success!'
+            message: `Saved ${item.name.length > 20 ? `${item.name.substring(0, 20)}...` : item.name}`
           })
           this.DataLock = false
         }).catch((res) => {

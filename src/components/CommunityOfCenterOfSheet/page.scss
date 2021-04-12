@@ -30,7 +30,7 @@
         > .RightLayer {
           position: absolute;
           z-index: 2;
-          width: 70px;
+          width: 40%;
           right: 0;
           top: 0;
           bottom: 0;
@@ -47,7 +47,8 @@
               text-align: center;
             }
             > i {
-              font-size: 20px;
+              font-size: 30px;
+              margin-top: 10px;
             }
           }
         }
@@ -83,7 +84,7 @@
       }
       > .Title {
         display: block;
-        font-size: 12px;
+        font-size: 14px;
         line-height: 20px;
         height: 40px;
         word-break: break-all;
@@ -94,7 +95,7 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         &:hover {
-          text-decoration: underline;
+          // text-decoration: underline;
         }
       }
     }

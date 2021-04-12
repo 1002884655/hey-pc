@@ -30,5 +30,7 @@ module.exports = {
   'order': 'HeyPorn-Order', // 订单
   'item': 'HeyPorn-Item', // 协议条款
   'neterror': 'HeyPorn-NetError', // 网络错误
+  'sgs': 'HeyPorn-SGS', // 认证
+  'auth': 'HeyPorn-Auth', // 认证-首页
   'playlist': 'HeyPorn-Playlist' // 片单
 }

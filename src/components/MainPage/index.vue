@@ -15,6 +15,9 @@
     <!-- 网速估算组件 -->
     <NetSpeedTest @TestEnd="NetSpeedTestEnd"></NetSpeedTest>
 
+    <!-- 认证状态弹窗 -->
+    <SgsStatusPopup v-if="ShowSgsPopup" :SgsInfo="SgsInfo" @Close="ShowSgsPopup = false"></SgsStatusPopup>
+
     <!-- 左侧菜单 -->
     <div class="MainLeftMenu" :class="{'active': ShowLeftMenu}">
       <nav>
@@ -52,9 +55,13 @@
 import MainNav from '../MainNav'
 import ScrollY from '../ScrollY'
 import NewAccountOperation from '../NewAccountOperation'
+import SgsStatusPopup from '../SgsStatusPopup'
 import EditMoreUserInfo from '../EditMoreUserInfo'
 import NetSpeedTest from '../NetSpeedTest'
 import PageFooter from '../PageFooter'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapUserState } = createNamespacedHelpers('user')
+const { mapActions: mapSgsActions } = createNamespacedHelpers('sgs')
 export default {
   name: 'MainPage',
   props: {
@@ -85,6 +92,8 @@ export default {
   },
   data () {
     return {
+      SgsInfo: null,
+      ShowSgsPopup: false,
       WindowHeight: document.body.clientHeight,
       ShowLeftMenu: false,
       ShowEditMoreUserInfo: false,
@@ -100,6 +109,9 @@ export default {
     }
   },
   computed: {
+    ...mapUserState({
+      UserInfo: x => x.UserInfo // 用户信息
+    })
   },
   components: {
     MainNav,
@@ -107,7 +119,8 @@ export default {
     PageFooter,
     NetSpeedTest,
     NewAccountOperation,
-    EditMoreUserInfo
+    EditMoreUserInfo,
+    SgsStatusPopup
   },
   created () {
   },
@@ -120,6 +133,9 @@ export default {
     })
   },
   methods: {
+    ...mapSgsActions([
+      'GetSgsInfo'
+    ]),
     LeftMenuChange (e) {
       this.ShowLeftMenu = e
     },
@@ -142,6 +158,33 @@ export default {
     UserInfoChange () { // 用户信息更新
       this.$refs.MainNav.UserInfoChange()
       this.$emit('UserInfoChange')
+      if (this.UserInfo !== null) {
+        this.GetSgsInfo({ params: { accountId: this.UserInfo.id } }).then((res) => {
+          this.SgsInfo = res.data.data
+          if (this.SgsInfo.auditConfirm - 0 !== 1) {
+            if (this.SgsInfo.certStatus - 0 === 0 || (this.SgsInfo.certStatus - 0 === 4 && this.SgsInfo.certAudit - 0 === 0) || window.location.pathname.indexOf('sgs.html') > -1) { // 未认证or认证中 不需要弹窗
+              this.ShowSgsPopup = false
+            } else {
+              if (this.SgsInfo.certStatus - 0 < 4) { // 未认证完成
+                if (window.localStorage.heypornsgshistory !== undefined) {
+                  let SgsArr = JSON.parse(window.localStorage.heypornsgshistory)
+                  let Bool = false
+                  SgsArr.map((item) => {
+                    if (item.id - 0 === this.UserInfo.id - 0 && item.time !== this.ToolClass.DateFormatYear(Date.now(), 'YY:MM:DD')) {
+                      Bool = true
+                    }
+                  })
+                  this.ShowSgsPopup = Bool
+                } else {
+                  this.ShowSgsPopup = true
+                }
+              } else {
+                this.ShowSgsPopup = true
+              }
+            }
+          }
+        })
+      }
     },
     NetSpeedTestEnd (e) { // 网速估算结束回调
       this.$emit('NetSpeedTestEnd', e)
