@@ -21,7 +21,7 @@
   备注： 无
 */
 import { createNamespacedHelpers } from 'vuex'
-import MainPage from '../../components/MainPage'
+import MainPage from '@/components/MainPage'
 const { mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {
   components: {

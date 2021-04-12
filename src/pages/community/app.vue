@@ -90,9 +90,9 @@
 */
 import VEmojiPicker from 'v-emoji-picker'
 import packData from 'v-emoji-picker/data/emojis.json'
-import MainPage from '../../components/MainPage'
-import CommunityItem from '../../components/CommunityItem'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
+const CommunityItem = () => import('@/components/CommunityItem')
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {
   components: {

@@ -81,12 +81,12 @@
 import Vue from 'vue'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
-import MainVideoListItem from '../../components/MainVideoListItem'
-import SaveToFavorites from '../../components/SaveToFavorites'
-import SaveToPlaylist from '../../components/SaveToPlaylist'
 import { createNamespacedHelpers } from 'vuex'
 import { Pagination, Notification } from 'element-ui'
-import MainPage from '../../components/MainPage'
+import MainPage from '@/components/MainPage'
+const MainVideoListItem = () => import('@/components/MainVideoListItem')
+const SaveToFavorites = () => import('@/components/SaveToFavorites')
+const SaveToPlaylist = () => import('@/components/SaveToPlaylist')
 locale.use(lang)
 Vue.prototype.$notify = Notification
 const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')

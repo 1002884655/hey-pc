@@ -193,25 +193,25 @@
 */
 import Vue from 'vue'
 import { Notification } from 'element-ui'
-import MainPage from '../../components/MainPage'
-import ScrollY from '../../components/ScrollY'
-import PlaylistSetPopup from '../../components/PlaylistSetPopup'
-import PlayerRecommendY from '../../components/PlayerRecommendY'
-import PlayerRecommendX from '../../components/PlayerRecommendX'
-import VideoMoreInfo from '../../components/VideoMoreInfo'
-import PlayerActorList from '../../components/PlayerActorList'
-import PlayerComment from '../../components/PlayerComment'
-import HeyPornPlayer from '../../components/HeyPornPlayer'
-import ErrorPage from '../../components/ErrorPage'
-import VideoCollectFolderMove from '../../components/VideoCollectFolderMove'
-import VideoPlayerList from '../../components/VideoPlayerList'
-import Popup from '../../components/Popup'
-import SaveToFavorites from '../../components/SaveToFavorites'
-import SaveToPlaylist from '../../components/SaveToPlaylist'
-import PayForFansClubPopup from '../../components/PayForFansClubPopup'
-import ProvedVideoPlayer from '../../components/ProvedVideoPlayer'
-import NewVideoPlayerList from '../../components/NewVideoPlayerList'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
+const ScrollY = () => import('@/components/ScrollY')
+const PlaylistSetPopup = () => import('@/components/PlaylistSetPopup')
+const PlayerRecommendY = () => import('@/components/PlayerRecommendY')
+const PlayerRecommendX = () => import('@/components/PlayerRecommendX')
+const VideoMoreInfo = () => import('@/components/VideoMoreInfo')
+const PlayerActorList = () => import('@/components/PlayerActorList')
+const PlayerComment = () => import('@/components/PlayerComment')
+const HeyPornPlayer = () => import('@/components/HeyPornPlayer')
+const ErrorPage = () => import('@/components/ErrorPage')
+const VideoCollectFolderMove = () => import('@/components/VideoCollectFolderMove')
+const VideoPlayerList = () => import('@/components/VideoPlayerList')
+const Popup = () => import('@/components/Popup')
+const SaveToFavorites = () => import('@/components/SaveToFavorites')
+const SaveToPlaylist = () => import('@/components/SaveToPlaylist')
+const PayForFansClubPopup = () => import('@/components/PayForFansClubPopup')
+const ProvedVideoPlayer = () => import('@/components/ProvedVideoPlayer')
+const NewVideoPlayerList = () => import('@/components/NewVideoPlayerList')
 Vue.prototype.$notify = Notification
 const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
 const { mapState: mapMediaState, mapActions: mapMediaActions, mapMutations: mapMediaMutations } = createNamespacedHelpers('media')
@@ -811,7 +811,9 @@ export default {
                 this.MediaSrcList = Arr
               }
             }
-            this.$refs.VideoMoreInfo.UserInfoChange()
+            if (this.$refs.VideoMoreInfo) {
+              this.$refs.VideoMoreInfo.UserInfoChange()
+            }
             this.LikeNum = this.MediaInfo.video.likeNum || 0
             this.CollectNum = this.MediaInfo.video.collectNum || 0
             this.EmptyAccountVideoCollection()

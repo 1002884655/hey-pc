@@ -17,9 +17,9 @@
   最近修改日期：2019/12/30
   备注： 无
 */
-import MainPage from '../../components/MainPage'
-import HeyPornPlayer from '../../components/HeyPornPlayer'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
+const HeyPornPlayer = () => import('@/components/HeyPornPlayer')
 const { mapState: mapUserState } = createNamespacedHelpers('user')
 const { mapActions: mapMediaActions } = createNamespacedHelpers('media')
 export default {

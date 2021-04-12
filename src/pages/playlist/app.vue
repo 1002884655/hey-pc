@@ -40,12 +40,12 @@
   页面名称：片单页面
   备注： 无
 */
-import MainPage from '../../components/MainPage'
-import MyCreatePlaylist from '../../components/MyCreatePlaylist'
-import MySavePlaylist from '../../components/MySavePlaylist'
-import PlaylistContent from '../../components/PlaylistContent'
-import PlaylistSetPopup from '../../components/PlaylistSetPopup'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
+const MyCreatePlaylist = () => import('@/components/MyCreatePlaylist')
+const MySavePlaylist = () => import('@/components/MySavePlaylist')
+const PlaylistContent = () => import('@/components/PlaylistContent')
+const PlaylistSetPopup = () => import('@/components/PlaylistSetPopup')
 const { mapState: mapUserState } = createNamespacedHelpers('user')
 const { mapState: mapPlaylistState, mapActions: mapPlaylistActions } = createNamespacedHelpers('playlist')
 export default {

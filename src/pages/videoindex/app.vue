@@ -48,11 +48,11 @@
   最近修改日期：2020/01/07
   备注： 无
 */
-import MainPage from '../../components/MainPage'
-import ClassForVideo from '../../components/ClassForVideo'
-import ClassForPicture from '../../components/ClassForPicture'
-import ClassForSubscribe from '../../components/ClassForSubscribe'
-import ClassForLive from '../../components/ClassForLive'
+import MainPage from '@/components/MainPage'
+const ClassForVideo = () => import('@/components/ClassForVideo')
+const ClassForPicture = () => import('@/components/ClassForPicture')
+const ClassForSubscribe = () => import('@/components/ClassForSubscribe')
+const ClassForLive = () => import('@/components/ClassForLive')
 export default {
   components: {
     MainPage,

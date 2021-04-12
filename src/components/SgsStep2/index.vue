@@ -185,8 +185,8 @@ export default {
         this.DictForBodyType = ResData.Body_type
         this.DictForEthnicity = ResData.Ethnicity
         this.DictForSpecifics = ResData.Specifics
-        this.DictForHairColor = ResData['Hair color']
-        this.DictForEyesColor = ResData['Eye color']
+        this.DictForHairColor = ResData.HairColor
+        this.DictForEyesColor = ResData.EyeColor
         this.DictForSubculture = ResData.Subculture
         this.DictForLanguages = ResData.Language
       })

@@ -43,8 +43,8 @@
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import { createNamespacedHelpers } from 'vuex'
-import MainPage from '../../components/MainPage'
 import { Pagination } from 'element-ui'
+import MainPage from '@/components/MainPage'
 locale.use(lang)
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {

@@ -111,10 +111,10 @@
 /*
 */
 import { createNamespacedHelpers } from 'vuex'
-import MainPage from '../../components/MainPage'
-import LiveGifts from '../../components/LiveGifts'
-import LiveChat from '../../components/LiveChat'
-import RechargePopup from '../../components/RechargePopup'
+import MainPage from '@/components/MainPage'
+const LiveGifts = () => import('@/components/LiveGifts')
+const LiveChat = () => import('@/components/LiveChat')
+const RechargePopup = () => import('@/components/RechargePopup')
 const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
 export default {
   components: {

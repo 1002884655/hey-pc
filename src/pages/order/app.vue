@@ -32,8 +32,8 @@
 /*
 */
 import { Select, Option } from 'element-ui'
-import MainPage from '../../components/MainPage'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {
   components: {

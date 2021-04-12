@@ -79,14 +79,14 @@
   备注： 无
 */
 import Vue from 'vue'
-import MainVideoListItem from '../../components/MainVideoListItem'
-import SaveToFavorites from '../../components/SaveToFavorites'
-import SaveToPlaylist from '../../components/SaveToPlaylist'
 import { createNamespacedHelpers } from 'vuex'
 import { Pagination, Notification } from 'element-ui'
-import MainPage from '../../components/MainPage'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
+import MainPage from '@/components/MainPage'
+const MainVideoListItem = () => import('@/components/MainVideoListItem')
+const SaveToFavorites = () => import('@/components/SaveToFavorites')
+const SaveToPlaylist = () => import('@/components/SaveToPlaylist')
 Vue.prototype.$notify = Notification
 locale.use(lang)
 const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')

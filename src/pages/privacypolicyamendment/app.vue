@@ -93,7 +93,7 @@
   最近修改日期：2020/04/11
   备注： 无
 */
-import MainPage from '../../components/MainPage'
+import MainPage from '@/components/MainPage'
 export default {
   components: {
     MainPage

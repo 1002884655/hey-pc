@@ -66,11 +66,11 @@
 </template>
 
 <script>
-import MainPage from '../../components/MainPage'
-import SgsStep1 from '../../components/SgsStep1'
-import SgsStep2 from '../../components/SgsStep2'
-import SgsStep3 from '../../components/SgsStep3'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
+const SgsStep1 = () => import('@/components/SgsStep1')
+const SgsStep2 = () => import('@/components/SgsStep2')
+const SgsStep3 = () => import('@/components/SgsStep3')
 const { mapState: mapUserState } = createNamespacedHelpers('user')
 const { mapActions: mapSgsActions } = createNamespacedHelpers('sgs')
 export default {

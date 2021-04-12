@@ -55,14 +55,14 @@
 /*
   消息通知
 */
-import MainPage from '../../components/MainPage'
 import { createNamespacedHelpers } from 'vuex'
-const MessageForComment = () => import('../../components/MessageForComment')
-const MessageForAtYou = () => import('../../components/MessageForAtYou')
-const MessageForLike = () => import('../../components/MessageForLike')
-const MessageForMessage = () => import('../../components/MessageForMessage')
-const MessageForSetting = () => import('../../components/MessageForSetting')
-const MessageForFollow = () => import('../../components/MessageForFollow')
+import MainPage from '@/components/MainPage'
+const MessageForComment = () => import('@/components/MessageForComment')
+const MessageForAtYou = () => import('@/components/MessageForAtYou')
+const MessageForLike = () => import('@/components/MessageForLike')
+const MessageForMessage = () => import('@/components/MessageForMessage')
+const MessageForSetting = () => import('@/components/MessageForSetting')
+const MessageForFollow = () => import('@/components/MessageForFollow')
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {
   components: {

@@ -82,21 +82,21 @@
 */
 import Vue from 'vue'
 import { Notification, Pagination } from 'element-ui'
-import MainPage from '../../components/MainPage'
-import MockData from '../../util/MockData'
-import IndexBanner from '../../components/IndexBanner'
-import IndexClassNav from '../../components/IndexClassNav'
-import IndexColumnList from '../../components/IndexColumnList'
-import IndexRecommedColumnList from '../../components/IndexRecommedColumnList'
-import PlaylistSetPopup from '../../components/PlaylistSetPopup'
-import IndexLivePlayer from '../../components/IndexLivePlayer'
-import IndexChannel from '../../components/IndexChannel'
-import IndexPlayList from '../../components/IndexPlayList'
-import SaveToFavorites from '../../components/SaveToFavorites'
-import SaveToPlaylist from '../../components/SaveToPlaylist'
+import MockData from '@/util/MockData'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
+const IndexBanner = () => import('@/components/IndexBanner')
+const IndexClassNav = () => import('@/components/IndexClassNav')
+const IndexColumnList = () => import('@/components/IndexColumnList')
+const IndexRecommedColumnList = () => import('@/components/IndexRecommedColumnList')
+const PlaylistSetPopup = () => import('@/components/PlaylistSetPopup')
+const IndexLivePlayer = () => import('@/components/IndexLivePlayer')
+const IndexChannel = () => import('@/components/IndexChannel')
+const IndexPlayList = () => import('@/components/IndexPlayList')
+const SaveToFavorites = () => import('@/components/SaveToFavorites')
+const SaveToPlaylist = () => import('@/components/SaveToPlaylist')
 locale.use(lang)
 Vue.prototype.$notify = Notification
 const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')

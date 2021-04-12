@@ -16,7 +16,7 @@
   最近修改日期：2019/12/30
   备注： 无
 */
-import MainPage from '../../components/MainPage'
+import MainPage from '@/components/MainPage'
 export default {
   components: {
     MainPage

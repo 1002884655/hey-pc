@@ -74,16 +74,16 @@
   最近修改日期：2020/01/06
   备注： 无
 */
-import MainPage from '../../components/MainPage'
-import SearchForRecommend from '../../components/SearchForRecommend'
-import SearchForVideo from '../../components/SearchForVideo'
-import SearchForPicture from '../../components/SearchForPicture'
-import SearchForStars from '../../components/SearchForStars'
-import SearchForWeibo from '../../components/SearchForWeibo'
-import SearchForUsers from '../../components/SearchForUsers'
-import SearchForGoods from '../../components/SearchForGoods'
-import SearchForSubscribe from '../../components/SearchForSubscribe'
-import SearchForLive from '../../components/SearchForLive'
+import MainPage from '@/components/MainPage'
+const SearchForRecommend = () => import('@/components/SearchForRecommend')
+const SearchForVideo = () => import('@/components/SearchForVideo')
+const SearchForPicture = () => import('@/components/SearchForPicture')
+const SearchForStars = () => import('@/components/SearchForStars')
+const SearchForWeibo = () => import('@/components/SearchForWeibo')
+const SearchForUsers = () => import('@/components/SearchForUsers')
+const SearchForGoods = () => import('@/components/SearchForGoods')
+const SearchForSubscribe = () => import('@/components/SearchForSubscribe')
+const SearchForLive = () => import('@/components/SearchForLive')
 export default {
   components: {
     MainPage,

@@ -150,21 +150,21 @@
   最近修改日期：2020/05/19
   备注： 无
 */
-import MainPage from '../../components/MainPage'
-import ScrollY from '../../components/ScrollY'
-import UserForWatchLater from '../../components/UserForWatchLater'
-import UserForRecord from '../../components/UserForRecord'
-import UserForMyCollection from '../../components/UserForMyCollection'
-import UserForMySheet from '../../components/UserForMySheet'
-import UserForMyAlbum from '../../components/UserForMyAlbum'
-import UserForMyPhoto from '../../components/UserForMyPhoto'
-import UserForMyVideoManagement from '../../components/UserForMyVideoManagement'
-import UserForMyPhotoManagement from '../../components/UserForMyPhotoManagement'
-import UserForMyInformation from '../../components/UserForMyInformation'
-import UserForPromotion from '../../components/UserForPromotion'
-import UserForClubSetting from '../../components/UserForClubSetting'
-import ImageCropping from '../../components/ImageCropping'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
+const ScrollY = () => import('@/components/ScrollY')
+const UserForWatchLater = () => import('@/components/UserForWatchLater')
+const UserForRecord = () => import('@/components/UserForRecord')
+const UserForMyCollection = () => import('@/components/UserForMyCollection')
+const UserForMySheet = () => import('@/components/UserForMySheet')
+const UserForMyAlbum = () => import('@/components/UserForMyAlbum')
+const UserForMyPhoto = () => import('@/components/UserForMyPhoto')
+const UserForMyVideoManagement = () => import('@/components/UserForMyVideoManagement')
+const UserForMyPhotoManagement = () => import('@/components/UserForMyPhotoManagement')
+const UserForMyInformation = () => import('@/components/UserForMyInformation')
+const UserForPromotion = () => import('@/components/UserForPromotion')
+const UserForClubSetting = () => import('@/components/UserForClubSetting')
+const ImageCropping = () => import('@/components/ImageCropping')
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {
   components: {

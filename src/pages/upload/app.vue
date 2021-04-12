@@ -58,10 +58,10 @@
 */
 import Vue from 'vue'
 import { Notification } from 'element-ui'
-import MainPage from '../../components/MainPage'
-import UploadForVideo from '../../components/UploadForVideo'
-import UploadForPhoto from '../../components/UploadForPhoto'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
+const UploadForVideo = () => import('@/components/UploadForVideo')
+const UploadForPhoto = () => import('@/components/UploadForPhoto')
 Vue.prototype.$notify = Notification
 const { mapState: mapUserState } = createNamespacedHelpers('user')
 export default {

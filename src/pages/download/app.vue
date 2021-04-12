@@ -66,8 +66,8 @@
   最近修改日期：2020/04/11
   备注： 无
 */
-import MainPage from '../../components/MainPage'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {
   components: {

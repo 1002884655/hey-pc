@@ -183,22 +183,22 @@
   最近修改日期：2020/04/09
   备注： 无
 */
-import MainPage from '../../components/MainPage'
-import PayForFansClubPopup from '../../components/PayForFansClubPopup'
-import CommunityOfCenterOfHome from '../../components/CommunityOfCenterOfHome'
-import CommunityOfCenterOfVideos from '../../components/CommunityOfCenterOfVideos'
-import CommunityOfCenterOfPhoto from '../../components/CommunityOfCenterOfPhoto'
-import CommunityOfCenterOfCommunity from '../../components/CommunityOfCenterOfCommunity'
-import CommunityOfCenterOfSheet from '../../components/CommunityOfCenterOfSheet'
-import CommunityOfCenterOfAbout from '../../components/CommunityOfCenterOfAbout'
-import CommunityOfCenterOfAblum from '../../components/CommunityOfCenterOfAblum'
-import CommunityOfCenterOfSubscribers from '../../components/CommunityOfCenterOfSubscribers'
-import CommunityOfCenterOfFollow from '../../components/CommunityOfCenterOfFollow'
-import CommunityOfCenterOfFollowingClubs from '../../components/CommunityOfCenterOfFollowingClubs'
-import CommunityOfCenterOfMyClub from '../../components/CommunityOfCenterOfMyClub'
-import ImageCropping from '../../components/ImageCropping'
-import BgCropping from '../../components/BgCropping'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
+const PayForFansClubPopup = () => import('@/components/PayForFansClubPopup')
+const CommunityOfCenterOfHome = () => import('@/components/CommunityOfCenterOfHome')
+const CommunityOfCenterOfVideos = () => import('@/components/CommunityOfCenterOfVideos')
+const CommunityOfCenterOfPhoto = () => import('@/components/CommunityOfCenterOfPhoto')
+const CommunityOfCenterOfCommunity = () => import('@/components/CommunityOfCenterOfCommunity')
+const CommunityOfCenterOfSheet = () => import('@/components/CommunityOfCenterOfSheet')
+const CommunityOfCenterOfAbout = () => import('@/components/CommunityOfCenterOfAbout')
+const CommunityOfCenterOfAblum = () => import('@/components/CommunityOfCenterOfAblum')
+const CommunityOfCenterOfSubscribers = () => import('@/components/CommunityOfCenterOfSubscribers')
+const CommunityOfCenterOfFollow = () => import('@/components/CommunityOfCenterOfFollow')
+const CommunityOfCenterOfFollowingClubs = () => import('@/components/CommunityOfCenterOfFollowingClubs')
+const CommunityOfCenterOfMyClub = () => import('@/components/CommunityOfCenterOfMyClub')
+const ImageCropping = () => import('@/components/ImageCropping')
+const BgCropping = () => import('@/components/BgCropping')
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {
   components: {

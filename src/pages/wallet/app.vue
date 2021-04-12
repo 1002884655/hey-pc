@@ -122,16 +122,16 @@
 */
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
-import MainPage from '../../components/MainPage'
-import WalletForHeycoinAccount from '../../components/WalletForHeycoinAccount'
-import WalletForMyEarnings from '../../components/WalletForMyEarnings'
-import WalletForWithdraw from '../../components/WalletForWithdraw'
-import WalletForExpensesRecord from '../../components/WalletForExpensesRecord'
-import WalletForRevenueRecord from '../../components/WalletForRevenueRecord'
-import WalletForWithdrawalsRecord from '../../components/WalletForWithdrawalsRecord'
-import WalletForRechargeRecord from '../../components/WalletForRechargeRecord'
-import WalletForBindCard from '../../components/WalletForBindCard'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
+const WalletForHeycoinAccount = () => import('@/components/WalletForHeycoinAccount')
+const WalletForMyEarnings = () => import('@/components/WalletForMyEarnings')
+const WalletForWithdraw = () => import('@/components/WalletForWithdraw')
+const WalletForExpensesRecord = () => import('@/components/WalletForExpensesRecord')
+const WalletForRevenueRecord = () => import('@/components/WalletForRevenueRecord')
+const WalletForWithdrawalsRecord = () => import('@/components/WalletForWithdrawalsRecord')
+const WalletForRechargeRecord = () => import('@/components/WalletForRechargeRecord')
+const WalletForBindCard = () => import('@/components/WalletForBindCard')
 locale.use(lang)
 const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
 export default {

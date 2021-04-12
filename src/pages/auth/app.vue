@@ -38,7 +38,7 @@
                 <ul>
                   <li v-for="(subItem, subIndex) in item.desc" :key="subIndex">{{subItem}}</li>
                 </ul>
-                <a @click="RoleSelect(item.type)">Start certification</a>
+                <a @click="RoleSelect(item.type)" v-if="item.type !== 'studio'">Start certification</a>
               </li>
             </ul>
           </div>
@@ -74,8 +74,8 @@
 </template>
 
 <script>
-import MainPage from '../../components/MainPage'
 import { createNamespacedHelpers } from 'vuex'
+import MainPage from '@/components/MainPage'
 const { mapState: mapUserState } = createNamespacedHelpers('user')
 const { mapActions: mapSgsActions } = createNamespacedHelpers('sgs')
 export default {

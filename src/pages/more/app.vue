@@ -107,14 +107,14 @@ import { Pagination, Notification } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import { createNamespacedHelpers } from 'vuex'
-import MainPage from '../../components/MainPage'
-import IndexClassNav from '../../components/IndexClassNav'
-import VideoCollectFolderMove from '../../components/VideoCollectFolderMove'
-import UserForMySheetVideosCopy from '../../components/UserForMySheetVideosCopy'
-import MainVideoListItem from '../../components/MainVideoListItem'
-import SaveToFavorites from '../../components/SaveToFavorites'
-import SaveToPlaylist from '../../components/SaveToPlaylist'
-import PlaylistSetPopup from '../../components/PlaylistSetPopup'
+import MainPage from '@/components/MainPage'
+const IndexClassNav = () => import('@/components/IndexClassNav')
+const VideoCollectFolderMove = () => import('@/components/VideoCollectFolderMove')
+const UserForMySheetVideosCopy = () => import('@/components/UserForMySheetVideosCopy')
+const MainVideoListItem = () => import('@/components/MainVideoListItem')
+const SaveToFavorites = () => import('@/components/SaveToFavorites')
+const SaveToPlaylist = () => import('@/components/SaveToPlaylist')
+const PlaylistSetPopup = () => import('@/components/PlaylistSetPopup')
 locale.use(lang)
 Vue.prototype.$notify = Notification
 const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
