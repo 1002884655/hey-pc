@@ -5,7 +5,8 @@
     </div>
     <div class="SubInfo">
       <a>{{PlaylistInfo.userName}}</a>
-      <span>{{PlaylistInfo.videoNum}}/{{PlaylistInfo.maxCount}}</span>
+      <!-- <span>{{PlaylistInfo.videoNum}}/{{PlaylistInfo.maxCount}}</span> -->
+      <span>{{ActiveIndex + 1}}/{{PlaylistInfo.videoNum}}</span>
     </div>
     <div class="MoreSet flex-h">
       <a class="iconfont" :class="{'iconvideo-xunhuanbofang': PlayerType === 1, 'iconsuijibofang-2': PlayerType === 2, 'icondangexunhuanbofang': PlayerType === 3}" @click="CutType"></a>
@@ -69,6 +70,7 @@ export default {
     return {
       PlayedArr: [],
       ActiveId: this.ToolClass.GetUrlParams('key'),
+      ActiveIndex: 0,
       MaxListNum: 5,
       Timer: null,
       PageData: {
@@ -154,6 +156,7 @@ export default {
         this.PageList.map((item, index) => {
           if (item.videoM === this.ActiveId) {
             Index = index + 1 < this.PageList.length ? index + 1 : 0
+            this.ActiveIndex = Index
           }
         })
         this.CutList(this.PageList[Index])
@@ -186,6 +189,11 @@ export default {
         this.ToolClass.ChangeUrlParams([{ name: 'key', value: item.videoM }])
         this.$emit('Change', item)
         this.ActiveId = item.videoM
+        this.PageList.map((Mitem, Mindex) => {
+          if (item.videoM === Mitem.videoM) {
+            this.ActiveIndex = Mindex
+          }
+        })
       }
     },
     HeightInit () {

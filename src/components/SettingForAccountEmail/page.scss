@@ -1,0 +1,13 @@
+.components.SettingForAccountEmail {
+  > .Form {
+    > span {
+      display: block;
+      font-size: 14px;
+      color: #fff;
+      line-height: 20px;
+      + span {
+        margin-top: 5px;
+      }
+    }
+  }
+}

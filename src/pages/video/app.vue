@@ -81,7 +81,7 @@
 
               <!-- 视频更多信息 -->
               <div class="VideoMoreInfo">
-                <VideoMoreInfo :MediaInfo="MediaInfo" @ToLogin="$refs.MainPage.Login()" ref="VideoMoreInfo" @JoinFansClub="JoinFansClub"></VideoMoreInfo>
+                <VideoMoreInfo :MediaInfo="MediaInfo" @NeedLogin="$refs.MainPage.Login()" ref="VideoMoreInfo" @JoinFansClub="JoinFansClub"></VideoMoreInfo>
               </div>
 
               <!-- 演职员表 -->
@@ -124,7 +124,7 @@
               <span class="flex-item">Liked list</span>
               <!-- <a>All</a> -->
             </div>
-            <PlayerRecommendY :List="HotVideoListForDay"></PlayerRecommendY>
+            <PlayerRecommendY :List="HotVideoListForDay" @NeedLogin="$refs.MainPage.Login()"></PlayerRecommendY>
           </div>
 
         </div>

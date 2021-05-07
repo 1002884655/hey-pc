@@ -1,0 +1,95 @@
+#app {
+  background: #111;
+  .PageContainer {
+    padding: 90px 13.5% 0;
+    position: relative;
+    overflow: hidden;
+    > .LeftMenu {
+      width: 260px;
+      position: relative;
+      overflow: hidden;
+      background: #1a1a1a;
+      min-height: 700px;
+      margin-right: 20px;
+      > ul {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        > li {
+          width: 100%;
+          position: relative;
+          overflow: hidden;
+          border-bottom: 1px solid #222;
+          > a {
+            display: block;
+            font-size: 14px;
+            color: #999;
+            line-height: 42px;
+            text-indent: 20px;
+            user-select: none;
+            &.active {
+              background: #151515;
+            }
+          }
+          > div {
+            position: relative;
+            overflow: hidden;
+            > a {
+              display: block;
+              font-size: 0;
+              white-space: nowrap;
+              user-select: none;
+              &:hover {
+                background: #333;
+              }
+              &.active {
+                background: #222;
+              }
+              > * {
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 14px;
+                color: #999;
+                line-height: 42px;
+              }
+              > i {
+                font-size: 20px;
+                margin-right: 10px;
+                margin-left: 30px;
+              }
+            }
+          }
+        }
+      }
+    }
+    > .RightContent {
+      position: relative;
+      overflow: hidden;
+      background: #1a1a1a;
+      > .Title {
+        background: #151515;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        > span {
+          font-size: 14px;
+          font-weight: bold;
+          line-height: 42px;
+          color: #fff;
+          text-indent: 20px;
+        }
+        > a {
+          user-select: none;
+          font-size: 14px;
+          line-height: 42px;
+          color: #999;
+          margin-right: 20px;
+        }
+      }
+      > div {
+        position: relative;
+        overflow: hidden;
+      }
+    }
+  }
+}

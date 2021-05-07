@@ -59,8 +59,26 @@
         </div>
       </div>
 
+      <!-- 上传 & 直播 -->
+      <div class="UploadAndLive">
+        <a @click.stop="ShowUploadAndLive = true">
+          <i class="iconfont iconzhibo1"></i>
+          <span>{{`Upload & Live`}}</span>
+        </a>
+        <ul :style="{display: ShowUploadAndLive ? 'block' : 'none'}">
+          <li @click="ToUpload">
+            <i class="iconfont iconshangchuan1"></i>
+            <span>Upload video</span>
+          </li>
+          <li @click="ToLiver">
+            <i class="iconfont iconzhibo1"></i>
+            <span>Go live</span>
+          </li>
+        </ul>
+      </div>
+
       <!-- 发布按钮 -->
-      <a class="MainPostMedia" v-if="UserInfo === null || (UserInfo !== null && UserInfo.userType - 0 !== 1) " href="./upload.html" target="_self" :class="{'active': MainNavBgActive}">Upload</a>
+      <!-- <a class="MainPostMedia" v-if="UserInfo === null || (UserInfo !== null && UserInfo.userType - 0 !== 1) " href="./upload.html" target="_self" :class="{'active': MainNavBgActive}">Upload</a> -->
     </div>
 
     <div class="flex-item"></div>
@@ -97,7 +115,7 @@
                       </div>
                       <span><a :href="`./userspace.html?key=${item.UpId}`" target="_self">{{item.UpName}}</a> {{item.ViewingDate | changeTime}}</span>
                       <div>
-                        <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
+                        <!-- <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt=""> -->
                         <span v-if="item.payVideo - 0 === 1">${{item.price}}</span>
                       </div>
                     </div>
@@ -118,7 +136,7 @@
                       </div>
                       <span><a :href="`./userspace.html?key=${item.UpId}`" target="_self">{{item.UpName}}</a> {{item.ViewingDate | changeTime}}</span>
                       <div>
-                        <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
+                        <!-- <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt=""> -->
                         <span v-if="item.payVideo - 0 === 1">${{item.price}}</span>
                       </div>
                     </div>
@@ -276,6 +294,7 @@ export default {
   },
   data () {
     return {
+      ShowUploadAndLive: false,
       MainMsgType: null,
       WebSocket: null,
       ShowToLoginBtn: false,
@@ -318,6 +337,7 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.ToolClass.WindowClick(() => {
+        this.ShowUploadAndLive = false
         if (document.getElementsByClassName('MainUserOptions')[0]) {
           document.getElementsByClassName('MainUserOptions')[0].style.display = 'none'
         }
@@ -348,6 +368,20 @@ export default {
     ...mapSearchActions([
       'GetRandomSearchKey' // 获取随机搜索词
     ]),
+    ToUpload () {
+      if (this.UserInfo !== null) {
+        window.location.href = `./upload.html`
+      } else {
+        this.$emit('Login')
+      }
+    },
+    ToLiver () {
+      if (this.UserInfo !== null) {
+        window.location.href = `./liver.html`
+      } else {
+        this.$emit('Login')
+      }
+    },
     UserIconClick () {
       document.getElementsByClassName('MainUserOptions')[0].style.display = 'block'
     },
@@ -355,14 +389,18 @@ export default {
       this.MainMsgType = null
     },
     LinkToMsg () { // 去消息中心
-      if (this.MainMsgType === null || this.MainMsgType === 'system') { // 默认跳转至系统消息页面
-        window.location.href = `./message.html?type=messages`
-      } else if (this.MainMsgType === 'comment') {
-        window.location.href = `./message.html?type=comment`
-      } else if (this.MainMsgType === 'like') {
-        window.location.href = `./message.html?type=like`
+      if (this.UserInfo !== null) {
+        if (this.MainMsgType === null || this.MainMsgType === 'system') { // 默认跳转至系统消息页面
+          window.location.href = `./message.html?type=messages`
+        } else if (this.MainMsgType === 'comment') {
+          window.location.href = `./message.html?type=comment`
+        } else if (this.MainMsgType === 'like') {
+          window.location.href = `./message.html?type=like`
+        } else {
+          window.location.href = `./message.html?type=messages`
+        }
       } else {
-        window.location.href = `./message.html?type=messages`
+        this.$emit('Login')
       }
     },
     WebSocketInit () {

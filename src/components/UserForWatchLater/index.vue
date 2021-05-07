@@ -26,7 +26,7 @@
               </div>
               <div class="flex-h">
                 <a :href="`./userspace.html?key=${item.userId}`" target="_self">{{item.userName}}</a>
-                <img v-if="item.payVideo - 0 === 1" style="margin-left: 10px;" src="../../assets/img/price.png" height="20" alt="">
+                <!-- <img v-if="item.payVideo - 0 === 1" style="margin-left: 10px;" src="../../assets/img/price.png" height="20" alt=""> -->
                 <span v-if="item.payVideo - 0 === 1" style="margin-left: 5px;">${{item.price}}</span>
                 <div class="flex-item"></div>
                 <span>{{item.status - 0 === 0 ? '' : item.status - 0 === 1 ? 'Watched' : 'Finished'}}</span>

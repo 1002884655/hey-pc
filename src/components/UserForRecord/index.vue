@@ -30,7 +30,7 @@
                 <span><a :href="`./userspace.html?key=${subItem.upId}`" target="_self">{{subItem.upName}}</a></span>
                 <div style="margin-top: 10px">
                   <span>{{ToolClass.ReturnViews(subItem.displayNum)}} views</span>
-                  <img v-if="subItem.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
+                  <!-- <img v-if="subItem.payVideo - 0 === 1" src="../../assets/img/price.png" alt=""> -->
                   <span v-if="subItem.payVideo - 0 === 1">${{subItem.price}}</span>
                 </div>
               </div>

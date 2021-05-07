@@ -83,13 +83,13 @@
     }
   }
   > .centerLabel {
-    width: calc(25% + 90px);
+    width: calc(25% + 20px + 160px);
     min-width: 290px;
     max-width: 590px;
     margin: 0;
     overflow: visible;
     .MainSearch {
-      width: calc(100% - 90px);
+      width: calc(100% - 20px - 160px);
       position: relative;
       overflow: visible;
       float: left;
@@ -556,6 +556,63 @@
     }
     &:hover {
       background: #e2041b;
+    }
+  }
+  .UploadAndLive {
+    width: 160px;
+    position: absolute;
+    overflow: visible;
+    right: 0;
+    top: 0;
+    > a {
+      font-size: 0;
+      white-space: nowrap;
+      display: block;
+      user-select: none;
+      > i {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 24px;
+        margin-left: 10px;
+      }
+      > span {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 16px;
+        line-height: 30px;
+        margin-left: 5px;
+      }
+    }
+    > ul {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: -70px;
+      background: #111;
+      padding: 5px 0;
+      display: none;
+      > li {
+        font-size: 0;
+        white-space: nowrap;
+        user-select: none;
+        padding: 0 10px;
+        &:hover {
+          cursor: pointer;
+          background: #444;
+        }
+        > i {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 24px;
+        }
+        > span {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 16px;
+          line-height: 30px;
+          margin-left: 5px;
+        }
+      }
     }
   }
   .ToLogin {

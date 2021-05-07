@@ -96,6 +96,11 @@
             color: #fff;
             margin-top: 20px;
             margin-bottom: 40px;
+            & + span {
+              font-weight: normal;
+              margin-top: 0;
+              text-align: left;
+            }
           }
           > a {
             display: block;

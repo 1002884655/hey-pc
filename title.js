@@ -32,5 +32,6 @@ module.exports = {
   'neterror': 'HeyPorn-NetError', // 网络错误
   'sgs': 'HeyPorn-SGS', // 认证
   'auth': 'HeyPorn-Auth', // 认证-首页
+  'setting': 'HeyPorn-Setting', // 设置
   'playlist': 'HeyPorn-Playlist' // 片单
 }

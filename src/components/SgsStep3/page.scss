@@ -19,6 +19,20 @@
       margin-top: 15px;
     }
   }
+  > .Tips {
+    background: #e2041b;
+    padding: 5px 15px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+    > span {
+      color: #fff;
+      display: block;
+      font-size: 16px;
+      line-height: 20px;
+      word-break: break-all;
+    }
+  }
   > .Form {
     width: 100%;
     position: relative;
@@ -26,10 +40,10 @@
     > div {
       width: 100%;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
       background: #fff;
       border-radius: 4px;
-      margin-top: 15px;
+      margin-top: 24px;
       border: 1px solid #fff;
       box-sizing: border-box;
       &.active {
@@ -44,6 +58,14 @@
         display: block;
         &.active {
           color: #e2041b;
+        }
+        &.Tips {
+          position: absolute;
+          left: 0;
+          bottom: -22px;
+          line-height: 20px;
+          color: #e2041b;
+          text-indent: 0;
         }
       }
       > div {

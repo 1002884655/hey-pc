@@ -36,21 +36,22 @@
 
             <!-- 认证中 -->
             <div class="SgsStatus" v-if="SgsInfo.certAudit - 0  === 0">
-              <i class="iconfont iconshangchuanzhong"></i>
-              <span>Your application is under review</span>
+              <i class="iconfont iconshangchuanzhong" style="color: #0592FF;"></i>
+              <span>Request subnitted. Please wait for approval.</span>
+              <span>Your request has been submitted. After it is approved, we will inform you by message and email.</span>
               <a href="./index.html">Back</a>
             </div>
 
             <!-- 已认证 -->
             <div class="SgsStatus" v-if="SgsInfo.certAudit - 0  === 1">
-              <i class="iconfont icontongguo"></i>
+              <i class="iconfont icontongguo" style="color: #259F57;"></i>
               <span>A user can authenticate only one identity</span>
               <a href="./index.html">Back</a>
             </div>
 
             <!-- 认证失败 -->
             <div class="SgsStatus" v-if="SgsInfo.certAudit - 0  === 2">
-              <i class="iconfont iconweitongguo"></i>
+              <i class="iconfont iconweitongguo" style="color: #FA595C;"></i>
               <span>authentication failure</span>
               <a href="./auth.html">Back</a>
               <a @click="ToStopSgs">Termination request</a>
@@ -59,6 +60,8 @@
 
           </div>
         </div>
+
+        <SgsStatusPopup v-if="ShowSgsTypeErrorPopup" :SgsTypeError="ShowSgsTypeErrorPopup" :SgsInfo="SgsInfo" @Close="ShowSgsTypeErrorPopup = false"></SgsStatusPopup>
 
       </div>
     </MainPage>
@@ -71,6 +74,7 @@ import MainPage from '@/components/MainPage'
 const SgsStep1 = () => import('@/components/SgsStep1')
 const SgsStep2 = () => import('@/components/SgsStep2')
 const SgsStep3 = () => import('@/components/SgsStep3')
+const SgsStatusPopup = () => import('@/components/SgsStatusPopup')
 const { mapState: mapUserState } = createNamespacedHelpers('user')
 const { mapActions: mapSgsActions } = createNamespacedHelpers('sgs')
 export default {
@@ -78,14 +82,16 @@ export default {
     MainPage,
     SgsStep1,
     SgsStep2,
-    SgsStep3
+    SgsStep3,
+    SgsStatusPopup
   },
   data () {
     return {
       CurrentStep: null,
       SgsType: null,
       SgsInfo: null,
-      DataLock: false
+      DataLock: false,
+      ShowSgsTypeErrorPopup: false
     }
   },
   computed: {
@@ -141,10 +147,14 @@ export default {
         this.SgsTypeInit() // 认证角色初始化
         this.GetSgsInfo({ params: { accountId: this.UserInfo.id } }).then((res) => {
           this.SgsInfo = { ...this.SgsInfo, ...res.data.data }
+          this.CurrentStep = res.data.data.certStatus === null || res.data.data.certStatus - 0 === 0 ? 1 : res.data.data.certStatus - 0
           if (this.SgsInfo.auditConfirm === null || this.SgsInfo.auditConfirm - 0 === 0) { // 未认证完成
-            this.CurrentStep = res.data.data.certStatus === null || res.data.data.certStatus - 0 === 0 ? 1 : res.data.data.certStatus - 0
           } else { // 认证已完成
 
+          }
+          if (this.SgsInfo.certType - 0 !== 0 && this.SgsType - 0 !== this.SgsInfo.certType - 0) {
+            this.ToolClass.ChangeUrlParams([{ name: 'type', value: this.SgsInfo.certType - 0 === 5 ? 'model' : this.SgsInfo.certType - 0 === 4 ? 'star' : 'studio' }])
+            this.ShowSgsTypeErrorPopup = true
           }
         })
       }

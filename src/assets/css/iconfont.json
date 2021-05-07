@@ -6,6 +6,76 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11940203",
+      "name": "直播、",
+      "font_class": "zhibo1",
+      "unicode": "e6d8",
+      "unicode_decimal": 59096
+    },
+    {
+      "icon_id": "1816233",
+      "name": "上传",
+      "font_class": "shangchuan1",
+      "unicode": "e6d7",
+      "unicode_decimal": 59095
+    },
+    {
+      "icon_id": "3735711",
+      "name": "审核中",
+      "font_class": "tubiao-",
+      "unicode": "e7a6",
+      "unicode_decimal": 59302
+    },
+    {
+      "icon_id": "14189066",
+      "name": "镜像",
+      "font_class": "jingxiang",
+      "unicode": "e6cc",
+      "unicode_decimal": 59084
+    },
+    {
+      "icon_id": "2862261",
+      "name": "声音",
+      "font_class": "shengyin1",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    },
+    {
+      "icon_id": "6773091",
+      "name": "工具-麦克风",
+      "font_class": "gj-mkf",
+      "unicode": "e73c",
+      "unicode_decimal": 59196
+    },
+    {
+      "icon_id": "6944938",
+      "name": "摄像头",
+      "font_class": "camera",
+      "unicode": "e6d6",
+      "unicode_decimal": 59094
+    },
+    {
+      "icon_id": "6636138",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e6c9",
+      "unicode_decimal": 59081
+    },
+    {
+      "icon_id": "8567519",
+      "name": "通知",
+      "font_class": "tongzhi1",
+      "unicode": "e719",
+      "unicode_decimal": 59161
+    },
+    {
+      "icon_id": "15203796",
+      "name": "账户",
+      "font_class": "zhanghu",
+      "unicode": "e715",
+      "unicode_decimal": 59157
+    },
+    {
       "icon_id": "9046140",
       "name": "邮箱",
       "font_class": "youxiang",

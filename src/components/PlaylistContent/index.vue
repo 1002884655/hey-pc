@@ -86,7 +86,7 @@
             </div>
             <div>
               <span>{{ToolClass.ReturnViews(item.displayNum)}} views</span>
-              <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
+              <!-- <img v-if="item.payVideo - 0 === 1" src="../../assets/img/price.png" alt=""> -->
               <span v-if="item.payVideo - 0 === 1">${{item.price}}</span>
             </div>
           </div>

@@ -1,0 +1,198 @@
+.components.HeyPornLiverChat {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #222;
+  box-sizing: border-box;
+  > .ChatNav {
+    font-size: 0;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    background: #222;
+    > a {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 16px;
+      line-height: 40px;
+      user-select: none;
+      font-weight: bold;
+      color: #fff;
+      margin-left: 10px;
+      position: relative;
+      &.active {
+        &::after {
+          content: "";
+          width: 100%;
+          display: block;
+          height: 2px;
+          background: #e2041b;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+        }
+      }
+    }
+    > span {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 13px;
+      line-height: 40px;
+      color: #fff;
+      margin-left: 5px;
+    }
+  }
+  > .Content {
+    position: relative;
+    overflow: hidden;
+    > div {
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      overflow: hidden;
+      > div {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+      &.AllChat {
+        > div {
+          .ChatList {
+            > li {
+              padding: 5px;
+              position: relative;
+              overflow: hidden;
+              &.active {
+                background: #3faac9;
+                margin-top: 5px;
+              }
+              > span {
+                display: block;
+                font-size: 13px;
+                line-height: 20px;
+                word-break: break-all;
+                > a {
+                  color: #999;
+                  line-height: 20px;
+                  font-size: 13px;
+                  margin-right: 10px;
+                }
+              }
+              > .flex-h {
+                align-items: center;
+                > a {
+                  color: #ccc;
+                  line-height: 30px;
+                  margin-right: 10px;
+                  font-size: 13px;
+                }
+                > span {
+                  color: #fff;
+                  line-height: 30px;
+                  margin-right: 10px;
+                  font-size: 13px;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  &:last-child {
+                    margin-right: 5px;
+                  }
+                }
+                > img {
+                  height: 20px;
+                  margin-right: 10px;
+                }
+              }
+            }
+          }
+        }
+      }
+      &.HeyDollar,
+      &.UsersList {
+        > div {
+          > .Nav {
+            background: #333;
+            position: relative;
+            overflow: hidden;
+            align-items: center;
+            > li {
+              font-size: 13px;
+              color: #fff;
+              line-height: 40px;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              text-align: center;
+            }
+          }
+          > .flex-item {
+            position: relative;
+            overflow: hidden;
+            > div {
+              width: 100%;
+              position: absolute;
+              left: 0;
+              top: 0;
+              bottom: 0;
+              overflow: hidden;
+              .GiftList {
+                > li {
+                  align-items: center;
+                  padding: 5px 0;
+                  position: relative;
+                  overflow: hidden;
+                  &:hover {
+                    background: #222;
+                  }
+                  > span,
+                  > a {
+                    font-size: 13px;
+                    color: #fff;
+                    line-height: 20px;
+                    text-align: center;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  > .SendContent {
+    padding: 10px;
+    background: #222;
+    > div {
+      background: #111;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      align-items: center;
+      > input {
+        font-size: 14px;
+        color: #999;
+        line-height: 20px;
+        padding: 10px 0;
+        text-indent: 10px;
+        background: none;
+        margin-right: 10px;
+      }
+      > a {
+        font-size: 24px;
+        color: #999;
+        margin-right: 10px;
+        user-select: none;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

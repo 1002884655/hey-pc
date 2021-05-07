@@ -2,6 +2,44 @@
 const prefix = process.env.NODE_ENV === 'production' ? '/api' : '/api'
 
 const $api = {
+  Live: { // 直播相关
+    GetLiverRoomToken: { // 获取直播房间token
+      method: 'post',
+      url: `${prefix}/liveRtc/getRoomToken`
+    },
+    CreateLiveRoom: { // 创建直播房间
+      method: 'post',
+      url: `${prefix}/liveBroadcast/createRoom`
+    },
+    LiveStart: { // 开播
+      method: 'post',
+      url: `${prefix}/liveBroadcast/startRoom`
+    },
+    LiveStop: { // 下播
+      method: 'post',
+      url: `${prefix}/liveBroadcast/statisticsRoom`
+    },
+    CreateChatRoom: { // 创建直播间聊天室
+      method: 'post',
+      url: `${prefix}/im/chatRoom/create`
+    },
+    GetLivingRoomInfo: { // 获取正在直播的房间信息
+      method: 'get',
+      url: `${prefix}/liveBroadcast/getRoom`
+    },
+    CloseLiveChatRoom: { // 销毁直播聊天室
+      method: 'post',
+      url: `${prefix}/im/chatRoom/destroy`
+    },
+    GetLiveRoomGiftsDetailsList: { // 获取直播间礼物打赏详情列表
+      method: 'post',
+      url: `${prefix}/bill/liveRoomDetailPage`
+    },
+    GetChatRoomUsersList: { // 获取聊天室用户列表
+      method: 'post',
+      url: `${prefix}/im/chatRoom/getMembers`
+    }
+  },
   Sgs: {
     GetSgsDictList: { // 获取认证相关字典列表
       method: 'post',

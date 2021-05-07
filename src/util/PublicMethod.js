@@ -137,6 +137,9 @@ const ToolClass = {
       if (format === 'hh:mm:ss') {
         return `${hh > 9 ? hh : `0${hh}`}:${mm > 9 ? mm : `0${mm}`}:${ss > 9 ? ss : `0${ss}`}`
       }
+      if (format === 'hh:mm') {
+        return `${hh > 9 ? hh : `0${hh}`}:${mm > 9 ? mm : `0${mm}`}`
+      }
       if (format === 'English') {
         let Month = ''
         switch (MM) {

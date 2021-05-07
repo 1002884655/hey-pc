@@ -13,7 +13,7 @@
             <i class="iconfont iconnan" v-if="item.sex - 0 === 1"></i>
             <i class="iconfont iconnv" v-if="item.sex - 0 === 2"></i>
           </div>
-          <span>{{item.description || 'No introduction'}}</span>
+          <span>{{item.description}}</span>
         </div>
       </li>
     </ul>

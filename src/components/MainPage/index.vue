@@ -170,11 +170,16 @@ export default {
                   let SgsArr = JSON.parse(window.localStorage.heypornsgshistory)
                   let Bool = false
                   SgsArr.map((item) => {
-                    if (item.id - 0 === this.UserInfo.id - 0 && item.time !== this.ToolClass.DateFormatYear(Date.now(), 'YY:MM:DD')) {
+                    if (item.id - 0 === this.UserInfo.id - 0) {
                       Bool = true
+                      if (item.time !== this.ToolClass.DateFormatYear(Date.now(), 'YY:MM:DD')) {
+                        this.ShowSgsPopup = true
+                      }
                     }
                   })
-                  this.ShowSgsPopup = Bool
+                  if (!Bool) {
+                    this.ShowSgsPopup = true
+                  }
                 } else {
                   this.ShowSgsPopup = true
                 }

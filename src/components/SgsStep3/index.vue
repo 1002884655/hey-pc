@@ -2,6 +2,9 @@
   <div class="components SgsStep3">
     <span>Fill the Form with Your Personal Details</span>
     <span>Your personal information will need to be approved in order to start earning money.This information will be confidential and securely used only for positioning purposes on our site. It will never be shared with anyone. You'll always be able to add more people as soon as your account gets approved.</span>
+    <div class="Tips" v-if="SgsInfo.certRemark !== ''">
+      <span class="Tips">{{SgsInfo.certRemark}}</span>
+    </div>
     <span class="Title">Personal information</span>
     <div class="Form">
       <div :class="{'active': IsCheck && Form.firstName === ''}">
@@ -9,25 +12,28 @@
         <div>
           <input type="text" placeholder="Add the First name on your official document" v-model="Form.firstName">
         </div>
+        <span class="Tips" v-if="IsCheck && Form.firstName === ''">this is required</span>
       </div>
       <div :class="{'active': IsCheck && Form.lastName === ''}">
         <span :class="{'active': IsCheck && Form.lastName === ''}">Last name</span>
         <div>
           <input type="text" placeholder="Add the Last name on your official document" v-model="Form.lastName">
         </div>
+        <span class="Tips" v-if="IsCheck && Form.lastName === ''">this is required</span>
       </div>
       <div class="Date" :class="{'active': IsCheck && Form.birthday === ''}">
         <span :class="{'active': IsCheck && Form.birthday === ''}">Birthday</span>
         <div>
-          <input type="text" v-model="Form.birthday">
-          <!-- <span>{{birthday}}</span> -->
+          <el-date-picker class="SgsDateSelect" v-model="Form.birthday" type="date" placeholder="YYYY-MM-DD"></el-date-picker>
         </div>
+        <span class="Tips" v-if="IsCheck && Form.birthday === ''">this is required</span>
       </div>
       <div :class="{'active': IsCheck && Form.cardNo === ''}">
         <span :class="{'active': IsCheck && Form.cardNo === ''}">ID number</span>
         <div>
           <input type="text" placeholder="Add the ID number on your official document" v-model="Form.cardNo">
         </div>
+        <span class="Tips" v-if="IsCheck && Form.cardNo === ''">this is required</span>
       </div>
       <div class="Select" :class="{'active': IsCheck && Form.country === ''}">
         <span :class="{'active': IsCheck && Form.country === ''}">ID Issuing Country</span>
@@ -36,22 +42,17 @@
             <el-option v-for="item in CountryList" :key="item.countryCode" :label="item.countryName" :value="item.countryCode"></el-option>
           </el-select>
         </div>
+        <span class="Tips" v-if="IsCheck && Form.country === ''">this is required</span>
       </div>
       <div class="Select">
         <span>State/Province</span>
         <div>
-          <!-- <el-select class="SgsSelect" v-model="Form.state" placeholder="Add State/Province" no-data-text="no data">
-            <el-option v-for="item in StateList" :key="item.value" :label="item.name" :value="item.value"></el-option>
-          </el-select> -->
           <input type="text" placeholder="Add State/Province" v-model="Form.state">
         </div>
       </div>
       <div class="Select" :class="{'active': IsCheck && Form.city === ''}">
         <span :class="{'active': IsCheck && Form.city === ''}">City</span>
         <div>
-          <!-- <el-select class="SgsSelect" v-model="Form.city" placeholder="Add city" no-data-text="no data">
-            <el-option v-for="item in CityList" :key="item.value" :label="item.name" :value="item.value"></el-option>
-          </el-select> -->
           <input type="text" placeholder="Add city" v-model="Form.city">
         </div>
       </div>
@@ -60,31 +61,34 @@
         <div>
           <el-input class="SgsHeightAutoInput" type="textarea" autosize placeholder="Add an introduction abour you" v-model="Form.address"></el-input>
         </div>
+        <span class="Tips" v-if="IsCheck && Form.address === ''">this is required</span>
       </div>
     </div>
     <span class="Title">Document Upload</span>
     <div class="UploadForm">
       <span>Close-up photo of your ID.</span>
       <div>
-        <a class="Btn" @click="$refs.IdFile.click()" v-if="IdFileUrl === '' || IdFileUrl === null">Upload File</a>
-        <div class="Example" v-if="IdFileUrl !== '' && IdFileUrl !== null">
-          <img :src="ShowExample1 ? Example1 : IdFileUrl" class="centerLabel cover" alt="">
-          <a @click="$refs.IdFile.click()">Upload File</a>
+        <a class="Btn" @click="$refs.IdFile.click()" v-if="(IdFileUrl === '' || IdFileUrl === null) && !IsUploading1">Upload File</a>
+        <div class="Example" v-if="(IdFileUrl !== '' && IdFileUrl !== null) || IsUploading1">
+          <img :src="IsUploading1 ? null : ShowExample1 ? Example1 : IdFileUrl" class="centerLabel cover" alt="">
+          <span class="centerLabel" v-if="IsUploading1">loading...</span>
+          <a @click="$refs.IdFile.click()" v-if="!IsUploading1">Upload File</a>
         </div>
         <input type="file" style="display: none" hidden="hidden" ref="IdFile" accept="image/jpg, image/jpeg, image/png" @change="IdFileChange">
         <a @click="ShowExample1 = !ShowExample1">{{ShowExample1 ? 'Cancel' :'Show example'}}</a>
       </div>
       <span>photo of your hplding your ID and a handwritten note with your username and the current date.</span>
       <div>
-        <a class="Btn" @click="$refs.IdHandFile.click()" v-if="IdHandFileUrl === '' || IdHandFileUrl === null">Upload File</a>
-        <div class="Example" v-if="IdHandFileUrl !== '' && IdHandFileUrl !== null">
-          <img :src="ShowExample2 ? Example2 : IdHandFileUrl" class="centerLabel cover" alt="">
-          <a @click="$refs.IdHandFile.click()">Upload File</a>
+        <a class="Btn" @click="$refs.IdHandFile.click()" v-if="(IdHandFileUrl === '' || IdHandFileUrl === null) && !IsUploading2">Upload File</a>
+        <div class="Example" v-if="(IdHandFileUrl !== '' && IdHandFileUrl !== null) || IsUploading2">
+          <img :src="IsUploading2 ? null : ShowExample2 ? Example2 : IdHandFileUrl" class="centerLabel cover" alt="">
+          <span class="centerLabel" v-if="IsUploading2">loading...</span>
+          <a @click="$refs.IdHandFile.click()" v-if="!IsUploading2">Upload File</a>
         </div>
         <input type="file" style="display: none" hidden="hidden" ref="IdHandFile" accept="image/jpg, image/jpeg, image/png" @change="IdHandFileChange">
         <a @click="ShowExample2 = !ShowExample2">{{ShowExample2 ? 'Cancel' :'Show example'}}</a>
       </div>
-      <a @click="Submit" :class="{'active': Form.firstName !== '' && Form.lastName !== '' && Form.birthday !== '' && Form.cardNo !== '' && Form.country !== '' && Form.city !== ''}">Request approval</a>
+      <a @click="Submit" :class="{'active': !DataLock}">{{DataLock ? 'Loading...' : 'Request approval'}}</a>
     </div>
   </div>
 </template>
@@ -92,8 +96,11 @@
 <script>
 /*
 */
-import { Select, Option, Input } from 'element-ui'
+import { Select, Option, Input, DatePicker } from 'element-ui'
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
 import { createNamespacedHelpers } from 'vuex'
+locale.use(lang)
 const { mapState: mapUserState } = createNamespacedHelpers('user')
 const { mapActions: mapSgsActions } = createNamespacedHelpers('sgs')
 export default {
@@ -108,6 +115,8 @@ export default {
   },
   data () {
     return {
+      IsUploading1: false,
+      IsUploading2: false,
       Example1: null,
       Example2: null,
       ShowExample1: false,
@@ -141,7 +150,8 @@ export default {
   components: {
     'el-select': Select,
     'el-option': Option,
-    'el-input': Input
+    'el-input': Input,
+    'el-date-picker': DatePicker
   },
   created () {
     this.Init()
@@ -175,8 +185,10 @@ export default {
     IdFileChange () {
       if (this.$refs.IdFile.files[0].size <= 5 * 1024 * 1024) {
         this.ShowExample1 = false
+        this.IsUploading1 = true
         this.IdFile = this.$refs.IdFile.files[0]
         this.IdFileUrl = this.GetFileURL(this.IdFile)
+        this.IsUploading1 = false
       } else {
         this.$refs.IdFile.files[0].value = ''
         this.$notify.error({
@@ -188,8 +200,10 @@ export default {
     IdHandFileChange () {
       if (this.$refs.IdHandFile.files[0].size <= 5 * 1024 * 1024) {
         this.ShowExample2 = false
+        this.IsUploading2 = true
         this.IdHandFile = this.$refs.IdHandFile.files[0]
         this.IdHandFileUrl = this.GetFileURL(this.IdHandFile)
+        this.IsUploading2 = false
       } else {
         this.$refs.IdHandFile.files[0].value = ''
         this.$notify.error({
@@ -227,7 +241,7 @@ export default {
         if (this.IdFile !== null || this.IdHandFile !== null) {
           Data = FileData
         }
-        this.ThirdSgs({ params: { ...this.Form, accountId: this.UserInfo.id, cardPic: this.IdFile === null ? this.CardPic : null, certPic: this.IdHandFile === null ? this.CertPic : null }, data: Data }).then(() => {
+        this.ThirdSgs({ params: { ...this.Form, birthday: new Date(this.Form.birthday), accountId: this.UserInfo.id, cardPic: this.IdFile === null ? this.CardPic : null, certPic: this.IdHandFile === null ? this.CertPic : null }, data: Data }).then(() => {
           this.DataLock = false
           this.$emit('Success')
         }).catch((res) => {

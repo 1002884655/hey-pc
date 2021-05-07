@@ -1,14 +1,9 @@
 <template>
   <div class="components LiveChat flex-v">
     <span>All chat</span>
+
+    <!-- 聊天列表 -->
     <div class="flex-item flex-v">
-      <!-- <div class="TopGift">
-        <div v-if="LastGift !== null">
-          <a><img :src="LastGift.userIcon" class="centerLabel cover" alt=""></a>
-          <div><img :src="LastGift.giftImg" class="centerLabel contain" alt=""></div>
-          <span>*{{LastGift.giftNum}}</span>
-        </div>
-      </div> -->
       <div class="flex-item">
         <div>
           <ScrollY :Size="`normal`" ref="ChatScroll">
@@ -18,13 +13,12 @@
                 <span class="ChatTips" v-if="item.type === 'comming'"><a>{{item.userName}}</a> <em> comming</em></span>
                 <span class="ChatTips" v-if="item.type === 'shutup'"><a>{{item.blockUserName}}</a> <em> has been banned.</em></span>
                 <span class="ChatTips" v-if="item.type === 'unshutup' && item.blockUserId - 0 === UserInfo.id - 0"><em>You can take the floor now.</em></span>
-                <!-- <span class="ChatTips" v-if="item.type === 'exit'"><a>{{item.userName}}</a> exit</span> -->
                 <div class="flex-h" v-if="item.type === 'text'">
-                  <div class="UserIcon">
+                  <!-- <div class="UserIcon">
                     <a>
                       <img :src="item.userIcon" class="centerLabel cover" alt="">
                     </a>
-                  </div>
+                  </div> -->
                   <div class="flex-item">
                     <span><a>{{item.userName}}</a>: {{item.text}}</span>
                   </div>
@@ -50,34 +44,70 @@
         </div>
       </div>
     </div>
-    <div class="SendContainer flex-h">
-      <a>
-        <img :src="UserInfo !== null ? UserInfo.picPath2 : null" class="centerLabel cover" alt="">
-      </a>
-      <div class="flex-item">
-        <span>{{UserInfo !== null ? UserInfo.nick : null}}</span>
-        <div class="Input">
-          <el-input class="LiveChatInput" type="textarea" :autosize="{ minRows: 1, maxRows: 6}" :placeholder="IsShutUp ? `You've been silenced` : 'say something'" v-model="Message" @input="ChatInput" @focus="IsSendChatMsg = true" @blur="IsSendChatMsg = false"></el-input>
+
+    <!-- 礼物 -->
+    <div class="GiftsContainer">
+      <div class="flex-h Title">
+        <span>Send Tips</span>
+        <div class="flex-item"></div>
+        <img src="../../assets/img/coin.png" height="20" alt="">
+        <span>{{UserInfo.rechargeCurrency || 0}}hc</span>
+        <a @click="ToRecharge">+</a>
+      </div>
+      <div class="GiftsList flex-h">
+        <div class="flex-item">
+          <div>
+            <ul :style="{position: ShowMoreGifts ? 'relative' : 'absolute'}">
+              <li v-for="(item, index) in GiftList" :key="index">
+                <a @click.stop="CheckGiftItem(item, $event)">
+                  <img :src="item.imgPath1" class="centerLabel contain" alt="">
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <!-- <textarea :disabled="IsShutUp" cols="30" rows="1" :placeholder="IsShutUp ? `You've been silenced` : 'say something'" v-model="Message" class="LiveInput" @input="Message = Message.substring(0, 200)" @focus="IsSendChatMsg = true" @blur="IsSendChatMsg = false; CaretIndex = GetCursortPosition(`LiveInput`)"></textarea> -->
-        <div class="flex-h">
-          <a class="iconfont iconbiaoqing" @click="ShowEmoji = !ShowEmoji">
-            <!-- emoji表情盒子 -->
-            <!-- <div class="EmojiBoxer" ref="EmojiBoxer">
-              <VEmojiPicker :pack="pack" @select="selectEmoji" />
-            </div> -->
-          </a>
-          <div class="flex-item"></div>
-          <span>{{Message.length}}/200</span>
-          <a class="SendBtn" @click="SendMsg(Message)">
-            <i class="iconfont icontuiguang centerLabel"></i>
-          </a>
-        </div>
-        <div class="LiveChatEmojiBoxer" :style="{display: ShowEmoji ? 'block' : 'none'}" ref="EmojiBoxer">
-          <VEmojiPicker :pack="pack" @select="selectEmoji" />
-        </div>
+        <a class="iconfont" :class="[ShowMoreGifts ? 'iconjiantoudown' : 'iconjiantouup']" @click="ShowMoreGifts = !ShowMoreGifts"></a>
       </div>
     </div>
+
+    <!-- 礼物详情 -->
+    <div class="GiftItemDetail" v-if="GiftItemDetail.id" :style="{left: `${GiftDetailX}px`, top: `${GiftDetailY}px`}" @click.stop="() => {}">
+      <div class="Name flex-h">
+        <div class="Img">
+          <img :src="GiftItemDetail.imgPath1" class="centerLabel contain" alt="">
+        </div>
+        <div class="flex-item">
+          <span>{{GiftItemDetail.name}}</span>
+          <div>
+            <img src="../../assets/img/coin.png" alt="">
+            <span>{{GiftNum - 0 ? GiftItemDetail.currency * GiftNum : GiftItemDetail.currency}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="Num flex-h">
+        <a class="flex-item" :class="{'active': GiftNum - 0 === 10}" @click="GiftNum = 10">10</a>
+        <a class="flex-item" :class="{'active': GiftNum - 0 === 50}" @click="GiftNum = 50">50</a>
+        <a class="flex-item" :class="{'active': GiftNum - 0 === 99}" @click="GiftNum = 99">99</a>
+        <a class="flex-item" :class="{'active': GiftNum - 0 === 999}" @click="GiftNum = 999">999</a>
+        <input type="text" class="flex-item" placeholder="enter" v-model="GiftNum">
+        <a class="flex-item" @click="ToSendGift">send</a>
+      </div>
+    </div>
+
+    <!-- 信息发送 -->
+    <div class="SendContainer">
+      <div class="flex-h">
+        <div class="flex-item">
+          <el-input class="LiveChatInput" type="input" :placeholder="IsShutUp ? `You've been silenced` : 'say something'" v-model="Message" @input="ChatInput" @focus="IsSendChatMsg = true" @blur="IsSendChatMsg = false"></el-input>
+        </div>
+        <a class="iconfont iconbiaoqing EmojiIcon" @click="ShowEmoji = !ShowEmoji"></a>
+        <a class="iconfont icontuiguang SendBtn" @click="SendMsg(Message)"></a>
+      </div>
+      <div class="LiveChatEmojiBoxer" :style="{display: ShowEmoji ? 'block' : 'none'}" ref="EmojiBoxer">
+        <VEmojiPicker :pack="pack" @select="selectEmoji" />
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -90,7 +120,7 @@ import packData from 'v-emoji-picker/data/emojis.json'
 import { createNamespacedHelpers } from 'vuex'
 import ScrollY from '../ScrollY'
 import { Input } from 'element-ui'
-const { mapState: mapUserState, mapActions: mapUserActions } = createNamespacedHelpers('user')
+const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
 export default {
   name: 'LiveChat',
   props: {
@@ -105,10 +135,21 @@ export default {
     ChatRoomId: {
       default: null,
       type: String
+    },
+    GiftList: {
+      default: () => {
+        return []
+      },
+      type: Array
     }
   },
   data () {
     return {
+      GiftNum: 10,
+      GiftItemDetail: {},
+      GiftDetailX: -500,
+      GiftDetailY: -500,
+      ShowMoreGifts: false,
       EmojiTimer: null,
       ChatRoom: null,
       IsSendChatMsg: false,
@@ -140,6 +181,9 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      this.ToolClass.WindowClick(() => {
+        this.ResetGiftItemDetail()
+      })
       this.ToolClass.DocumentKeyDown((e) => { // 绑定回车键发送聊天消息功能
         if (e.keyCode === 13) { // Enter键
           if (this.IsSendChatMsg) { // 发送
@@ -150,9 +194,69 @@ export default {
     })
   },
   methods: {
-    ...mapUserActions([
-      'GetChatRoomShutupList'
+    ...mapUserMutations([
+      'EditUserInfo'
     ]),
+    ...mapUserActions([
+      'GetChatRoomShutupList',
+      'PostLiveGift'
+    ]),
+    ToSendGift () {
+      if (this.UserInfo !== null) {
+        if (this.UserInfo.userType - 0 === 1) {
+          if (this.DataLock || !(this.GiftNum - 0) || this.ToolClass.GetUrlParams('room') === false) return
+          if (this.UserInfo.rechargeCurrency - 0 < this.GiftNum * this.GiftItemDetail.currency) {
+            this.$notify.error({ title: 'error', message: 'Your balance is insufficient!' })
+            this.$emit('ToRecharge')
+            return false
+          }
+          this.DataLock = true
+          this.PostLiveGift({
+            data: {
+              accountId: this.UserInfo.id,
+              giftId: this.GiftItemDetail.id,
+              liveRoomId: this.ToolClass.GetUrlParams('room'),
+              num: this.GiftNum
+            }
+          }).then(() => {
+            this.EditUserInfo({ name: 'rechargeCurrency', value: this.UserInfo.rechargeCurrency - this.GiftNum * this.GiftItemDetail.currency })
+            this.SendGift({
+              id: this.GiftItemDetail.id,
+              num: this.GiftNum,
+              currency: this.GiftItemDetail.currency,
+              img1: this.GiftItemDetail.imgPath1,
+              img2: this.GiftItemDetail.imgPath2,
+              img3: this.GiftItemDetail.imgPath3,
+              name: this.GiftItemDetail.name,
+              svgPath: this.GiftItemDetail.svgPath
+            })
+            this.DataLock = false
+            this.ResetGiftItemDetail()
+          }).catch(() => {
+            this.DataLock = false
+          })
+        }
+      } else {
+        this.$emit('NeedLogin')
+      }
+    },
+    CheckGiftItem (item, e) {
+      this.GiftItemDetail = { ...item }
+      this.GiftDetailX = e.target.getBoundingClientRect().left - 340 + 35
+      this.GiftDetailY = e.target.getBoundingClientRect().top - 110
+    },
+    ResetGiftItemDetail () {
+      this.GiftItemDetail = {}
+      this.GiftDetailX = -500
+      this.GiftDetailY = -500
+    },
+    ToRecharge () {
+      if (this.UserInfo !== null) {
+        this.$emit('ToRecharge')
+      } else {
+        this.$emit('NeedLogin')
+      }
+    },
     ChatInput () {
       this.Message = this.Message.substring(0, 200)
     },
@@ -203,6 +307,7 @@ export default {
     },
     selectEmoji (emoji) { // 选择表情
       this.Message = (this.Message + emoji.emoji).substring(0, 200)
+      this.ShowEmoji = false
       // if (this.IsShutUp) return
       // this.Message = this.Message.substring(0, this.CaretIndex) + emoji.emoji + this.Message.substring(this.CaretIndex)
       // this.SetCaretPosition(document.getElementsByClassName('LiveInput')[0], this.CaretIndex)

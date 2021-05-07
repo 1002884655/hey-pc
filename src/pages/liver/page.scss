@@ -2,5 +2,21 @@
   background: #111;
   .Content {
     position: relative;
+    > div {
+      padding: 90px 6%;
+      position: relative;
+      overflow: hidden;
+      > .flex-item {
+        position: relative;
+        overflow: hidden;
+        background: #16161b;
+      }
+      > .ChatContainer {
+        width: 24%;
+        max-width: 410px;
+        min-width: 250px;
+        margin-left: 10px;
+      }
+    }
   }
 }

@@ -136,10 +136,13 @@
       color: #fff;
       font-size: 14px;
       font-weight: bold;
-      background: #e2041b;
+      background: #ccc;
       border-radius: 4px;
       display: inline-block;
       user-select: none;
+      &.active {
+        background: #e2041b;
+      }
     }
     > span {
       display: block;

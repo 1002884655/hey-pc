@@ -345,7 +345,7 @@ export default {
           }
         }
       } else {
-        this.$refs.MainPage.Login()
+        this.$emit('NeedLogin')
       }
     },
     ToPayForVideo () {
@@ -483,7 +483,7 @@ export default {
           callback()
         }
       } else {
-        this.$emit('ToLogin')
+        this.$emit('NeedLogin')
       }
     },
     CollectVideo () { // 收藏视频

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MainPage @UserInfoChange="Init">
+    <MainPage ref="MainPage" @UserInfoChange="Init">
       <div class="Content">
 
         <div>
@@ -38,7 +38,7 @@
                 <ul>
                   <li v-for="(subItem, subIndex) in item.desc" :key="subIndex">{{subItem}}</li>
                 </ul>
-                <a @click="RoleSelect(item.type)" v-if="item.type !== 'studio'">Start certification</a>
+                <a @click="RoleSelect(item.type)">{{item.type !== 'studio' ? 'Start certification' : 'Close the certification'}}</a>
               </li>
             </ul>
           </div>
@@ -116,22 +116,30 @@ export default {
       'GetSgsInfo'
     ]),
     RoleSelect (type) {
-      if (this.SgsInfo !== null) {
-        if (this.SgsInfo.certStatus - 0 === 0) { // 未认证
-          window.location.href = `./sgs.html?type=${type}`
-        } else if (this.SgsInfo.certStatus - 0 === 4 && this.SgsInfo.certAudit - 0 === 1) { // 已认证
-          this.$notify.success({
-            title: 'success',
-            message: 'A user can authenticate only one identity'
-          })
-        } else if (this.SgsInfo.certStatus - 0 === 4 && this.SgsInfo.certAudit - 0 === 0) { // 认证中
-          this.$notify.error({
-            title: 'error',
-            message: 'Your application is under review'
-          })
-        } else {
-          window.location.href = `./sgs.html`
+      if (this.UserInfo !== null) {
+        if (this.SgsInfo !== null) {
+          if (this.SgsInfo.certStatus - 0 === 0) { // 未认证
+            if (type !== 'studio') {
+              window.location.href = `./sgs.html?type=${type}`
+            }
+          } else if (this.SgsInfo.certStatus - 0 === 4 && this.SgsInfo.certAudit - 0 === 1) { // 已认证
+            this.$notify.success({
+              title: 'success',
+              message: 'A user can authenticate only one identity'
+            })
+          } else if (this.SgsInfo.certStatus - 0 === 4 && this.SgsInfo.certAudit - 0 === 0) { // 认证中
+            this.$notify.error({
+              title: 'error',
+              message: 'Your application is under review'
+            })
+          } else {
+            if (type !== 'studio') {
+              window.location.href = `./sgs.html?type=${type}`
+            }
+          }
         }
+      } else {
+        this.$refs.MainPage.Login()
       }
     },
     Init () {

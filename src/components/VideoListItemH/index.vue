@@ -17,7 +17,7 @@
       <a :href="`./userspace.html?key=${Item.userId}`" class="UpName" target="_self">{{Item.userName}}</a>
       <div class="Bottom">
         <span>{{ToolClass.ReturnViews(Item.displayNum)}} views</span>
-        <img v-if="Item.payVideo !== undefined && Item.payVideo - 0 === 1" src="../../assets/img/price.png" alt="">
+        <!-- <img v-if="Item.payVideo !== undefined && Item.payVideo - 0 === 1" src="../../assets/img/price.png" alt=""> -->
         <span v-if="Item.payVideo !== undefined && Item.payVideo - 0 === 1">${{Item.price}}</span>
       </div>
       <div class="flex-item"></div>

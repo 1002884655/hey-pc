@@ -166,109 +166,322 @@
       }
     }
   }
+  > .GiftsContainer {
+    position: relative;
+    overflow: visible;
+    background: #222;
+    padding: 10px;
+    padding-bottom: 0;
+    > .Title {
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      > span {
+        font-size: 13px;
+        line-height: 20px;
+        color: #ccc;
+      }
+      > img {
+        margin-right: 5px;
+      }
+      > a {
+        width: 20px;
+        line-height: 20px;
+        height: 20px;
+        text-align: center;
+        background: #47b2f7;
+        user-select: none;
+        color: #fff;
+        border-radius: 4px;
+        margin-left: 5px;
+      }
+    }
+    > .GiftsList {
+      position: relative;
+      overflow: hidden;
+      align-items: flex-end;
+      padding-top: 5px;
+      > .flex-item {
+        position: relative;
+        overflow: hidden;
+        > div {
+          position: relative;
+          overflow: hidden;
+          min-height: 40px;
+          > ul {
+            position: relative;
+            overflow: hidden;
+            font-size: 0;
+            top: 0;
+            left: 0;
+            > li {
+              display: inline-block;
+              vertical-align: middle;
+              width: calc((100% - 40px) / 8);
+              position: relative;
+              overflow: hidden;
+              margin-right: 5px;
+              margin-top: 5px;
+              min-width: 35px;
+              > a {
+                width: 100%;
+                display: block;
+                padding-bottom: 100%;
+                border-radius: 4px;
+                position: relative;
+                overflow: hidden;
+                background: #333;
+              }
+            }
+          }
+        }
+      }
+      > a {
+        width: 20px;
+        line-height: 35px;
+        background: #47b2f7;
+        color: #fff;
+        user-select: none;
+        border-radius: 4px;
+        text-align: center;
+        margin-left: 0;
+        font-size: 13px;
+      }
+    }
+  }
+  > .GiftItemDetail {
+    width: 320px;
+    padding: 10px;
+    background: #242424;
+    position: fixed;
+    z-index: 4;
+    border-radius: 8px;
+    overflow: hidden;
+    > .Name {
+      align-items: center;
+      > .Img {
+        width: 50px;
+        height: 50px;
+        background: #000;
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+        margin-right: 10px;
+      }
+      > .flex-item {
+        position: relative;
+        overflow: hidden;
+        > span {
+          display: block;
+          white-space: nowrap;
+          font-size: 14px;
+          font-weight: bold;
+          color: #ff7e7e;
+          line-height: 20px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-align: left;
+        }
+        > div {
+          font-size: 0;
+          white-space: nowrap;
+          text-align: left;
+          margin-top: 5px;
+          > * {
+            display: inline-block;
+            vertical-align: middle;
+          }
+          > img {
+            height: 13px;
+            width: auto;
+            margin-right: 5px;
+          }
+          > span {
+            font-size: 12px;
+            color: #999;
+            line-height: 20px;
+          }
+        }
+      }
+    }
+    > .Num {
+      align-items: center;
+      margin-top: 20px;
+      > * {
+        margin-left: 10px;
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+      > a {
+        font-size: 12px;
+        line-height: 16px;
+        text-align: center;
+        color: #333;
+        background: #fff;
+        user-select: none;
+        border-radius: 2px;
+        box-sizing: border-box;
+        border: 2px solid #fff;
+        position: relative;
+        &:last-child {
+          background: #e2041b;
+          color: #fff;
+          border: none;
+          line-height: 20px;
+        }
+        &.active {
+          border: 2px solid #e2041b;
+          color: #e2041b;
+        }
+      }
+      > input {
+        font-size: 12px;
+        color: #333;
+        line-height: 20px;
+        text-align: center;
+        border-radius: 2px;
+      }
+    }
+  }
   > .SendContainer {
-    align-items: flex-start;
-    padding-top: 10px;
+    padding: 10px;
     position: relative;
     overflow: visible;
     z-index: 2;
     background: #222;
-    > a {
-      width: 30px;
-      height: 30px;
-      display: block;
+    > div {
+      align-items: center;
       position: relative;
       overflow: hidden;
-      background: #d8d8d8;
-      border-radius: 100%;
-      margin-right: 10px;
-      margin-left: 10px;
-    }
-    > div {
-      position: relative;
-      overflow: visible;
-      margin-right: 10px;
-      > span {
-        display: block;
-        font-size: 16px;
-        line-height: 20px;
-      }
-      > textarea {
-        border: none;
-        border-bottom: 1px solid #979797;
-        font-size: 16px;
-        background: none;
-        line-height: 20px;
-        padding: 5px 0;
-        width: 100%;
-        margin-top: 5px;
-      }
-      > div {
-        padding-bottom: 10px;
-        align-items: center;
+      background: #151515;
+      border-radius: 8px;
+      > .flex-item {
         position: relative;
-        overflow: visible;
-        &.Input {
-          margin-top: 5px;
-        }
-        > span {
-          color: #666;
-          margin-right: 10px;
-        }
-        > a {
-          font-size: 20px;
-          color: #999;
-          user-select: none;
-          line-height: 30px;
+        overflow: hidden;
+        height: 40px;
+        > .LiveChatInput {
           position: relative;
-          overflow: visible;
-          &.SendBtn {
-            width: 30px;
-            height: 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            > i {
-              font-size: 20px;
-              z-index: 2;
-              color: #999;
-            }
-            &:active {
-              &::after {
-                content: "";
-                z-index: 1;
-                width: 0;
-                height: 0;
-                background: #333;
-                display: block;
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                border-radius: 100%;
-                transform: translate(-50%, -50%);
-                -webkit-transform: translate(-50%, -50%);
-                animation: SendAnimation 0.1s;
-                -webkit-animation: SendAnimation 0.1s;
-              }
-            }
-          }
-          // &:hover {
-          //   > .EmojiBoxer {
-          //     display: block;
-          //   }
-          // }
-          // > .EmojiBoxer {
-          //   position: absolute;
-          //   top: 26px;
-          //   right: 0;
-          //   display: none;
-          //   &:hover {
-          //     display: block;
-          //   }
-          // }
+          overflow: hidden;
+        }
+      }
+      > .EmojiIcon {
+        font-size: 20px;
+        user-select: none;
+        color: #999;
+        line-height: 40px;
+        margin-right: 10px;
+        &:hover {
+          color: #fff;
+        }
+      }
+      > .SendBtn {
+        font-size: 20px;
+        user-select: none;
+        color: #999;
+        line-height: 40px;
+        margin-right: 10px;
+        &:hover {
+          color: #fff;
         }
       }
     }
+    // > a {
+    //   width: 30px;
+    //   height: 30px;
+    //   display: block;
+    //   position: relative;
+    //   overflow: hidden;
+    //   background: #d8d8d8;
+    //   border-radius: 100%;
+    //   margin-right: 10px;
+    //   margin-left: 10px;
+    // }
+    // > div {
+    //   position: relative;
+    //   overflow: visible;
+    //   margin-right: 10px;
+    //   > span {
+    //     display: block;
+    //     font-size: 16px;
+    //     line-height: 20px;
+    //   }
+    //   > textarea {
+    //     border: none;
+    //     border-bottom: 1px solid #979797;
+    //     font-size: 16px;
+    //     background: none;
+    //     line-height: 20px;
+    //     padding: 5px 0;
+    //     width: 100%;
+    //     margin-top: 5px;
+    //   }
+    //   > div {
+    //     padding-bottom: 10px;
+    //     align-items: center;
+    //     position: relative;
+    //     overflow: visible;
+    //     &.Input {
+    //       margin-top: 5px;
+    //     }
+    //     > span {
+    //       color: #666;
+    //       margin-right: 10px;
+    //     }
+    //     > a {
+    //       font-size: 20px;
+    //       color: #999;
+    //       user-select: none;
+    //       line-height: 30px;
+    //       position: relative;
+    //       overflow: visible;
+    //       &.SendBtn {
+    //         width: 30px;
+    //         height: 30px;
+    //         text-align: center;
+    //         position: relative;
+    //         overflow: hidden;
+    //         > i {
+    //           font-size: 20px;
+    //           z-index: 2;
+    //           color: #999;
+    //         }
+    //         &:active {
+    //           &::after {
+    //             content: "";
+    //             z-index: 1;
+    //             width: 0;
+    //             height: 0;
+    //             background: #333;
+    //             display: block;
+    //             position: absolute;
+    //             left: 50%;
+    //             top: 50%;
+    //             border-radius: 100%;
+    //             transform: translate(-50%, -50%);
+    //             -webkit-transform: translate(-50%, -50%);
+    //             animation: SendAnimation 0.1s;
+    //             -webkit-animation: SendAnimation 0.1s;
+    //           }
+    //         }
+    //       }
+    //       // &:hover {
+    //       //   > .EmojiBoxer {
+    //       //     display: block;
+    //       //   }
+    //       // }
+    //       // > .EmojiBoxer {
+    //       //   position: absolute;
+    //       //   top: 26px;
+    //       //   right: 0;
+    //       //   display: none;
+    //       //   &:hover {
+    //       //     display: block;
+    //       //   }
+    //       // }
+    //     }
+    //   }
+    // }
   }
 }
 @keyframes SendAnimation {

@@ -21,7 +21,7 @@
               </a>
               <div class="flex-item">
               </div>
-              <div class="GiftsListContainer" v-if="UserInfo === null || (UserInfo !== null && UserInfo.userType - 0 === 1)">
+              <!-- <div class="GiftsListContainer" v-if="UserInfo === null || (UserInfo !== null && UserInfo.userType - 0 === 1)">
                 <LiveGifts :List="GiftList" @Trigger="TriggerGifts" @Close="CurrentGiftIndex = null; CurrentGift = null"></LiveGifts>
                 <div v-if="CurrentGift !== null && CurrentGiftIndex !== null" class="Detail" :style="{left: `${GiftDetailLeft[CurrentGiftIndex]}px`}">
                   <div class="Name flex-h">
@@ -45,21 +45,21 @@
                     <a class="flex-item" @click="ToSendGift">send</a>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
-            <div class="BalanceInfo" v-if="UserInfo !== null && UserInfo.userType - 0 === 1">
+            <!-- <div class="BalanceInfo" v-if="UserInfo !== null && UserInfo.userType - 0 === 1">
               <span>Balance:</span>
               <span class="Amount">{{UserInfo.rechargeCurrency || 0}}</span>
               <img src="../../assets/img/coin.png" alt="">
               <a @click="UserInfo !== null ? ShowRechargePopup = true : $refs.MainPage.Login()">Recharge</a>
-            </div>
+            </div> -->
           </div>
           <div class="ChatContainer">
             <!-- 线下 -->
-            <!-- <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :Token="Token" :Appkey="'bmdehs6pbahqs'" :ChatRoomId="`${UserId}`" @GetOut="GetOut" @Stop="Stop"></LiveChat> -->
+            <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :GiftList="GiftList" :Token="Token" :Appkey="'bmdehs6pbahqs'" :ChatRoomId="`${UserId}`" @ToRecharge="ShowRechargePopup = true" @NeedLogin="$refs.MainPage.Login()" @GetOut="GetOut" @Stop="Stop"></LiveChat>
 
             <!-- 线上 -->
-            <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :Token="Token" :Appkey="'25wehl3u20h0w'" :ChatRoomId="`${UserId}`" @GetOut="GetOut" @Stop="Stop"></LiveChat>
+            <!-- <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :GiftList="GiftList" :Token="Token" :Appkey="'qd46yzrfqxyxf'" :ChatRoomId="`${UserId}`" @ToRecharge="ShowRechargePopup = true" @NeedLogin="$refs.MainPage.Login()" @GetOut="GetOut" @Stop="Stop"></LiveChat> -->
           </div>
         </div>
 
@@ -116,6 +116,7 @@ const LiveGifts = () => import('@/components/LiveGifts')
 const LiveChat = () => import('@/components/LiveChat')
 const RechargePopup = () => import('@/components/RechargePopup')
 const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
+const { mapActions: mapLiveActions } = createNamespacedHelpers('live')
 export default {
   components: {
     MainPage,
@@ -125,6 +126,7 @@ export default {
   },
   data () {
     return {
+      GetRoomInfoTimer: null,
       CurrentGiftIndex: null,
       GiftDetailLeft: [-265, -210, -155, -100, -45, 10],
       CurrentGift: null,
@@ -173,6 +175,9 @@ export default {
       'CheckSubscribe',
       'Unsubscribe',
       'GetLiveRoomInfo'
+    ]),
+    ...mapLiveActions([
+      'GetChatRoomUsersList'
     ]),
     TriggerGifts (e) {
       if (!this.GiftList[e.index].active) {
@@ -305,6 +310,14 @@ export default {
         callback()
       }
     },
+    ToGetRoomInfo () {
+      window.clearInterval(this.GetRoomInfoTimer)
+      this.GetRoomInfoTimer = window.setInterval(() => {
+        this.GetChatRoomUsersList({ params: { chatRoomId: this.UserId } }).then((res) => {
+          this.TotalMember = res.data.data.members.length
+        })
+      }, 3000)
+    },
     Init () {
       this.VideoControlTimer = window.setInterval(() => {
         if (document.getElementsByClassName('qplayer-time').length > 0) {
@@ -341,9 +354,10 @@ export default {
         if (this.UserInfo !== null) {
           GetInfoParams.userId = this.UserInfo.id
         }
-        this.GetLiveRoomInfo({ params: { ...GetInfoParams } }).then((res) => {
-          this.TotalMember = res.data.data.totalMember
-        })
+        this.ToGetRoomInfo()
+        // this.GetLiveRoomInfo({ params: { ...GetInfoParams } }).then((res) => {
+        //   this.TotalMember = res.data.data.totalMember
+        // })
         this.ScriptInit(() => {
           this.GetUserLiveUrl({ params: { liveRoomId: this.ToolClass.GetUrlParams('room'), userId: this.ToolClass.GetUrlParams('user') } }).then((res) => {
             this.LiveRoomInfo = res.data.data || null
@@ -363,9 +377,11 @@ export default {
               container: document.getElementById('PlayerContainer'),
               autoplay: true,
               defaultViewConfig: {
-                noControls: false // 不渲染控件
+                noControls: true // 不渲染控件
               }
             })
+          }).catch(() => {
+            this.IsStop = true
           })
         })
         if (this.UserInfo !== null) {

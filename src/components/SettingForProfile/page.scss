@@ -1,0 +1,64 @@
+.components.SettingForProfile {
+  position: relative;
+  overflow: hidden;
+  > .Form {
+    position: relative;
+    overflow: hidden;
+    padding: 10px 20px;
+    > .Line {
+      position: relative;
+      overflow: visible;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 3px 10px;
+      margin-top: 10px;
+      max-width: 600px;
+      background: #222;
+      > span {
+        display: block;
+        font-size: 10px;
+        color: #999;
+        line-height: 20px;
+      }
+      > div {
+        position: relative;
+        overflow: hidden;
+        padding-top: 2px;
+        > input {
+          display: block;
+          width: 100%;
+          font-size: 14px;
+          color: #fff;
+          line-height: 20px;
+          background: none;
+          &::placeholder {
+            color: #999;
+          }
+        }
+      }
+      > a {
+        width: 410px;
+        text-align: center;
+        line-height: 40px;
+        user-select: none;
+        background: #ccc;
+        font-size: 14px;
+        color: #fff;
+        border-radius: 2px;
+        display: block;
+        margin: 0 auto 30px;
+        &.active {
+          background: #e2041b;
+        }
+      }
+    }
+  }
+  > .Tips {
+    display: block;
+    font-size: 13px;
+    color: #999;
+    line-height: 20px;
+    text-indent: 20px;
+    margin-bottom: -10px;
+  }
+}

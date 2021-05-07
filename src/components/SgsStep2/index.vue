@@ -7,53 +7,52 @@
         <span :class="{'active': IsCheck && Form.gender === null}">Gende</span>
         <div>
           <el-select class="SgsSelect" v-model="Form.gender" placeholder="Please select" no-data-text="no data">
-            <el-option v-for="item in DictForGender" :key="item.value" :label="item.name" :value="item.value">
-            </el-option>
+            <el-option v-for="item in DictForGender" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
+        <span class="Tips" v-if="IsCheck && Form.gender === null">this is required</span>
       </div>
       <div class="Select" :class="{'active': IsCheck && Form.interested === null}">
         <span :class="{'active': IsCheck && Form.interested === null}">Intersed in</span>
         <div>
           <el-select class="SgsSelect" v-model="Form.interested" placeholder="Please select" no-data-text="no data">
-            <el-option v-for="item in DictForInterset" :key="item.value" :label="item.name" :value="item.value">
-            </el-option>
+            <el-option v-for="item in DictForInterset" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
+        <span class="Tips" v-if="IsCheck && Form.interested === null">this is required</span>
       </div>
       <div class="Select" :class="{'active': IsCheck && Form.language === null}">
         <span :class="{'active': IsCheck && Form.language === null}">Languages</span>
         <div>
-          <el-select class="SgsSelect" v-model="Form.language" placeholder="Please select" no-data-text="no data">
-            <el-option v-for="item in DictForLanguages" :key="item.value" :label="item.name" :value="item.value">
-            </el-option>
+          <el-select class="SgsSelect" multiple v-model="Form.language" placeholder="Please select" no-data-text="no data">
+            <el-option v-for="item in DictForLanguages" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
+        <span class="Tips" v-if="IsCheck && Form.language === null">this is required</span>
       </div>
       <div class="Select" :class="{'active': IsCheck && Form.bodyType === null}">
         <span :class="{'active': IsCheck && Form.bodyType === null}">Body type</span>
         <div>
           <el-select class="SgsSelect" v-model="Form.bodyType" placeholder="Please select" no-data-text="no data">
-            <el-option v-for="item in DictForBodyType" :key="item.value" :label="item.name" :value="item.value">
-            </el-option>
+            <el-option v-for="item in DictForBodyType" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
+        <span class="Tips" v-if="IsCheck && Form.bodyType === null">this is required</span>
       </div>
       <div class="Select" :class="{'active': IsCheck && Form.ethnicity === null}">
         <span :class="{'active': IsCheck && Form.ethnicity === null}">Ethnicity</span>
         <div>
           <el-select class="SgsSelect" v-model="Form.ethnicity" placeholder="Please select" no-data-text="no data">
-            <el-option v-for="item in DictForEthnicity" :key="item.value" :label="item.name" :value="item.value">
-            </el-option>
+            <el-option v-for="item in DictForEthnicity" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
+        <span class="Tips" v-if="IsCheck && Form.ethnicity === null">this is required</span>
       </div>
       <div class="Select">
         <span>Specifics(Optional)</span>
         <div>
           <el-select class="SgsSelect" multiple v-model="Form.specifics" placeholder="Please select" no-data-text="no data">
-            <el-option v-for="item in DictForSpecifics" :key="item.value" :label="item.name" :value="item.value">
-            </el-option>
+            <el-option v-for="item in DictForSpecifics" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
       </div>
@@ -61,8 +60,7 @@
         <span>Hair color(Optional)</span>
         <div>
           <el-select class="SgsSelect" v-model="Form.hairColor" placeholder="Please select" no-data-text="no data">
-            <el-option v-for="item in DictForHairColor" :key="item.value" :label="item.name" :value="item.value">
-            </el-option>
+            <el-option v-for="item in DictForHairColor" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
       </div>
@@ -70,8 +68,7 @@
         <span>Eyes color(Optional)</span>
         <div>
           <el-select class="SgsSelect" v-model="Form.eyeColor" placeholder="Please select" no-data-text="no data">
-            <el-option v-for="item in DictForEyesColor" :key="item.value" :label="item.name" :value="item.value">
-            </el-option>
+            <el-option v-for="item in DictForEyesColor" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
       </div>
@@ -79,8 +76,7 @@
         <span>Subculture(Optional)</span>
         <div>
           <el-select class="SgsSelect" v-model="Form.subculture" placeholder="Please select" no-data-text="no data">
-            <el-option v-for="item in DictForSubculture" :key="item.value" :label="item.name" :value="item.value">
-            </el-option>
+            <el-option v-for="item in DictForSubculture" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
       </div>
@@ -172,7 +168,9 @@ export default {
     ]),
     Init () {
       for (let key in this.Form) {
-        if (this.SgsInfo[key] && key !== 'specifics') {
+        if (this.SgsInfo[key] && key === 'language') {
+          this.Form[key] = this.SgsInfo[key].split(',')
+        } else if (this.SgsInfo[key] && key !== 'specifics') {
           this.Form[key] = this.SgsInfo[key]
         }
       }
@@ -185,8 +183,8 @@ export default {
         this.DictForBodyType = ResData.Body_type
         this.DictForEthnicity = ResData.Ethnicity
         this.DictForSpecifics = ResData.Specifics
-        this.DictForHairColor = ResData.HairColor
-        this.DictForEyesColor = ResData.EyeColor
+        this.DictForHairColor = ResData.Hair_color
+        this.DictForEyesColor = ResData.Eye_color
         this.DictForSubculture = ResData.Subculture
         this.DictForLanguages = ResData.Language
       })
@@ -214,7 +212,7 @@ export default {
     Submit () {
       if (this.CheckForm() && !this.DataLock) {
         this.DataLock = true
-        this.SecondSgs({ data: { ...this.Form, accountId: this.UserInfo.id, specifics: this.Form.specifics.join(',') } }).then(() => {
+        this.SecondSgs({ data: { ...this.Form, language: this.Form.language.join(','), accountId: this.UserInfo.id, specifics: this.Form.specifics.join(',') } }).then(() => {
           this.DataLock = false
           this.$emit('Success')
         }).catch((res) => {

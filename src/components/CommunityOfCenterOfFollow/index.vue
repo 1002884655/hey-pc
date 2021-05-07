@@ -14,7 +14,7 @@
             <i class="iconfont iconnan" v-if="item.sex - 0 === 1"></i>
             <i class="iconfont iconnv" v-if="item.sex - 0 === 2"></i>
           </div>
-          <span>{{item.description || 'No introduction'}}</span>
+          <span>{{item.description}}</span>
         </div>
         <a :class="{'active': item.Active}" @click="TriggerItem(item, index)">{{item.Active ? 'Subscribers' : 'Subscribed'}}</a>
       </li>

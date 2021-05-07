@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="Btn" v-if="UserInfo.userType - 0 === 1">
-      <a @click="ToCashHeyCoin">Top up HeyCoin</a>
+      <a @click="ToCashHeyCoin" :class="{'active': !DataLock}">Top up HeyCoin</a>
       <span>Recharge means agree to <a>&lt;Recharge User Agreement&gt;</a></span>
     </div>
   </div>

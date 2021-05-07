@@ -35,7 +35,7 @@
         <div class="flex-item">
           <span>{{ToolClass.ReturnViews(data.displayNum || data.displayNum)}} views</span>
         </div>
-        <img v-if="data.payVideo !== undefined && data.payVideo === 1" src="../../assets/img/price.png" alt="">
+        <!-- <img v-if="data.payVideo !== undefined && data.payVideo === 1" src="../../assets/img/price.png" alt=""> -->
         <span style="font-weight: bold;" v-if="data.payVideo !== undefined && data.payVideo === 1">${{data.price || 0}}</span>
       </div>
     </div>
