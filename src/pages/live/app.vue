@@ -25,7 +25,7 @@
           </div>
           <div class="ChatContainer">
             <!-- 线下 -->
-            <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :GiftList="GiftList" :Token="Token" :Appkey="ToolClass.IsOnLine ? 'qd46yzrfqxyxf' : 'bmdehs6pbahqs'" :ChatRoomId="`${UserId}`" @ToRecharge="ShowRechargePopup = true" @NeedLogin="$refs.MainPage.Login()" @GetOut="GetOut" @Stop="Stop"></LiveChat>
+            <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :GiftList="GiftList" :Token="Token" :Appkey="ToolClass.RongYunKey" :ChatRoomId="`${UserId}`" @ToRecharge="ShowRechargePopup = true" @NeedLogin="$refs.MainPage.Login()" @GetOut="GetOut" @Stop="Stop"></LiveChat>
           </div>
         </div>
 

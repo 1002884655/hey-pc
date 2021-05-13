@@ -3,26 +3,6 @@
     <MainPage ref="MainPage" @UserInfoChange="UserInfoChange" @NetSpeedTestEnd="NetSpeedTestEnd" :Show="!IsFullWindow">
       <div class="PlayPageContainer flex-h" style="width: calc(100% - 200px); min-width: 1000px; margin: 0 auto; padding-bottom: 30px; padding-top: 69px; position: relative; overflow: visible;" ref="PlayPageContainer" v-if="MediaInfo !== null && MediaInfo.video !== null && !ShowError">
 
-        <!-- 稍后观看列表区域 -->
-        <!-- <div class="WatchLaterContainer" v-if="WatchLaterVideoList.length">
-          <VideoPlayerList ref="WatchLaterList" Title="Watch later" :List="WatchLaterVideoList" @Change="VideoPlayerListChange"></VideoPlayerList>
-        </div> -->
-
-        <!-- 收藏列表区域 -->
-        <!-- <div class="WatchLaterContainer" v-if="VideoCollectList.length">
-          <VideoPlayerList ref="WatchLaterList" :List="VideoCollectList" @Change="VideoPlayerListChange"></VideoPlayerList>
-        </div> -->
-
-        <!-- 片单列表区域 -->
-        <!-- <div class="WatchLaterContainer" v-if="MyPieceGroupSubList.length">
-          <VideoPlayerList ref="WatchLaterList" :List="MyPieceGroupSubList" @Change="VideoPlayerListChange"></VideoPlayerList>
-        </div> -->
-
-        <!-- 专辑列表区域 -->
-        <!-- <div class="WatchLaterContainer" v-if="VideoAlbumSubList.length">
-          <VideoPlayerList ref="WatchLaterList" :List="VideoAlbumSubList" @Change="VideoPlayerListChange"></VideoPlayerList>
-        </div> -->
-
         <!-- 左侧内容 -->
         <div class="PageLeft flex-item">
 
@@ -106,15 +86,6 @@
 
           <!-- 播放器右侧推荐区域 -->
           <div class="PlayerRecommend">
-            <!-- <div class="flex-item">
-              <div>
-                <ScrollY :Size="`small`">
-                  <span class="NextVideoTitle" v-if="!WatchLaterVideoList.length && !VideoCollectList.length && !MyPieceGroupSubList.length && !VideoAlbumSubList.length">Up next</span>
-                  <div v-else style="width: 100%; height: 10px;"></div>
-                  <PlayerRecommendY v-if="VideoRecommendList.length" :List="VideoRecommendList.slice(0, 10)"></PlayerRecommendY>
-                </ScrollY>
-              </div>
-            </div> -->
             <NewVideoPlayerList ref="NewVideoPlayerList" v-if="MediaInfo !== null && (ToolClass.GetUrlParams('type') - 0 === 2 || ToolClass.GetUrlParams('type') - 0 === 4)" :UpId="MediaInfo.video.upId" :MaxHeight="RightHeight" @Change="VideoPlayerListChange" @Login="$refs.MainPage.Login()"></NewVideoPlayerList>
           </div>
 

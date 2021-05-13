@@ -95,6 +95,7 @@ export default {
   },
   created () {
     this.HeightInit()
+    this.Init()
   },
   mounted () {
     this.$nextTick(() => {
@@ -211,7 +212,7 @@ export default {
         }
       }, 50)
     },
-    UserInfoChange () { // 初始化
+    Init () { // 初始化
       if (this.Type === 2) { // 稍后观看列表模式
         if (this.UserInfo !== null) {
           this.GetWatchLaterVideoList({ params: { pageNum: 1, pageSize: 100, accountId: this.UserInfo.id } }).then((res) => {

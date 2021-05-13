@@ -90,13 +90,13 @@ export default {
         })
         return false
       }
-      if (this.FormData.code === '') {
-        this.$notify.error({
-          title: 'error',
-          message: 'Please enter the code'
-        })
-        return false
-      }
+      // if (this.FormData.code === '') {
+      //   this.$notify.error({
+      //     title: 'error',
+      //     message: 'Please enter the code'
+      //   })
+      //   return false
+      // }
       if (!this.DataLock) {
         this.DataLock = true
         this.SendCode({ params: { accountId: this.UserInfo.id, email: this.FormData.newEmail } }).then(() => {

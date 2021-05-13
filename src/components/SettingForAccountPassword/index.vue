@@ -79,7 +79,7 @@ export default {
   props: ['data'],
   data () {
     return {
-      Step: 1,
+      Step: null,
       OldPasswordTips: null,
       NewPasswordTips: null,
       NewPasswordAgainTips: null,
@@ -169,6 +169,9 @@ export default {
         if (this.FormData.OldPassword === '') {
           this.OldPasswordTips = 'this is required'
           return false
+        } else if (this.FormData.OldPassword.length < 6 || this.FormData.OldPassword.length > 18) {
+          this.OldPasswordTips = 'Password format error'
+          return false
         } else {
           this.OldPasswordTips = null
         }
@@ -202,10 +205,14 @@ export default {
           this.DataLock = false
           this.$emit('Cancel')
         }).catch((res) => {
-          this.$notify.error({
-            title: 'error',
-            message: res.data.msg
-          })
+          if (res.data.code - 0 === 1015) {
+            this.OldPasswordTips = res.data.msg
+          } else {
+            this.$notify.error({
+              title: 'error',
+              message: res.data.msg
+            })
+          }
           this.DataLock = false
         })
       }

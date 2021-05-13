@@ -1,7 +1,8 @@
 /* eslint-disable */
 import Axios from 'axios'
+const IsOnLine = false //是否线上环境
 const ToolClass = {
-  IsOnLine: false, //是否线上环境
+  RongYunKey: IsOnLine ? 'qd46yzrfqxyxf' : 'bmdehs6pbahqs', // 融云聊天室appkey
   ReturnBillTypes (businessType, productType) {
     if (businessType - 0 === 1) { // 充值记录
       return 'Top up HeyCoin'

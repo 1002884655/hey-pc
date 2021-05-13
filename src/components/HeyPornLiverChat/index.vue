@@ -187,6 +187,10 @@ export default {
     Stop () { // 下播
       this.SendMsg('', true, () => {
         this.CloseLiveChatRoom({ params: { chatRoomId: this.UserInfo.id } }).then(() => {
+          // this.ChatRoom.quit().then(function () {
+          //   console.log('退出聊天室成功')
+          // })
+          window.location.reload()
           this.IsChatClose = true
           window.clearInterval(this.GiftsRankTimer)
           this.RoomUserList = []
