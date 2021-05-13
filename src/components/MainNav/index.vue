@@ -170,9 +170,9 @@
 
         <!-- 用户基本信息 -->
         <div class="MainUserBasicInfo flex-h">
-          <a href="./users.html?type=3"><img :src="UserInfo.picPath2" class="centerLabel" alt=""></a>
+          <a href="./setting.html"><img :src="UserInfo.picPath2" class="centerLabel" alt=""></a>
           <div class="flex-item">
-            <a href="./users.html?type=3">{{UserInfo.nick}}</a>
+            <a href="./setting.html">{{UserInfo.nick}}</a>
             <!-- <span>{{UserInfo.email}}</span>
             <span>{{UserInfo.mobile || 'No mobile information'}}</span> -->
           </div>
@@ -191,25 +191,21 @@
               <i class="iconfont icongerenkongjian"></i>
               <span class="flex-item">Hey channel</span>
             </a>
-            <a href="./users.html" class="flex-h">
+            <a href="./setting.html?id=2" class="flex-h">
               <i class="iconfont icontouxiang"></i>
               <span class="flex-item">Profile</span>
             </a>
-            <a href="./users.html?type=15" class="flex-h" v-if="UserInfo.userType - 0 !== 1">
+            <a href="./setting.html?id=4" class="flex-h" v-if="UserInfo.userType - 0 !== 1">
               <i class="iconfont iconjihuo"></i>
               <span class="flex-item">Fansclub Center</span>
             </a>
           </div>
           <div>
-            <!-- <a href="./users.html?type=3" class="flex-h">
-              <i class="iconfont iconshoucang-"></i>
-              <span class="flex-item">Favorite</span>
-            </a> -->
-            <a href="./users.html?type=4" class="flex-h">
+            <a href="./playlist.html?type=history" class="flex-h">
               <i class="iconfont iconlishijilu1"></i>
               <span class="flex-item">History</span>
             </a>
-            <a href="./users.html?type=5" class="flex-h">
+            <a href="./playlist.html?type=watchLater" class="flex-h">
               <i class="iconfont iconshaohouguankan"></i>
               <span class="flex-item">Watch later</span>
             </a>
@@ -217,30 +213,18 @@
               <i class="iconfont icondanye"></i>
               <span class="flex-item">Playlist</span>
             </a>
-            <!-- <a href="./users.html?type=7" class="flex-h">
-              <i class="iconfont iconzhuanji"></i>
-              <span class="flex-item">Album</span>
-            </a> -->
           </div>
           <div>
             <a href="./users.html?type=8" class="flex-h">
               <i class="iconfont iconshipinliebiao"></i>
               <span class="flex-item">Video studio</span>
             </a>
-            <!-- <a href="./users.html?type=9" class="flex-h">
-              <i class="iconfont iconxiangji"></i>
-              <span class="flex-item">Photo studio</span>
-            </a> -->
             <a href="./users.html?type=2" class="flex-h" v-if="UserInfo.userType - 0 === 4">
               <i class="iconfont icontuiguang"></i>
               <span class="flex-item">Promotion</span>
             </a>
           </div>
           <div>
-            <!-- <a class="flex-h">
-              <i class="iconfont iconshezhi1"></i>
-              <span class="flex-item">Set</span>
-            </a> -->
             <a @click="SighOut" class="flex-h">
               <i class="iconfont icontuichudenglu"></i>
               <span class="flex-item">Sign Out</span>

@@ -6,6 +6,16 @@
         <!-- 左侧栏 -->
         <div class="Left" id="LeftMenu" v-if="UserInfo !== null">
 
+          <!-- 历史记录 & 稍后观看 -->
+          <ul class="HistoryAndWatchLater">
+            <li @click="CutMenu('watchLater')" :class="{'active': PageType === 'watchLater'}">
+              <span>Watch later</span>
+            </li>
+            <li @click="CutMenu('history')" :class="{'active': PageType === 'history'}">
+              <span>History</span>
+            </li>
+          </ul>
+
           <!-- 我创建的片单 -->
           <MyCreatePlaylist ref="MyCreatePlaylist" @TriggerClose="TriggerCreatePlaylistClose" @IsNull="IsNull =true" @NoData="$refs.MySavePlaylist.OtherNoData()" @Cut="CreateCut" @Edit="EditPlaylist" @AllTo="AllTo"></MyCreatePlaylist>
 
@@ -23,7 +33,7 @@
         </div>
 
         <!-- 右侧内容 -->
-        <div class="flex-item" v-if="UserInfo !== null && !IsNull">
+        <div class="flex-item" v-if="UserInfo !== null && !IsNull && PageType !== null">
           <PlaylistContent ref="PlaylistContent" @AllAddTo="AllAddTo" @ItemAddTo="ItemAddTo" @EditPlaylist="EditPlaylist" @VideoRemove="VideoRemove"></PlaylistContent>
         </div>
 
@@ -58,6 +68,7 @@ export default {
   },
   data () {
     return {
+      PageType: null,
       MaxNum: 0,
       ShowWatchLater: true,
       ShowCreateList: true,
@@ -88,6 +99,7 @@ export default {
       'GetPlaylistMaxNum'
     ]),
     Init () { // 初始化
+      this.PageType = this.ToolClass.GetUrlParams('type')
       this.GetPlaylistMaxNum().then((res) => {
         this.MaxNum = res.data.data - 0
       })
@@ -164,7 +176,16 @@ export default {
         this.$refs.PlaylistSetPopup.IsAdd = true
       })
     },
+    CutMenu (type) {
+      this.$refs.MySavePlaylist.CurrentId = null
+      this.$refs.MyCreatePlaylist.CurrentId = null
+      this.$refs.MySavePlaylist.CurrentId = null
+      this.ToolClass.ChangeUrlParams([{ name: 'type', value: type }], true)
+      this.PageType = type
+      this.$refs.PlaylistContent.Init(type)
+    },
     CreateCut (e) { // 创建片单列表切换
+      this.PageType = e
       this.$refs.MySavePlaylist.CurrentId = null
       this.$refs.PlaylistContent.Init(e)
     },

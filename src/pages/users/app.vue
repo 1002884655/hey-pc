@@ -36,14 +36,14 @@
                 </ul>
               </div>
 
-              <nav class="MenuList">
+              <!-- <nav class="MenuList">
                 <a v-for="(item, index) in UserTabList" :key="index" v-if="item.Show" :class="{'active': CurrentMenuId === item.Id - 0}">
                   <div class="flex-h" @click="MenuCut(item)">
                     <i class="iconfont" :class="item.Icon"></i>
                     <span class="flex-item">{{item.Value}}</span>
                   </div>
                 </a>
-              </nav>
+              </nav> -->
 
               <span class="MenuTitle"></span>
 
@@ -57,12 +57,12 @@
                     <li v-for="(subItem, subIndex) in item.Child" :key="subIndex" @click="SubMenuCut(subItem)" :class="{'active': CurrentMenuId === subItem.Id - 0}">{{subItem.Value}}</li>
                   </ul>
                 </a>
-                <a @click="ShowChangePassword">
+                <!-- <a @click="ShowChangePassword">
                   <div class="flex-h">
                     <i class="iconfont iconshezhi"></i>
                     <span class="flex-item">Settings</span>
                   </div>
-                </a>
+                </a> -->
               </nav>
             </ScrollY>
           </div>
@@ -193,17 +193,14 @@ export default {
       CurrentMenuId: this.ToolClass.GetUrlParams('type') === false || this.ToolClass.GetUrlParams('type') - 0 === 0 ? 1 : this.ToolClass.GetUrlParams('type') - 0,
       UserTabType: null, // 用户选项类型： 'UserTab'-UserTabList, 'Creative'-CreativeList
       UserTabList: [ // 用户选项列表
-        { Value: 'Profile', Id: '1', Icon: 'icontouxiang', Child: [], Show: true },
-        { Value: 'Promotion', Id: '2', Icon: 'icontuiguang', Child: [], Show: false },
-        // { Value: 'Favorite', Id: '3', Icon: 'iconshoucang-', Child: [], Show: true },
-        { Value: 'History', Id: '4', Icon: 'iconlishijilu1', Child: [], Show: true },
-        { Value: 'Watch later', Id: '5', Icon: 'iconshaohouguankan', Child: [], Show: true },
-        // { Value: 'Playlist', Id: '6', Icon: 'icondanye', Child: [], Show: true },
-        // { Value: 'Album', Id: '7', Icon: 'iconzhuanji', Child: [], Show: true },
-        { Value: 'Wallet', Id: '16', Icon: 'iconwodeqianbao', Child: [], Show: true, Url: './wallet.html' },
-        { Value: 'Fansclub Center', Id: '15', Icon: 'iconjihuo', Child: [], Show: false }
+        { Value: 'Profile', Id: '1', Icon: 'icontouxiang', Child: [], Show: false },
+        { Value: 'History', Id: '4', Icon: 'iconlishijilu1', Child: [], Show: false },
+        { Value: 'Watch later', Id: '5', Icon: 'iconshaohouguankan', Child: [], Show: false },
+        { Value: 'Wallet', Id: '16', Icon: 'iconwodeqianbao', Child: [], Show: false, Url: './wallet.html' }
+        // { Value: 'Fansclub Center', Id: '15', Icon: 'iconjihuo', Child: [], Show: false }
       ],
       CreativeList: [ // 创作中心数据
+        { Value: 'Promotion', Id: '2', Icon: 'icontuiguang', Child: [], Show: true },
         { Value: 'Video studio', Id: '8', Icon: 'iconshipinliebiao', Child: [], Show: true },
         { Value: 'Photo studio', Id: '9', Icon: 'icontuji', Child: [], Show: false },
         { Value: 'Live management', Id: '10', Icon: 'iconlive', Child: [], Show: false },

@@ -1,8 +1,14 @@
 <template>
   <div class="components PlaylistContent">
 
+    <!-- 历史记录 -->
+    <UserHistory v-if="Type === 'history'" @AddToPlaylist="AddToPlaylist"></UserHistory>
+
+    <!-- 历史记录 -->
+    <UserWatchlater v-if="Type === 'watchLater'" @AddToPlaylist="AddToPlaylist"></UserWatchlater>
+
     <!-- 封面信息 -->
-    <div class="FrontInfo">
+    <div class="FrontInfo" v-if="ShowPlaylist">
       <div class="flex-h">
         <div class="Front">
           <div>
@@ -42,7 +48,7 @@
     </div>
 
     <!-- 列表 -->
-    <div class="ListContainer">
+    <div class="ListContainer" v-if="ShowPlaylist">
 
       <!-- 操作栏 -->
       <div class="flex-h ListSet">
@@ -123,7 +129,7 @@
     </div>
 
     <!-- 底部操作栏 -->
-    <div class="BottomSet" v-if="IsListEdit" :style="{position: BottomFixed ? 'fixed' : 'absolute', left: BottomFixed ? `${BottomLeft}px` : `0`, width: `${BottomWidth}px`}">
+    <div class="BottomSet" v-if="IsListEdit && ShowPlaylist" :style="{position: BottomFixed ? 'fixed' : 'absolute', left: BottomFixed ? `${BottomLeft}px` : `0`, width: `${BottomWidth}px`}">
       <div class="flex-h">
         <a class="Select" @click="SelectAll">
           <i class="iconfont" :class="[IsSelectAll ? 'iconyitianjia active' : 'iconyuan']"></i>
@@ -147,6 +153,8 @@
 /*
 */
 import { createNamespacedHelpers } from 'vuex'
+const UserHistory = () => import('@/components/UserHistory')
+const UserWatchlater = () => import('@/components/UserWatchlater')
 const { mapState: mapUserState } = createNamespacedHelpers('user')
 const { mapState: mapPlaylistState, mapActions: mapPlaylistActions } = createNamespacedHelpers('playlist')
 const { mapActions: mapWatchLaterActions } = createNamespacedHelpers('watchlater')
@@ -156,6 +164,7 @@ export default {
   },
   data () {
     return {
+      ShowPlaylist: false,
       FixedHeight: 0,
       BottomWidth: 0,
       BottomLeft: 0,
@@ -171,7 +180,7 @@ export default {
       DataLock: false,
       IsSelectAll: false, // 是否全选
       IsListEdit: false, // 编辑模式
-      Type: null // 片单类型：created-自建片单 save-收藏片单
+      Type: this.ToolClass.GetUrlParams('type') // 片单类型：created-自建片单 save-收藏片单
     }
   },
   computed: {
@@ -183,6 +192,8 @@ export default {
     })
   },
   components: {
+    UserHistory,
+    UserWatchlater
   },
   created () {
   },
@@ -204,14 +215,23 @@ export default {
       'AddWatchLater'
     ]),
     Init (target = null) { // 初始化
-      this.Type = this.ToolClass.GetUrlParams('type')
-      this.UpdatePlaylistInfo(target)
-      this.PageData.pageNum = 1
-      this.HasNextPage = true
-      this.PageList = []
-      this.DataLock = false
-      this.IsListEdit = false
-      this.GetPageList() // 获取列表
+      if (target !== 'history' && target !== 'watchLater') {
+        this.ShowPlaylist = true
+        this.Type = this.ToolClass.GetUrlParams('type')
+        this.UpdatePlaylistInfo(target)
+        this.PageData.pageNum = 1
+        this.HasNextPage = true
+        this.PageList = []
+        this.DataLock = false
+        this.IsListEdit = false
+        this.GetPageList() // 获取列表
+      } else {
+        this.ShowPlaylist = false
+        this.Type = target
+      }
+    },
+    AddToPlaylist (e) {
+      this.$emit('ItemAddTo', { ...e, id: e.videoId })
     },
     PageScroll (top) { // 页面滚动事件
       this.BottomFixed = top <= this.FixedHeight

@@ -32,7 +32,7 @@
 
           <!-- 账号信息 -->
           <div v-if="CurrentMenuId === 3">
-            <SettingForAccount ref="SettingForAccount" @TitleChange="TitleChange"></SettingForAccount>
+            <SettingForAccount ref="SettingForAccount" @TitleChange="TitleChange" @Cancel="Cancel"></SettingForAccount>
           </div>
 
           <!-- 粉丝俱乐部 -->
@@ -68,12 +68,12 @@ export default {
       CurrentMenuId: null,
       CurrentPid: null,
       MenuList: [
-        { name: 'SETTINGS', id: 1, child: [{ name: 'Profile', id: 2, icon: 'iconyonghu', pid: 1 }, { name: 'Account', id: 3, icon: 'iconzhanghu', pid: 1 }, { name: 'Fan Club', id: 4, icon: 'iconjulebushenhe', pid: 1 }, { name: 'Notifications', id: 5, icon: 'icontongzhi1', pid: 1 }] },
-        { name: 'YOUR CHANNEL', id: 6, child: [] },
-        { name: 'WALLET', id: 7, child: [] },
-        { name: 'VIDEO STUDIO', id: 8, child: [] },
-        { name: 'LIVE STUDIO', id: 9, child: [] },
-        { name: 'MODEL PROJECT', id: 10, child: [] }
+        { name: 'SETTINGS', id: 1, child: [{ name: 'Profile', id: 2, icon: 'iconyonghu', pid: 1 }, { name: 'Account', id: 3, icon: 'iconzhanghu', pid: 1 }, { name: 'Fan Club', id: 4, icon: 'iconjulebushenhe', pid: 1 }, { name: 'Notifications', id: 5, icon: 'icontongzhi1', pid: 1 }], router: null },
+        { name: 'YOUR CHANNEL', id: 6, child: [], router: `./userspace.html` },
+        { name: 'WALLET', id: 7, child: [], router: `./wallet.html` },
+        { name: 'VIDEO STUDIO', id: 8, child: [], router: `./users.html?type=8` },
+        { name: 'LIVE STUDIO', id: 9, child: [], router: null },
+        { name: 'MODEL PROJECT', id: 10, child: [], router: null }
       ]
     }
   },
@@ -132,9 +132,15 @@ export default {
       this.ShowCancel = true
     },
     CutParent (item) {
-      if (item.child.length && item.id !== this.CurrentPid) {
-        this.CurrentPid = item.id
-        this.ShowCancel = false
+      if (item.child.length) {
+        if (item.id !== this.CurrentPid) {
+          this.CurrentPid = item.id
+          this.ShowCancel = false
+        }
+      } else {
+        if (item.router) {
+          window.location.href = item.router
+        }
       }
     },
     CutMenu (item) {

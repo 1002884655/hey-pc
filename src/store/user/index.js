@@ -487,9 +487,17 @@ export default {
     },
     EditNoticeForMyFans (state, data) { // 编辑我的粉丝通知
       state.NoticeForMyFans[data.index][data.name] = data.value
+    },
+    EmptyViewHistory (state) { // 删除用户全部观看历史
+      state.ViewingHistory = []
     }
   },
   actions: {
+    DeleteAllHistory (context, payload) { // 删除用户全部观看历史
+      return new Promise((resolve, reject) => {
+        ToolClass.Axios(resolve, reject, Api.User.DeleteAllHistory, context, payload, 0, 'EmptyViewHistory')
+      })
+    },
     GetMyVideoList (context, payload) { // 获取我的上传视频列表
       return new Promise((resolve, reject) => {
         ToolClass.Axios(resolve, reject, Api.User.GetMyVideoList, context, payload, 0)

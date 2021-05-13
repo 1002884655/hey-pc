@@ -757,6 +757,10 @@ body {
       line-height: 20px;
     }
   }
+  .el-input.is-disabled .el-input__inner {
+    background: none;
+    color: #fff;
+  }
 }
 
 .SettingDateSelect {
@@ -779,6 +783,10 @@ body {
   }
   .el-input__suffix-inner {
     display: none;
+  }
+  &.el-input.is-disabled .el-input__inner {
+    background: none;
+    color: #fff;
   }
 }
 
@@ -820,6 +828,14 @@ body {
           }
         }
       }
+    }
+    > .Tips {
+      display: block;
+      font-size: 10px;
+      line-height: 16px;
+      white-space: nowrap;
+      text-indent: 10px;
+      color: #e2041b !important;
     }
   }
   > .Bottom {

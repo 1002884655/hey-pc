@@ -16,7 +16,7 @@
       <div class="Line">
         <span>About me (Optional)</span>
         <div>
-          <el-input v-model="FromData.description" class="SettingAutoInput" type="textarea" autosize placeholder="Add an introduction abour you"></el-input>
+          <el-input v-model="FromData.aboutMe" class="SettingAutoInput" type="textarea" autosize placeholder="Add an introduction abour you"></el-input>
         </div>
       </div>
       <div class="Line">
@@ -31,7 +31,7 @@
           <input type="text" placeholder="Add your Twitter" v-model="FromData.twitter">
         </div>
       </div>
-      <div class="Line">
+      <div class="Line" v-if="UserInfo.userType - 0 !== 1">
         <span>Gende</span>
         <div>
           <el-select v-model="FromData.gender" class="SettingSelect" placeholder="Please select" no-data-text="no data">
@@ -39,7 +39,7 @@
           </el-select>
         </div>
       </div>
-      <div class="Line">
+      <div class="Line" v-if="UserInfo.userType - 0 !== 1">
         <span>Intersed in</span>
         <div>
           <el-select v-model="FromData.interest" class="SettingSelect" placeholder="Please select" no-data-text="no data">
@@ -47,13 +47,7 @@
           </el-select>
         </div>
       </div>
-      <div class="Line">
-        <span>Birthday</span>
-        <div>
-          <el-date-picker v-model="FromData.birthday" class="SettingDateSelect" type="date" placeholder="YYYY-MM-DD"></el-date-picker>
-        </div>
-      </div>
-      <div class="Line">
+      <div class="Line" v-if="UserInfo.userType - 0 !== 1">
         <span>Languages</span>
         <div>
           <el-select v-model="FromData.language" class="SettingSelect" placeholder="Please select" no-data-text="no data">
@@ -61,7 +55,7 @@
           </el-select>
         </div>
       </div>
-      <div class="Line">
+      <div class="Line" v-if="UserInfo.userType - 0 !== 1">
         <span>Body type</span>
         <div>
           <el-select v-model="FromData.bodyType" class="SettingSelect" placeholder="Please select" no-data-text="no data">
@@ -69,7 +63,7 @@
           </el-select>
         </div>
       </div>
-      <div class="Line">
+      <div class="Line" v-if="UserInfo.userType - 0 !== 1">
         <span>Ethnicity</span>
         <div>
           <el-select v-model="FromData.ethnicity" class="SettingSelect" placeholder="Please select" no-data-text="no data">
@@ -77,7 +71,7 @@
           </el-select>
         </div>
       </div>
-      <div class="Line">
+      <div class="Line" v-if="UserInfo.userType - 0 !== 1">
         <span>Specifics(Optional)</span>
         <div>
           <el-select v-model="FromData.specifics" class="SettingSelect" placeholder="Please select" no-data-text="no data">
@@ -85,7 +79,7 @@
           </el-select>
         </div>
       </div>
-      <div class="Line">
+      <div class="Line" v-if="UserInfo.userType - 0 !== 1">
         <span>Hair color(Optional)</span>
         <div>
           <el-select v-model="FromData.hairColor" class="SettingSelect" placeholder="Please select" no-data-text="no data">
@@ -93,7 +87,7 @@
           </el-select>
         </div>
       </div>
-      <div class="Line">
+      <div class="Line" v-if="UserInfo.userType - 0 !== 1">
         <span>Eyes color(Optional)</span>
         <div>
           <el-select v-model="FromData.eyeColor" class="SettingSelect" placeholder="Please select" no-data-text="no data">
@@ -101,7 +95,7 @@
           </el-select>
         </div>
       </div>
-      <div class="Line">
+      <div class="Line" v-if="UserInfo.userType - 0 !== 1">
         <span>Subculture(Optional)</span>
         <div>
           <el-select v-model="FromData.subculture" class="SettingSelect" placeholder="Please select" no-data-text="no data">
@@ -110,30 +104,36 @@
         </div>
       </div>
     </div>
-    <span class="Tips">The following information is self-visible and cannot be modified</span>
-    <div class="Form">
+    <span class="Tips" v-if="UserInfo.userType - 0 !== 1">The following information is self-visible and cannot be modified</span>
+    <div class="Form" v-if="UserInfo.userType - 0 !== 1">
       <div class="Line">
         <span>First name</span>
         <div>
-          <input v-model="FromData.firstName" type="text" placeholder="Add the First name on your official document">
+          <input disabled v-model="FromData.firstName" type="text" placeholder="Add the First name on your official document">
         </div>
       </div>
       <div class="Line">
         <span>Last name</span>
         <div>
-          <input v-model="FromData.lastName" type="text" placeholder="Add the Last name on your official document">
+          <input disabled v-model="FromData.lastName" type="text" placeholder="Add the Last name on your official document">
+        </div>
+      </div>
+      <div class="Line">
+        <span>Birthday</span>
+        <div>
+          <el-date-picker disabled v-model="FromData.birthday" class="SettingDateSelect" type="date" placeholder="YYYY-MM-DD"></el-date-picker>
         </div>
       </div>
       <div class="Line">
         <span>ID number</span>
         <div>
-          <input v-model="FromData.cardNo" type="text" placeholder="Add the ID number on your official document">
+          <input disabled v-model="FromData.cardNo" type="text" placeholder="Add the ID number on your official document">
         </div>
       </div>
       <div class="Line">
         <span>ID Issuing Country</span>
         <div>
-          <el-select v-model="FromData.country" class="SettingSelect" placeholder="Please select" no-data-text="no data">
+          <el-select disabled v-model="FromData.country" class="SettingSelect" placeholder="Please select" no-data-text="no data">
             <el-option v-for="item in CountryList" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
@@ -141,25 +141,25 @@
       <div class="Line">
         <span>State/Province</span>
         <div>
-          <input v-model="FromData.state" type="text" placeholder="Add State/Province">
+          <input disabled v-model="FromData.state" type="text" placeholder="Add State/Province">
         </div>
       </div>
       <div class="Line">
         <span>City</span>
         <div>
-          <input v-model="FromData.name" type="text" placeholder="Add city">
+          <input disabled v-model="FromData.name" type="text" placeholder="Add city">
         </div>
       </div>
       <div class="Line">
         <span>Address</span>
         <div>
-          <input v-model="FromData.city" type="text" placeholder="Add address">
+          <input disabled v-model="FromData.city" type="text" placeholder="Add address">
         </div>
       </div>
     </div>
     <div class="Form">
       <div class="Line" style="border: none; background: none;">
-        <a class="active">Save</a>
+        <a class="active" :class="{'active': !DataLock}" @click="EditInfo">{{DataLock ? 'Loading...' : 'Save'}}</a>
       </div>
     </div>
   </div>
@@ -175,6 +175,7 @@ import { createNamespacedHelpers } from 'vuex'
 locale.use(lang)
 const { mapState: mapUserState, mapActions: mapUserActions, mapMutations: mapUserMutations } = createNamespacedHelpers('user')
 const { mapActions: mapSgsActions } = createNamespacedHelpers('sgs')
+const { mapActions: mapSettingActions } = createNamespacedHelpers('setting')
 export default {
   name: 'SettingForProfile',
   props: ['data'],
@@ -183,7 +184,7 @@ export default {
       FromData: {
         name: '',
         nick: '',
-        description: '',
+        aboutMe: '',
         facebook: '',
         twitter: '',
         gender: '',
@@ -204,6 +205,7 @@ export default {
         city: '',
         address: ''
       },
+      DataLock: false,
       SgsInfo: {},
       CountryList: [],
       SubcultureList: [],
@@ -245,13 +247,29 @@ export default {
       ''
     ]),
     ...mapUserMutations([
-      ''
+      'EditUserInfo'
     ]),
     ...mapSgsActions([
+      'GetSgsDictList',
       'GetSgsInfo'
     ]),
+    ...mapSettingActions([
+      'GetAuthInfo',
+      'ChangeAuthInfo'
+    ]),
     Init () {
-      this.GetSgsInfo({ params: { accountId: this.UserInfo.id } }).then((res) => {
+      this.GetSgsDictList().then((res) => { // 获取认证字典列表
+        let ResData = res.data.data || {}
+        this.IntersedList = ResData.Interested
+        this.BodyTypeList = ResData.Body_type
+        this.EthnicityList = ResData.Ethnicity
+        this.SpecificsList = ResData.Specifics
+        this.HairColorList = ResData.Hair_color
+        this.EyesColorList = ResData.Eye_color
+        this.SubcultureList = ResData.Subculture
+        this.LanguagesList = ResData.Language
+      })
+      this.GetAuthInfo({ params: { accountId: this.UserInfo.id } }).then((res) => {
         this.SgsInfo = { ...this.SgsInfo, ...res.data.data }
         for (let key in this.FromData) {
           if (this.SgsInfo[key]) {
@@ -261,6 +279,30 @@ export default {
           }
         }
       })
+    },
+    EditInfo () {
+      if (!this.DataLock) {
+        this.DataLock = true
+        console.log(JSON.stringify({ ...this.FromData, accountId: this.UserInfo.id }))
+        this.ChangeAuthInfo({ data: { ...this.FromData, accountId: this.UserInfo.id } }).then(() => {
+          for (let key in this.FromData) {
+            if (this.UserInfo[key]) {
+              this.EditUserInfo({ name: key, value: this.FromData[key] })
+            }
+          }
+          this.$notify.success({
+            title: 'success',
+            message: 'The user info has been modified'
+          })
+          this.DataLock = false
+        }).catch((res) => {
+          this.$notify.error({
+            title: 'error',
+            message: res.data.msg
+          })
+          this.DataLock = false
+        })
+      }
     }
   }
 }

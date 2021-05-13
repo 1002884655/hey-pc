@@ -2,6 +2,48 @@
 const prefix = process.env.NODE_ENV === 'production' ? '/api' : '/api'
 
 const $api = {
+  Setting: { // 设置相关
+    ChangeUserName: { // 修改username登录名
+      method: 'post',
+      url: `${prefix}/account/changeUsername`
+    },
+    SendCode: { // 发送修改邮箱验证码
+      method: 'post',
+      url: `${prefix}/account/sendEmail`
+    },
+    ChangeEamil: { // 校验验证码，并修改邮箱
+      method: 'post',
+      url: `${prefix}/account/checkEmailCode`
+    },
+    ChangePhone: { // 修改电话
+      method: 'post',
+      url: `${prefix}/account/changePhone`
+    },
+    ChangeHomepage: { // 修改社交主页链接
+      method: 'post',
+      url: `${prefix}/account/changeSocialHomepage`
+    },
+    ChangePassword: { // 修改密码
+      method: 'post',
+      url: `${prefix}/account/changePassword`
+    },
+    SendForgetCode: { // 发送修改忘记密码时的验证码
+      method: 'post',
+      url: `${prefix}/account/sendForgot`
+    },
+    ChangeForgetPassword: { // 忘记密码时，修改密码
+      method: 'post',
+      url: `${prefix}/account/changePwd`
+    },
+    GetAuthInfo: { // 获取用户认证信息
+      method: 'get',
+      url: `${prefix}/account/getAuthInfo`
+    },
+    ChangeAuthInfo: { // 修改用户认证信息
+      method: 'post',
+      url: `${prefix}/account/changeInfo`
+    }
+  },
   Live: { // 直播相关
     GetLiverRoomToken: { // 获取直播房间token
       method: 'post',
@@ -594,6 +636,10 @@ const $api = {
     DeleteViewingHistory: { // 删除用户观看历史
       method: 'post',
       url: `${prefix}/account/removePlayHistory`
+    },
+    DeleteAllHistory: { // 删除用户全部观看历史
+      method: 'post',
+      url: `${prefix}/account/removeAllPlayHistory`
     },
     GetAreaForFirstClass: { // 获取一级地区
       method: 'post',

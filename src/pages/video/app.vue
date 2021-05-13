@@ -581,13 +581,11 @@ export default {
       }
     },
     PlayerStart () { // 视频播放开始
-      if (!this.VideoPlayerIsStart) {
+      if (!this.VideoPlayerIsStart && this.UserInfo !== null) {
         this.VideoPlayerIsStart = true
-        if (this.ToolClass.GetUrlParams('type') - 0 === 2) {
-          this.VideoWatched({
-            params: { videoId: this.MediaInfo.video.videoId, accountId: this.UserInfo.id }
-          })
-        }
+        this.VideoWatched({
+          params: { videoId: this.MediaInfo.video.videoId, accountId: this.UserInfo.id }
+        })
       }
     },
     PlayerEnded () { // 视频播放结束

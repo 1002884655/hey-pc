@@ -99,9 +99,11 @@
 </template>
 
 <script>
+/* eslint-disable */
 /*
 */
-import * as QNRTC from 'pili-rtc-web'
+// import * as QNRTC from 'pili-rtc-web'
+// import '../../util/QinNiulive'
 import { Select, Option } from 'element-ui'
 import { createNamespacedHelpers } from 'vuex'
 const { mapState: mapUserState } = createNamespacedHelpers('user')
@@ -150,11 +152,13 @@ export default {
   },
   created () {
     if (this.UserInfo !== null) {
-      this.GetLivingRoomInfo({ params: { accountId: this.UserInfo.id, userId: this.UserInfo.id } }).then((res) => {
-        if (res.data.data !== null && res.data.data.roomToken !== null) {
-          this.RoomInfo = res.data.data
-          this.Init()
-        }
+      this.ScriptInit(() => {
+        this.GetLivingRoomInfo({ params: { accountId: this.UserInfo.id, userId: this.UserInfo.id } }).then((res) => {
+          if (res.data.data !== null && res.data.data.roomToken !== null) {
+            this.RoomInfo = res.data.data
+            this.Init()
+          }
+        })
       })
     }
   },
@@ -175,6 +179,16 @@ export default {
       'GetChatRoomShutupList',
       'GetLivingRoomInfo'
     ]),
+    ScriptInit (callback = () => { }) { // 初始化js
+      let HtmlHead = document.getElementsByTagName('head')[0]
+      let Script = document.createElement('script')
+      Script.src = 'https://sdk-release.qnsdk.com/pili-rtc-web-9829272b.js'
+      HtmlHead.appendChild(Script)
+      Script.onload = () => {
+        callback()
+        // this.RoomInit() // 初始化
+      }
+    },
     GetFileURL (file) { // 获取file文件本地地址
       let GetUrl = null
       if (window.createObjectURL !== undefined) {
@@ -321,14 +335,15 @@ export default {
         this.IsLoadingStart = false
         this.LiveStart({ params: { accountId: this.UserInfo.id, liveRoomId: this.RoomInfo.id } }).then(() => {
           this.$emit('Start', this.RoomInfo)
+          this.IsStart = true
         })
-        this.IsStart = true
+        await this.MyRoom.createForwardJob({
+          jobId: `${this.RoomInfo.id}`,
+          publishUrl: this.RoomInfo.livePath,
+          audioTrackId: this.LocalTracks[0].info.trackId,
+          videoTrackId: this.LocalTracks[1].info.trackId
+        })
       }
-      this.MyRoom.addMergeStreamTracks([
-        { trackId: this.LocalTracks[1].info.trackId, x: 0, y: 0, w: 1920, h: 1080, stretchMode: 'aspectFit' },
-        { trackId: 'xxxxx' }
-      ])
-      this.MyRoom.setDefaultMergeStream(1920, 1080)
       QNRTC.deviceManager.on('device-update', (info) => { // 设备更新
         // info.map((item) => {
         //   console.log(`item is`, item)

@@ -1,0 +1,257 @@
+.components.UserWatchlater {
+  position: relative;
+  overflow: visible;
+  > .Title {
+    align-items: center;
+    position: relative;
+    overflow: visible;
+    z-index: 2;
+    border-bottom: 1px solid #333;
+    > span {
+      font-size: 16px;
+      line-height: 52px;
+      text-indent: 20px;
+    }
+    > .PlayAll {
+      font-size: 16px;
+      line-height: 30px;
+      user-select: none;
+      color: #157cc5;
+      margin-left: 10px;
+    }
+    > a.More {
+      position: relative;
+      overflow: visible;
+      font-size: 0;
+      margin-right: 20px;
+      > i {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 20px;
+        line-height: 52px;
+        user-select: none;
+        color: #666;
+      }
+      &:hover {
+        > i {
+          color: #fff;
+        }
+      }
+      > ul {
+        position: absolute;
+        width: 210px;
+        background: #111;
+        padding: 5px 0;
+        right: 0;
+        &::after {
+          content: "";
+          width: 0;
+          height: 0;
+          display: block;
+          position: absolute;
+          border-color: transparent transparent #111 transparent;
+          border-style: solid solid dashed solid;
+          border-width: 10px;
+          right: 0;
+          top: -20px;
+        }
+        > li {
+          font-size: 0;
+          white-space: nowrap;
+          user-select: none;
+          &:hover {
+            cursor: pointer;
+            background: #333;
+          }
+          > * {
+            display: inline-block;
+            vertical-align: middle;
+            &:first-child {
+              margin-left: 20px;
+            }
+          }
+          > span {
+            font-size: 14px;
+            color: #fff;
+            line-height: 40px;
+          }
+          > i {
+            font-size: 20px;
+            + span {
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+  > .List {
+    position: relative;
+    z-index: 1;
+    > ul {
+      position: relative;
+      overflow: visible;
+      > li {
+        padding: 0 20px;
+        position: relative;
+        overflow: visible;
+        margin-top: 20px;
+        &:hover {
+          > .Delete {
+            display: block;
+          }
+        }
+        > .Img {
+          width: 288px;
+          position: relative;
+          overflow: hidden;
+          > a {
+            width: 100%;
+            display: block;
+            padding-bottom: 56.25%;
+            background: #333;
+            position: relative;
+            overflow: hidden;
+            > span {
+              display: inline-block;
+              z-index: 3;
+              position: absolute;
+              right: 5px;
+              bottom: 5px;
+              line-height: 20px;
+              font-size: 10px;
+              padding: 0 5px;
+              background: rgba(0, 0, 0, 0.6);
+            }
+          }
+        }
+        > .PlayTime {
+          display: inline-block;
+          width: 120px;
+          position: absolute;
+          left: -170px;
+          text-align: right;
+          color: #979797;
+          font-size: 12px;
+          line-height: 20px;
+          top: -5px;
+        }
+        > .flex-item {
+          margin-left: 20px;
+          > .flex-item {
+            > a {
+              display: inline-block;
+              max-width: 100%;
+              font-size: 16px;
+              line-height: 20px;
+              word-break: break-all;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+          > div {
+            font-size: 0;
+            > * {
+              display: inline-block;
+              vertical-align: middle;
+            }
+            > span {
+              font-size: 14px;
+              color: #fff;
+              line-height: 20px;
+              white-space: nowrap;
+              &:first-child {
+                color: #999;
+              }
+            }
+            > img {
+              height: 20px;
+              margin-right: 5px;
+              margin-left: 10px;
+            }
+          }
+          > span {
+            font-size: 14px;
+            color: #999;
+            line-height: 20px;
+            white-space: nowrap;
+            margin-top: 10px;
+            > a {
+              font-size: 14px;
+              color: #999;
+              line-height: 20px;
+              &:hover {
+                color: #fff;
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+        > .Delete {
+          width: 30px;
+          margin-left: 10px;
+          position: relative;
+          overflow: visible;
+          display: none;
+          > a {
+            overflow: visible;
+            > i {
+              font-size: 20px;
+              color: #999;
+              &:hover {
+                color: #fff;
+              }
+            }
+            > ul {
+              position: absolute;
+              width: 250px;
+              background: #111;
+              padding: 5px 0;
+              right: 0;
+              &::after {
+                content: "";
+                width: 0;
+                height: 0;
+                display: block;
+                position: absolute;
+                border-color: transparent transparent #111 transparent;
+                border-style: solid solid dashed solid;
+                border-width: 10px;
+                right: 0;
+                top: -20px;
+              }
+              > li {
+                font-size: 0;
+                white-space: nowrap;
+                user-select: none;
+                &:hover {
+                  cursor: pointer;
+                  background: #333;
+                }
+                > * {
+                  display: inline-block;
+                  vertical-align: middle;
+                  &:first-child {
+                    margin-left: 20px;
+                  }
+                }
+                > span {
+                  font-size: 14px;
+                  color: #fff;
+                  line-height: 40px;
+                }
+                > i {
+                  font-size: 20px;
+                  + span {
+                    margin-left: 10px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

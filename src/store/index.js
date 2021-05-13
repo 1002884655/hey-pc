@@ -20,6 +20,7 @@ export const modules = {
   playlist: () => require('./playlist/index').default,
   sgs: () => require('./sgs/index').default,
   live: () => require('./live/index').default,
+  setting: () => require('./setting/index').default,
   watchlater: () => require('./watchlater/index').default
 }
 
