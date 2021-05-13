@@ -254,8 +254,8 @@ export default {
           _that.StartChatTime = Date.now()
           _that.ChatTarget.watch({
             message: function (e) {
-              console.log(1111111111)
               if (e.message.content.user.id - 0 !== _that.UserInfo.id - 0) {
+                console.log(`聊天室消息监听`)
                 _that.AddMsg({
                   type: _that.ReturnMsgType(e.message.messageType),
                   userName: e.message.content.user.name,
@@ -345,6 +345,7 @@ export default {
         },
         pushData: '' // Push 通知时附加信息, 可不填
       }).then(function (message) {
+        console.log(`发送消息监听`)
         _that.AddMsg({
           type: 'text',
           userName: _that.UserInfo.nick,

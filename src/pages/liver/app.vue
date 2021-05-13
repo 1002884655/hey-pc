@@ -12,10 +12,7 @@
           <!-- 聊天室区域 -->
           <div class="ChatContainer">
             <!-- 线下 -->
-            <HeyPornLiverChat ref="HeyPornLiverChat" :Appkey="'bmdehs6pbahqs'" @UserCountsChange="UserCountsChange"></HeyPornLiverChat>
-
-            <!-- 线上 -->
-            <!-- <HeyPornLiverChat ref="HeyPornLiverChat" :Appkey="'qd46yzrfqxyxf'" @UserCountsChange="UserCountsChange"></HeyPornLiverChat> -->
+            <HeyPornLiverChat ref="HeyPornLiverChat" :Appkey="ToolClass.IsOnLine ? 'qd46yzrfqxyxf' : 'bmdehs6pbahqs'" @UserCountsChange="UserCountsChange"></HeyPornLiverChat>
           </div>
 
         </div>

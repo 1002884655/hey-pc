@@ -1,6 +1,7 @@
 /* eslint-disable */
 import Axios from 'axios'
 const ToolClass = {
+  IsOnLine: false, //是否线上环境
   ReturnBillTypes (businessType, productType) {
     if (businessType - 0 === 1) { // 充值记录
       return 'Top up HeyCoin'

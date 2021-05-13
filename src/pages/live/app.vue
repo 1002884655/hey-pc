@@ -21,45 +21,11 @@
               </a>
               <div class="flex-item">
               </div>
-              <!-- <div class="GiftsListContainer" v-if="UserInfo === null || (UserInfo !== null && UserInfo.userType - 0 === 1)">
-                <LiveGifts :List="GiftList" @Trigger="TriggerGifts" @Close="CurrentGiftIndex = null; CurrentGift = null"></LiveGifts>
-                <div v-if="CurrentGift !== null && CurrentGiftIndex !== null" class="Detail" :style="{left: `${GiftDetailLeft[CurrentGiftIndex]}px`}">
-                  <div class="Name flex-h">
-                    <div class="Img">
-                      <img :src="CurrentGift.imgPath1" class="centerLabel contain" alt="">
-                    </div>
-                    <div class="flex-item">
-                      <span>{{CurrentGift.name}}</span>
-                      <div>
-                        <img src="../../assets/img/coin.png" alt="">
-                        <span>{{CurrentGift.GiftNum - 0 ? CurrentGift.currency * CurrentGift.GiftNum : CurrentGift.currency}}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="Num flex-h">
-                    <a class="flex-item" :class="{'active': CurrentGift.GiftNum - 0 === 10}" @click="CurrentGift.GiftNum = 10">10</a>
-                    <a class="flex-item" :class="{'active': CurrentGift.GiftNum - 0 === 50}" @click="CurrentGift.GiftNum = 50">50</a>
-                    <a class="flex-item" :class="{'active': CurrentGift.GiftNum - 0 === 99}" @click="CurrentGift.GiftNum = 99">99</a>
-                    <a class="flex-item" :class="{'active': CurrentGift.GiftNum - 0 === 999}" @click="CurrentGift.GiftNum = 999">999</a>
-                    <input type="text" class="flex-item" placeholder="enter" v-model="CurrentGift.GiftNum">
-                    <a class="flex-item" @click="ToSendGift">send</a>
-                  </div>
-                </div>
-              </div> -->
             </div>
-            <!-- <div class="BalanceInfo" v-if="UserInfo !== null && UserInfo.userType - 0 === 1">
-              <span>Balance:</span>
-              <span class="Amount">{{UserInfo.rechargeCurrency || 0}}</span>
-              <img src="../../assets/img/coin.png" alt="">
-              <a @click="UserInfo !== null ? ShowRechargePopup = true : $refs.MainPage.Login()">Recharge</a>
-            </div> -->
           </div>
           <div class="ChatContainer">
             <!-- 线下 -->
-            <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :GiftList="GiftList" :Token="Token" :Appkey="'bmdehs6pbahqs'" :ChatRoomId="`${UserId}`" @ToRecharge="ShowRechargePopup = true" @NeedLogin="$refs.MainPage.Login()" @GetOut="GetOut" @Stop="Stop"></LiveChat>
-
-            <!-- 线上 -->
-            <!-- <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :GiftList="GiftList" :Token="Token" :Appkey="'qd46yzrfqxyxf'" :ChatRoomId="`${UserId}`" @ToRecharge="ShowRechargePopup = true" @NeedLogin="$refs.MainPage.Login()" @GetOut="GetOut" @Stop="Stop"></LiveChat> -->
+            <LiveChat ref="LiveChat" v-if="Token !== null && !IsGetOut && !IsStop" :GiftList="GiftList" :Token="Token" :Appkey="ToolClass.IsOnLine ? 'qd46yzrfqxyxf' : 'bmdehs6pbahqs'" :ChatRoomId="`${UserId}`" @ToRecharge="ShowRechargePopup = true" @NeedLogin="$refs.MainPage.Login()" @GetOut="GetOut" @Stop="Stop"></LiveChat>
           </div>
         </div>
 
@@ -79,7 +45,7 @@
             </div>
           </div>
           <div class="LiveList">
-            <span>Living</span>
+            <!-- <span>Living</span>
             <ul>
               <li v-for="(item, index) in LivingList" :key="index">
                 <a :href="`./live.html?user=${item.accountId}&room=${item.id}`">
@@ -94,7 +60,7 @@
                   </div>
                 </a>
               </li>
-            </ul>
+            </ul> -->
           </div>
         </div>
 
@@ -313,9 +279,13 @@ export default {
     ToGetRoomInfo () {
       window.clearInterval(this.GetRoomInfoTimer)
       this.GetRoomInfoTimer = window.setInterval(() => {
-        this.GetChatRoomUsersList({ params: { chatRoomId: this.UserId } }).then((res) => {
-          this.TotalMember = res.data.data.members.length
-        })
+        if (!this.IsStop) {
+          this.GetChatRoomUsersList({ params: { chatRoomId: this.UserId } }).then((res) => {
+            this.TotalMember = res.data.data.members.length
+          })
+        } else {
+          window.clearInterval(this.GetRoomInfoTimer)
+        }
       }, 3000)
     },
     Init () {
@@ -355,9 +325,6 @@ export default {
           GetInfoParams.userId = this.UserInfo.id
         }
         this.ToGetRoomInfo()
-        // this.GetLiveRoomInfo({ params: { ...GetInfoParams } }).then((res) => {
-        //   this.TotalMember = res.data.data.totalMember
-        // })
         this.ScriptInit(() => {
           this.GetUserLiveUrl({ params: { liveRoomId: this.ToolClass.GetUrlParams('room'), userId: this.ToolClass.GetUrlParams('user') } }).then((res) => {
             this.LiveRoomInfo = res.data.data || null

@@ -2,7 +2,7 @@
   <div class="components RechargePopup">
     <div class="centerLabel">
       <div class="Title flex-h">
-        <span>Heycion Package</span>
+        <span>Recharge</span>
         <span>(Balance: </span>
         <span class="Amount">{{UserInfo.rechargeCurrency || 0}}</span>
         <img src="../../assets/img/coin.png" alt="">
@@ -11,37 +11,18 @@
         <a class="iconfont iconguanbi" @click="$emit('Close')"></a>
       </div>
       <div class="Content">
+        <span class="Title">HeyCoin Package</span>
         <ul class="List">
-          <li v-for="(item, index) in PageList" :key="index" class="flex-h" :class="{'active': ActiveIndex === index}" @click="ActiveIndex = index">
-            <div class="flex-item">
-              <div>
-                <span>{{item.amount}}</span>
-                <img src="../../assets/img/coin.png" height="20px" alt="">
-              </div>
+          <li v-for="(item, index) in PageList" :key="index" :class="{'active': ActiveIndex === index}" @click="ActiveIndex = index">
+            <div>
+              <img src="../../assets/img/coin.png" alt="">
+              <span>{{item.amount}}</span>
             </div>
-            <div class="Price">
-              <span>${{item.usdPrice}}</span>
-            </div>
+            <span>${{item.usdPrice}}</span>
           </li>
-          <!-- 后面加入充值优惠需求时，优惠布局可以采用下面的结构，和上面的列表结构混合使用 -->
-          <!-- <li v-for="(item, index) in PageList" :key="index" class="flex-h" :class="{'active': ActiveIndex === index}" @click="ActiveIndex = index">
-            <div class="flex-item">
-              <div>
-                <span>{{item.amount}}</span>
-                <img src="../../assets/img/coin.png" height="20px" alt="">
-                <span>+ 30</span>
-                <img src="../../assets/img/coin.png" height="20px" alt="">
-              </div>
-              <span>+ ULTIMATE OFFER</span>
-            </div>
-            <div class="Price">
-              <span>${{item.usdPrice}}</span>
-              <span>5% bonus</span>
-            </div>
-          </li> -->
         </ul>
         <div class="Bottom">
-          <a :class="{'active': !DataLock}" @click="ToCashHeyCoin">Top up Heycion</a>
+          <a :class="{'active': !DataLock}" @click="ToCashHeyCoin">Recharge</a>
           <span>Recharge means agree to <a>&lt;Recharge User Agreement&gt;</a></span>
         </div>
       </div>
