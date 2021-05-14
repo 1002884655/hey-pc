@@ -82,7 +82,7 @@
 */
 import Vue from 'vue'
 import { Notification, Pagination } from 'element-ui'
-import MockData from '@/util/MockData'
+// import MockData from '@/util/MockData'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import { createNamespacedHelpers } from 'vuex'
@@ -145,7 +145,7 @@ export default {
       CollectId: null, // 收藏id
       NetSpeed: 0, // 网速估算值
       MainNavBgActive: false, // MainNav背景板透明开关：true-非透明 false-透明
-      ColumnList: this.ArrayRegroup(window.HomeVideoList || MockData.HomeVideoList, 'order') // 主页分类数据
+      ColumnList: this.ArrayRegroup(window.HomeVideoList, 'order') // 主页分类数据
     }
   },
   computed: {
