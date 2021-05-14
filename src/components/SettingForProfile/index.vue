@@ -291,19 +291,11 @@ export default {
         this.$notify.error({ title: 'error', message: 'The nick cannot be empty' })
         return false
       }
-      if (this.FromData.facebook === '') {
-        this.$notify.error({ title: 'error', message: 'The facebook cannot be empty' })
-        return false
-      }
-      if (this.FromData.facebook.length > 200) {
+      if (this.FromData.facebook !== '' && this.FromData.facebook.length > 200) {
         this.$notify.error({ title: 'error', message: 'The facebook format error' })
         return false
       }
-      if (this.FromData.twitter === '') {
-        this.$notify.error({ title: 'error', message: 'The twitter cannot be empty' })
-        return false
-      }
-      if (this.FromData.twitter.length > 200) {
+      if (this.FromData.twitter !== '' && this.FromData.twitter.length > 200) {
         this.$notify.error({ title: 'error', message: 'The twitter format error' })
         return false
       }
