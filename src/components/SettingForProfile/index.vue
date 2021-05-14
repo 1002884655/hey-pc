@@ -1,5 +1,5 @@
 <template>
-  <div class="components SettingForProfile">
+  <div class="components SettingForProfile SettingFormInput">
     <div class="Form">
       <div class="Line">
         <span>Username</span>
@@ -7,6 +7,7 @@
           <input type="text" placeholder="Username" v-model="FromData.name">
         </div>
       </div>
+      <span class="Tips">{{UserNameTips}}</span>
       <div class="Line">
         <span>Display name</span>
         <div>
@@ -22,13 +23,13 @@
       <div class="Line">
         <span>Facebook</span>
         <div>
-          <input type="text" placeholder="Add your Facebook" v-model="FromData.facebook">
+          <input type="text" placeholder="Add a Facebook address" v-model="FromData.facebook">
         </div>
       </div>
       <div class="Line">
         <span>Twitter</span>
         <div>
-          <input type="text" placeholder="Add your Twitter" v-model="FromData.twitter">
+          <input type="text" placeholder="Add a Twitter address" v-model="FromData.twitter">
         </div>
       </div>
       <div class="Line" v-if="UserInfo.userType - 0 !== 1">
@@ -181,6 +182,7 @@ export default {
   props: ['data'],
   data () {
     return {
+      UserNameTips: null,
       FromData: {
         name: '',
         nick: '',
@@ -293,8 +295,16 @@ export default {
         this.$notify.error({ title: 'error', message: 'The facebook cannot be empty' })
         return false
       }
+      if (this.FromData.facebook.length > 200) {
+        this.$notify.error({ title: 'error', message: 'The facebook format error' })
+        return false
+      }
       if (this.FromData.twitter === '') {
         this.$notify.error({ title: 'error', message: 'The twitter cannot be empty' })
+        return false
+      }
+      if (this.FromData.twitter.length > 200) {
+        this.$notify.error({ title: 'error', message: 'The twitter format error' })
         return false
       }
       if (this.UserInfo.userType - 0 > 1) {
@@ -324,6 +334,7 @@ export default {
     EditInfo () {
       if (!this.DataLock && this.CheckForm()) {
         this.DataLock = true
+        this.UserNameTips = null
         this.ChangeAuthInfo({ data: { ...this.FromData, accountId: this.UserInfo.id } }).then(() => {
           for (let key in this.FromData) {
             if (this.UserInfo[key]) {
@@ -336,10 +347,14 @@ export default {
           })
           this.DataLock = false
         }).catch((res) => {
-          this.$notify.error({
-            title: 'error',
-            message: res.data.msg
-          })
+          if (res.data.code - 0 === 1035) {
+            this.UserNameTips = res.data.msg
+          } else {
+            this.$notify.error({
+              title: 'error',
+              message: res.data.msg
+            })
+          }
           this.DataLock = false
         })
       }
