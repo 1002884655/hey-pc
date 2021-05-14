@@ -42,7 +42,7 @@
       <div class="Line" v-if="UserInfo.userType - 0 !== 1">
         <span>Intersed in</span>
         <div>
-          <el-select v-model="FromData.interest" class="SettingSelect" placeholder="Please select" no-data-text="no data">
+          <el-select v-model="FromData.interested" class="SettingSelect" placeholder="Please select" no-data-text="no data">
             <el-option v-for="item in IntersedList" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
@@ -188,7 +188,7 @@ export default {
         facebook: '',
         twitter: '',
         gender: '',
-        interest: '',
+        interested: '',
         birthday: '',
         language: '',
         bodyType: '',
@@ -280,10 +280,50 @@ export default {
         }
       })
     },
+    CheckForm () {
+      if (this.FromData.name === '') {
+        this.$notify.error({ title: 'error', message: 'The name cannot be empty' })
+        return false
+      }
+      if (this.FromData.nick === '') {
+        this.$notify.error({ title: 'error', message: 'The nick cannot be empty' })
+        return false
+      }
+      if (this.FromData.facebook === '') {
+        this.$notify.error({ title: 'error', message: 'The facebook cannot be empty' })
+        return false
+      }
+      if (this.FromData.twitter === '') {
+        this.$notify.error({ title: 'error', message: 'The twitter cannot be empty' })
+        return false
+      }
+      if (this.UserInfo.userType - 0 > 1) {
+        if (this.FromData.gender === '') {
+          this.$notify.error({ title: 'error', message: 'The gender cannot be empty' })
+          return false
+        }
+        if (this.FromData.interested === '') {
+          this.$notify.error({ title: 'error', message: 'The interested cannot be empty' })
+          return false
+        }
+        if (this.FromData.language === '') {
+          this.$notify.error({ title: 'error', message: 'The language cannot be empty' })
+          return false
+        }
+        if (this.FromData.bodyType === '') {
+          this.$notify.error({ title: 'error', message: 'The bodyType cannot be empty' })
+          return false
+        }
+        if (this.FromData.ethnicity === '') {
+          this.$notify.error({ title: 'error', message: 'The ethnicity cannot be empty' })
+          return false
+        }
+      }
+      return true
+    },
     EditInfo () {
-      if (!this.DataLock) {
+      if (!this.DataLock && this.CheckForm()) {
         this.DataLock = true
-        console.log(JSON.stringify({ ...this.FromData, accountId: this.UserInfo.id }))
         this.ChangeAuthInfo({ data: { ...this.FromData, accountId: this.UserInfo.id } }).then(() => {
           for (let key in this.FromData) {
             if (this.UserInfo[key]) {

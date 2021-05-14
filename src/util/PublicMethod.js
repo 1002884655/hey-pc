@@ -1,6 +1,6 @@
 /* eslint-disable */
 import Axios from 'axios'
-const IsOnLine = false //是否线上环境
+const IsOnLine = true //是否线上环境
 const ToolClass = {
   RongYunKey: IsOnLine ? 'qd46yzrfqxyxf' : 'bmdehs6pbahqs', // 融云聊天室appkey
   ReturnBillTypes (businessType, productType) {
